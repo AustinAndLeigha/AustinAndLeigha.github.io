@@ -1,237 +1,855 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Austin & Leigha's Christmas List</title>
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background: #f5f5f5;
-            color: #222;
+
+        * {
+            box-sizing: border-box;
         }
 
-        header {
-            background: #9b1c1c;
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
+
+        html {
+            scroll-behavior: smooth;
         }
+
+
+        body {
+            margin: 0;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Arial,
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(155, 28, 28, 0.08),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at bottom right,
+                    rgba(23, 107, 57, 0.08),
+                    transparent 35%
+                ),
+                #f7f5f2;
+
+            color: #222;
+
+            min-height: 100vh;
+        }
+
+
+        /* -----------------------------------
+           HEADER
+        ----------------------------------- */
+
+        header {
+            position: relative;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #8f1717,
+                    #b52222
+                );
+
+            color: white;
+
+            text-align: center;
+
+            padding:
+                60px
+                20px
+                70px;
+        }
+
+
+        header::before,
+        header::after {
+            content: "";
+
+            position: absolute;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+
+        header::before {
+            width: 300px;
+            height: 300px;
+
+            top: -170px;
+            left: -100px;
+        }
+
+
+        header::after {
+            width: 350px;
+            height: 350px;
+
+            bottom: -230px;
+            right: -120px;
+        }
+
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+
+            max-width: 850px;
+
+            margin: auto;
+        }
+
+
+        .christmas-icon {
+            font-size: 52px;
+
+            margin-bottom: 10px;
+        }
+
 
         header h1 {
             margin: 0;
-            font-size: 40px;
+
+            font-size: clamp(
+                34px,
+                6vw,
+                54px
+            );
+
+            line-height: 1.1;
         }
+
 
         header p {
-            margin-top: 10px;
+            margin:
+                18px
+                auto
+                0;
+
+            max-width: 650px;
+
             font-size: 18px;
+            line-height: 1.6;
+
+            opacity: 0.95;
         }
 
+
+        /* -----------------------------------
+           MAIN CONTENT
+        ----------------------------------- */
+
         main {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 0 20px;
+            width: 100%;
+
+            max-width: 1200px;
+
+            margin:
+                -30px
+                auto
+                60px;
+
+            padding:
+                0
+                24px;
+
+            position: relative;
+
+            z-index: 2;
         }
+
+
+        .intro-card {
+            background: white;
+
+            border-radius: 18px;
+
+            padding: 26px;
+
+            margin-bottom: 35px;
+
+            text-align: center;
+
+            box-shadow:
+                0
+                8px
+                30px
+                rgba(0, 0, 0, 0.08);
+        }
+
+
+        .intro-card h2 {
+            margin:
+                0
+                0
+                8px;
+
+            color: #176b39;
+        }
+
+
+        .intro-card p {
+            margin: 0;
+
+            color: #555;
+
+            line-height: 1.5;
+        }
+
+
+        /* -----------------------------------
+           REGISTRY SECTIONS
+        ----------------------------------- */
+
+        .registry-section {
+            margin-bottom: 55px;
+        }
+
+
+        .registry-title {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .registry-title-icon {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            width: 46px;
+            height: 46px;
+
+            border-radius: 50%;
+
+            background: #176b39;
+
+            color: white;
+
+            font-size: 22px;
+
+            flex-shrink: 0;
+        }
+
+
+        .registry-title h2 {
+            margin: 0;
+
+            font-size: 28px;
+        }
+
+
+        /* -----------------------------------
+           GIFT GRID
+        ----------------------------------- */
 
         .gift-list {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+
+            grid-template-columns:
+                repeat(
+                    auto-fill,
+                    minmax(260px, 1fr)
+                );
+
+            gap: 24px;
         }
+
+
+        /* -----------------------------------
+           GIFT CARD
+        ----------------------------------- */
 
         .gift-card {
+            display: flex;
+
+            flex-direction: column;
+
             background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+
+            border-radius: 16px;
+
+            padding: 18px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0
+                5px
+                18px
+                rgba(0, 0, 0, 0.08);
+
+            border:
+                1px
+                solid
+                rgba(0, 0, 0, 0.05);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
         }
+
+
+        .gift-card:hover {
+            transform:
+                translateY(-4px);
+
+            box-shadow:
+                0
+                10px
+                28px
+                rgba(0, 0, 0, 0.12);
+        }
+
+
+        .gift-image {
+            width: 100%;
+
+            height: 230px;
+
+            object-fit: contain;
+
+            padding: 12px;
+
+            border-radius: 12px;
+
+            background: #f8f8f8;
+
+            margin-bottom: 18px;
+        }
+
 
         .gift-card h2 {
-            margin-top: 0;
+            margin:
+                0
+                0
+                10px;
+
+            font-size: 21px;
+
+            line-height: 1.3;
         }
 
-        .price {
-            font-size: 20px;
-            font-weight: bold;
+
+        .gift-card p {
+            color: #555;
+
+            line-height: 1.5;
         }
 
-        button {
-            border: none;
-            padding: 12px 18px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
+
+        .gift-card .price {
+            margin:
+                6px
+                0
+                10px;
+
+            font-size: 22px;
+
+            font-weight: 700;
+
+            color: #176b39;
         }
 
-        .claim-button {
-            background: #176b39;
-            color: white;
-        }
-
-        .claim-button:hover {
-            background: #10542c;
-        }
 
         .gift-card a {
             display: inline-block;
-            margin-bottom: 10px;
-            color: #176b39;
-            font-weight: bold;
+
+            color: #9b1c1c;
+
+            font-weight: 600;
+
             text-decoration: none;
+
+            margin-bottom: 15px;
         }
+
 
         .gift-card a:hover {
             text-decoration: underline;
         }
 
-        .gift-card button:disabled {
-            background: #aaaaaa;
+
+        /* Push button toward bottom of card */
+        .gift-card .claim-button {
+            margin-top: auto;
+        }
+
+
+        /* -----------------------------------
+           BUTTONS
+        ----------------------------------- */
+
+        button {
+            border: none;
+
+            border-radius: 10px;
+
+            padding:
+                13px
+                20px;
+
+            font-size: 16px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.15s ease,
+                background 0.15s ease;
+        }
+
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+
+        .claim-button {
+            background: #176b39;
+
             color: white;
+
+            width: 100%;
+        }
+
+
+        .claim-button:hover {
+            background: #10542c;
+        }
+
+
+        .claim-button:disabled {
+            background: #aaa;
+
             cursor: not-allowed;
         }
 
-        .registry-section {
-            margin-bottom: 50px;
+
+        .cancel-button {
+            background: #e8e8e8;
+
+            color: #333;
         }
 
-        .registry-section > h2 {
-            margin-bottom: 20px;
-            font-size: 28px;
+
+        .cancel-button:hover {
+            background: #d8d8d8;
         }
 
 
-        /* Modal background */
+        /* -----------------------------------
+           CLAIM MODAL
+        ----------------------------------- */
+
         .modal {
             position: fixed;
+
             inset: 0;
 
-            background: rgba(0, 0, 0, 0.6);
-
             display: flex;
+
             align-items: center;
             justify-content: center;
 
             padding: 20px;
 
+            background:
+                rgba(0, 0, 0, 0.65);
+
+            backdrop-filter:
+                blur(4px);
+
             z-index: 1000;
         }
 
 
-        /* Hide modal */
         .hidden {
             display: none;
         }
 
 
-        /* Modal box */
         .modal-content {
+            width: 100%;
+
+            max-width: 460px;
+
             background: white;
 
-            width: 100%;
-            max-width: 450px;
+            border-radius: 20px;
 
-            padding: 30px;
-
-            border-radius: 15px;
+            padding:
+                32px
+                28px;
 
             text-align: center;
 
             box-shadow:
-                0 10px 30px rgba(0, 0, 0, 0.3);
+                0
+                20px
+                60px
+                rgba(0, 0, 0, 0.3);
+
+            animation:
+                modalOpen
+                0.2s ease;
+        }
+
+
+        @keyframes modalOpen {
+
+            from {
+                opacity: 0;
+
+                transform:
+                    translateY(12px)
+                    scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+
+        }
+
+
+        .modal-icon {
+            font-size: 46px;
+
+            margin-bottom: 5px;
         }
 
 
         .modal-content h2 {
-            margin-top: 0;
+            margin:
+                0
+                0
+                14px;
+
             color: #9b1c1c;
+
+            font-size: 26px;
+        }
+
+
+        .modal-content p {
+            margin:
+                0
+                auto;
+
+            color: #555;
+
+            line-height: 1.6;
         }
 
 
         .modal-buttons {
             display: flex;
-            justify-content: center;
-            gap: 15px;
 
-            margin-top: 25px;
+            gap: 12px;
+
+            margin-top: 28px;
         }
 
 
-        .cancel-button {
-            background: #dddddd;
-            color: #222;
+        .modal-buttons button {
+            flex: 1;
         }
 
 
-        .cancel-button:hover {
-            background: #cccccc;
+        /* -----------------------------------
+           FOOTER
+        ----------------------------------- */
+
+        footer {
+            text-align: center;
+
+            padding:
+                30px
+                20px
+                40px;
+
+            color: #777;
+
+            font-size: 14px;
         }
 
-        .gift-image {
-            width: 100%;
-            height: 220px;
 
-            object-fit: contain;
+        /* -----------------------------------
+           MOBILE
+        ----------------------------------- */
 
-            border-radius: 8px;
+        @media (max-width: 650px) {
 
-            margin-bottom: 15px;
+            header {
+                padding:
+                    45px
+                    18px
+                    60px;
+            }
 
-            background: #f7f7f7;
+
+            header p {
+                font-size: 16px;
+            }
+
+
+            main {
+                padding:
+                    0
+                    14px;
+
+                margin-top: -25px;
+            }
+
+
+            .intro-card {
+                padding:
+                    22px
+                    18px;
+            }
+
+
+            .registry-section {
+                margin-bottom: 45px;
+            }
+
+
+            .registry-title h2 {
+                font-size: 23px;
+            }
+
+
+            .gift-list {
+                grid-template-columns: 1fr;
+
+                gap: 16px;
+            }
+
+
+            .gift-card {
+                padding: 16px;
+            }
+
+
+            .gift-image {
+                height: 250px;
+            }
+
+
+            .gift-card h2 {
+                font-size: 22px;
+            }
+
+
+            .claim-button {
+                min-height: 50px;
+
+                font-size: 17px;
+            }
+
+
+            .modal-content {
+                padding:
+                    28px
+                    20px;
+            }
+
+
+            .modal-buttons {
+                flex-direction: column-reverse;
+            }
+
+
+            .modal-buttons button {
+                width: 100%;
+
+                min-height: 48px;
+            }
+
         }
+
     </style>
 </head>
 
+
 <body>
 
+
 <header>
-    <h1>🎄 Austin & Leigha's Christmas List 🎄</h1>
-    <p>Find something you'd like to get us and claim it!</p>
+
+    <div class="header-content">
+
+        <div class="christmas-icon">
+            🎄
+        </div>
+
+        <h1>
+            Austin & Leigha's
+            Christmas List
+        </h1>
+
+        <p>
+            A few things we'd love for Christmas.
+            If you decide to get something,
+            just claim it so nobody else grabs
+            the same gift!
+        </p>
+
+    </div>
+
 </header>
+
 
 <main>
 
+    <div class="intro-card">
 
+        <h2>
+            🎅 Welcome!
+        </h2>
+
+        <p>
+            Browse either list below.
+            Once a gift is claimed,
+            it will automatically disappear
+            so everyone can avoid duplicates.
+        </p>
+
+    </div>
+
+
+    <!-- Austin -->
 
     <section class="registry-section">
-        <h2>🎁 Austin's Christmas List</h2>
 
-        <div id="austin-gift-list" class="gift-list">
-            <p>Loading Austin's Christmas ideas...</p>
+        <div class="registry-title">
+
+            <div class="registry-title-icon">
+                🎁
+            </div>
+
+            <h2>
+                Austin's Christmas List
+            </h2>
+
         </div>
+
+
+        <div
+                id="austin-gift-list"
+                class="gift-list"
+        >
+
+            <p>
+                Loading Austin's Christmas ideas...
+            </p>
+
+        </div>
+
     </section>
 
 
-    <section class="registry-section">
-        <h2>🎁 Leigha's Christmas List</h2>
+    <!-- Leigha -->
 
-        <div id="leigha-gift-list" class="gift-list">
-            <p>Loading Leigha's Christmas ideas...</p>
+    <section class="registry-section">
+
+        <div class="registry-title">
+
+            <div class="registry-title-icon">
+                🎁
+            </div>
+
+            <h2>
+                Leigha's Christmas List
+            </h2>
+
         </div>
+
+
+        <div
+                id="leigha-gift-list"
+                class="gift-list"
+        >
+
+            <p>
+                Loading Leigha's Christmas ideas...
+            </p>
+
+        </div>
+
     </section>
 
 </main>
 
-<div id="claim-modal" class="modal hidden">
+
+<!-- Claim Modal -->
+
+<div
+        id="claim-modal"
+        class="modal hidden"
+>
 
     <div class="modal-content">
 
-        <h2>🎄 Claim This Gift?</h2>
+        <div class="modal-icon">
+            🎄
+        </div>
+
+        <h2>
+            Claim This Gift?
+        </h2>
 
         <p id="claim-modal-message">
             Are you sure you want to claim this gift?
         </p>
 
+
         <div class="modal-buttons">
 
-            <button id="cancel-claim" class="cancel-button">
+            <button
+                    id="cancel-claim"
+                    class="cancel-button"
+            >
                 Never Mind
             </button>
 
-            <button id="confirm-claim" class="claim-button">
+
+            <button
+                    id="confirm-claim"
+                    class="claim-button"
+            >
                 Yes, Claim It!
             </button>
 
@@ -241,7 +859,17 @@
 
 </div>
 
-<script type="module" src="app.js"></script>
+
+<footer>
+    Made with ❤️ for Christmas
+</footer>
+
+
+<script
+        type="module"
+        src="app.js?v=3"
+></script>
+
 
 </body>
 </html>
