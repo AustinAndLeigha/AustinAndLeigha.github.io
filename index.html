@@ -146,7 +146,7 @@
                 auto
                 0;
 
-            max-width: 650px;
+            max-width: 700px;
 
             font-size: 18px;
             line-height: 1.6;
@@ -202,7 +202,7 @@
             margin:
                 0
                 0
-                8px;
+                12px;
 
             color: #176b39;
         }
@@ -213,7 +213,7 @@
 
             color: #555;
 
-            line-height: 1.5;
+            line-height: 1.65;
         }
 
 
@@ -290,6 +290,8 @@
             display: flex;
 
             flex-direction: column;
+
+            position: relative;
 
             background: white;
 
@@ -396,9 +398,35 @@
         }
 
 
-        /* Push button toward bottom of card */
         .gift-card .claim-button {
             margin-top: auto;
+        }
+
+
+        /* -----------------------------------
+           REUSABLE BADGE
+        ----------------------------------- */
+
+        .reusable-badge {
+            display: inline-block;
+
+            align-self: flex-start;
+
+            margin-bottom: 12px;
+
+            padding:
+                6px
+                10px;
+
+            border-radius: 999px;
+
+            background: #fff4cf;
+
+            color: #755600;
+
+            font-size: 13px;
+
+            font-weight: 700;
         }
 
 
@@ -466,7 +494,7 @@
 
 
         /* -----------------------------------
-           CLAIM MODAL
+           MODALS
         ----------------------------------- */
 
         .modal {
@@ -589,6 +617,84 @@
 
 
         /* -----------------------------------
+           EMAIL FIELD
+        ----------------------------------- */
+
+        .email-field {
+            margin-top: 24px;
+
+            text-align: left;
+        }
+
+
+        .email-field label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-weight: 600;
+
+            color: #333;
+        }
+
+
+        .email-field input {
+            width: 100%;
+
+            padding:
+                13px
+                14px;
+
+            border:
+                1px
+                solid
+                #ccc;
+
+            border-radius: 9px;
+
+            font-size: 16px;
+
+            outline: none;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+
+        .email-field input:focus {
+            border-color: #176b39;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(23, 107, 57, 0.15);
+        }
+
+
+        .email-field small {
+            display: block;
+
+            margin-top: 8px;
+
+            color: #777;
+
+            line-height: 1.4;
+        }
+
+
+        .email-error {
+            margin-top: 8px !important;
+            margin-bottom: 0 !important;
+
+            color: #9b1c1c !important;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        /* -----------------------------------
            FOOTER
         ----------------------------------- */
 
@@ -698,63 +804,6 @@
                 min-height: 48px;
             }
 
-            .email-field {
-                margin-top: 24px;
-                text-align: left;
-            }
-
-            .email-field label {
-                display: block;
-                margin-bottom: 7px;
-                font-weight: 600;
-                color: #333;
-            }
-
-            .email-field input {
-                width: 100%;
-
-                padding: 13px 14px;
-
-                border: 1px solid #ccc;
-                border-radius: 9px;
-
-                font-size: 16px;
-
-                outline: none;
-
-                transition:
-                    border-color 0.2s ease,
-                    box-shadow 0.2s ease;
-            }
-
-            .email-field input:focus {
-                border-color: #176b39;
-
-                box-shadow:
-                    0 0 0 3px
-                    rgba(23, 107, 57, 0.15);
-            }
-
-            .email-field small {
-                display: block;
-
-                margin-top: 8px;
-
-                color: #777;
-
-                line-height: 1.4;
-            }
-
-            .email-error {
-                margin-top: 8px !important;
-                margin-bottom: 0 !important;
-
-                color: #9b1c1c !important;
-
-                font-size: 14px;
-                font-weight: 600;
-            }
-
         }
 
     </style>
@@ -778,9 +827,13 @@
         </h1>
 
         <p>
-            Here are a few things that have been on our radar. Instead of telling people what we are interested in,
-            everyone can just navigate here! If im going to be a software engineer might as well do something fun...
-            If you decide to get something, just claim it so nobody else grabs the same gift!
+            Here are a few things that have been on our radar.
+            Instead of telling people what we're interested in,
+            everyone can just navigate here!
+            If I'm going to be a software engineer,
+            might as well do something fun...
+            If you decide to get something,
+            just claim it so nobody else grabs the same gift!
         </p>
 
     </div>
@@ -798,15 +851,29 @@
 
         <p>
             Browse either Austin's list or Leigha's below.
-            Once a gift is claimed,
-            it will automatically disappear
-            so everyone can avoid duplicates.
-            <u>We will not be notified of who buys what!</u> Its completely <b>anonymous</b>.
-            You will receive an email when an item is claimed telling you what you claimed!
-            If you need to back out, click the "Undo Claim" button. IM NOT SELLING YOUR DATA lol.
-            Please check your Spam folder if you don't see it. If you put the wrong email address
-            let me know and I can unclaim it so you can re-claim again. Love you all!
+            Once a normal gift is claimed, it will automatically
+            disappear so everyone can avoid duplicates.
+            Gift cards and other reusable ideas will stay visible
+            so more than one person can get them.
+            <br><br>
+
+            <u>We will not be notified of who buys what!</u>
+            It's completely <b>anonymous</b>.
+            You will receive an email when an item is claimed
+            telling you what you claimed.
+
+            If you need to back out of a normal gift,
+            click the "Undo Claim" link in your email.
+
+            I'M NOT SELLING YOUR DATA lol.
+
+            Please check your Spam folder if you don't see the email.
+            If you enter the wrong email address,
+            let me know and I can unclaim it so you can claim it again.
+
+            Love you all!
         </p>
+
     </div>
 
 
@@ -876,7 +943,10 @@
 
 <!-- Claim Modal -->
 
-<div id="claim-modal" class="modal hidden">
+<div
+        id="claim-modal"
+        class="modal hidden"
+>
 
     <div class="modal-content">
 
@@ -892,7 +962,9 @@
             Are you sure you want to claim this gift?
         </p>
 
+
         <div class="email-field">
+
             <label for="claim-email">
                 Your Email
             </label>
@@ -905,18 +977,26 @@
                     required
             >
 
-            <small>
+
+            <small id="claim-email-help">
+
                 We'll email you a confirmation and a link
                 in case you need to put the gift back.
+
             </small>
+
 
             <p
                     id="email-error"
                     class="email-error hidden"
             >
-                Please enter a valid email address. I'm not selling your data I promise, just giving you the option to back out if you need to.
+                Please enter a valid email address.
+                I'm not selling your data, I promise —
+                this just gives you the option to back out if needed.
             </p>
+
         </div>
+
 
         <div class="modal-buttons">
 
@@ -926,6 +1006,7 @@
             >
                 Never Mind
             </button>
+
 
             <button
                     id="confirm-claim"
@@ -940,7 +1021,13 @@
 
 </div>
 
-<div id="undo-modal" class="modal hidden">
+
+<!-- Undo Modal -->
+
+<div
+        id="undo-modal"
+        class="modal hidden"
+>
 
     <div class="modal-content">
 
@@ -956,6 +1043,7 @@
             Would you like to make this gift available again?
         </p>
 
+
         <div class="modal-buttons">
 
             <button
@@ -964,6 +1052,7 @@
             >
                 Keep It Claimed
             </button>
+
 
             <button
                     id="confirm-undo"
@@ -988,11 +1077,13 @@
         src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
 </script>
 
+
 <script
         type="module"
-        src="app.js?v=4"
-></script>
+        src="app.js?v=5">
+</script>
 
 
 </body>
+
 </html>

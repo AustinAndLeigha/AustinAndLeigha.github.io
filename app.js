@@ -29,13 +29,20 @@ const firebaseConfig = {
 // EMAILJS CONFIGURATION
 // ----------------------------------------------------
 
-// Replace these three values with yours.
-
 const EMAILJS_SERVICE_ID =
     "service_9dretzy";
 
-const EMAILJS_TEMPLATE_ID =
+
+// Your EXISTING normal gift email template
+const EMAILJS_NORMAL_TEMPLATE_ID =
     "template_djlq9ym";
+
+
+// Create a second EmailJS template for reusable gifts.
+// Replace this with the new template ID.
+const EMAILJS_REUSABLE_TEMPLATE_ID =
+    "YOUR_REUSABLE_TEMPLATE_ID";
+
 
 const EMAILJS_PUBLIC_KEY =
     "M8x8Q0YtnxlnpqAtG";
@@ -52,6 +59,7 @@ window.emailjs.init({
 
 const app =
     initializeApp(firebaseConfig);
+
 
 const db =
     getFirestore(app);
@@ -71,6 +79,7 @@ const austinGiftList =
         "austin-gift-list"
     );
 
+
 const leighaGiftList =
     document.getElementById(
         "leigha-gift-list"
@@ -84,25 +93,36 @@ const claimModal =
         "claim-modal"
     );
 
+
 const claimModalMessage =
     document.getElementById(
         "claim-modal-message"
     );
+
 
 const claimEmail =
     document.getElementById(
         "claim-email"
     );
 
+
+const claimEmailHelp =
+    document.getElementById(
+        "claim-email-help"
+    );
+
+
 const emailError =
     document.getElementById(
         "email-error"
     );
 
+
 const confirmClaimButton =
     document.getElementById(
         "confirm-claim"
     );
+
 
 const cancelClaimButton =
     document.getElementById(
@@ -117,15 +137,18 @@ const undoModal =
         "undo-modal"
     );
 
+
 const undoModalMessage =
     document.getElementById(
         "undo-modal-message"
     );
 
+
 const confirmUndoButton =
     document.getElementById(
         "confirm-undo"
     );
+
 
 const cancelUndoButton =
     document.getElementById(
@@ -163,10 +186,12 @@ onSnapshot(
     (snapshot) => {
 
         austinGiftList.innerHTML = "";
+
         leighaGiftList.innerHTML = "";
 
 
         let austinGiftCount = 0;
+
         let leighaGiftCount = 0;
 
 
@@ -176,13 +201,23 @@ onSnapshot(
                 const gift =
                     giftDoc.data();
 
+
                 const giftId =
                     giftDoc.id;
 
 
-                // Claimed gifts stay hidden.
-                if (gift.claimed === true) {
+                /*
+                 * Normal claimed gifts disappear.
+                 *
+                 * Reusable gifts stay visible forever.
+                 */
+                if (
+                    gift.claimed === true &&
+                    gift.reusable !== true
+                ) {
+
                     return;
+
                 }
 
 
@@ -195,6 +230,22 @@ onSnapshot(
                 giftCard.classList.add(
                     "gift-card"
                 );
+
+
+                const reusableBadge =
+                    gift.reusable === true
+                        ? `
+                            <div class="reusable-badge">
+                                ♻️ Can Be Gifted More Than Once
+                            </div>
+                        `
+                        : "";
+
+
+                const buttonText =
+                    gift.reusable === true
+                        ? "I'm Getting This 🎁"
+                        : "Claim Gift";
 
 
                 giftCard.innerHTML = `
@@ -211,19 +262,26 @@ onSnapshot(
                             : ""
                     }
 
+
+                    ${reusableBadge}
+
+
                     <h2>
                         ${gift.name}
                     </h2>
 
+
                     <p>
                         ${gift.description || ""}
                     </p>
+
 
                     <p class="price">
                         $${Number(
                             gift.price
                         ).toFixed(2)}
                     </p>
+
 
                     ${
                         gift.url
@@ -241,6 +299,7 @@ onSnapshot(
                             : ""
                     }
 
+
                     <button
                         class="
                             claim-button
@@ -248,8 +307,9 @@ onSnapshot(
                         "
                         data-id="${giftId}"
                         data-name="${gift.name}"
+                        data-reusable="${gift.reusable === true}"
                     >
-                        Claim Gift
+                        ${buttonText}
                     </button>
                 `;
 
@@ -273,6 +333,7 @@ onSnapshot(
                             giftCard
                         );
 
+
                     leighaGiftCount++;
 
                 } else {
@@ -281,6 +342,7 @@ onSnapshot(
                         .appendChild(
                             giftCard
                         );
+
 
                     austinGiftCount++;
 
@@ -367,16 +429,58 @@ document.addEventListener(
 
 
         giftToClaim = {
-            id: button.dataset.id,
-            name: button.dataset.name
+
+            id:
+                button.dataset.id,
+
+            name:
+                button.dataset.name,
+
+            reusable:
+                button.dataset.reusable ===
+                "true"
+
         };
 
 
-        claimModalMessage.textContent =
-            `You're claiming "${giftToClaim.name}".`;
+        if (
+            giftToClaim.reusable
+        ) {
+
+            claimModalMessage.textContent =
+                `You're getting "${giftToClaim.name}". ` +
+                `This item can be gifted more than once, ` +
+                `so it will stay on the Christmas list.`;
+
+
+            claimEmailHelp.textContent =
+                "We'll email you a confirmation. " +
+                "Because this item stays available, " +
+                "there's no need for an undo link.";
+
+
+            confirmClaimButton.textContent =
+                "I'm Getting This 🎁";
+
+        } else {
+
+            claimModalMessage.textContent =
+                `You're claiming "${giftToClaim.name}".`;
+
+
+            claimEmailHelp.textContent =
+                "We'll email you a confirmation and a link " +
+                "in case you need to put the gift back.";
+
+
+            confirmClaimButton.textContent =
+                "Claim Gift 🎁";
+
+        }
 
 
         claimEmail.value = "";
+
 
         emailError.classList.add(
             "hidden"
@@ -390,7 +494,9 @@ document.addEventListener(
 
         setTimeout(
             () => {
+
                 claimEmail.focus();
+
             },
             100
         );
@@ -410,15 +516,22 @@ cancelClaimButton.addEventListener(
 
         giftToClaim = null;
 
+
         claimEmail.value = "";
+
 
         emailError.classList.add(
             "hidden"
         );
 
+
         claimModal.classList.add(
             "hidden"
         );
+
+
+        confirmClaimButton.textContent =
+            "Claim Gift 🎁";
 
     }
 );
@@ -433,8 +546,12 @@ confirmClaimButton.addEventListener(
 
     async () => {
 
-        if (!giftToClaim) {
+        if (
+            !giftToClaim
+        ) {
+
             return;
+
         }
 
 
@@ -442,7 +559,6 @@ confirmClaimButton.addEventListener(
             claimEmail.value.trim();
 
 
-        // HTML email validation
         if (
             email === "" ||
             !claimEmail.checkValidity()
@@ -452,9 +568,12 @@ confirmClaimButton.addEventListener(
                 "hidden"
             );
 
+
             claimEmail.focus();
 
+
             return;
+
         }
 
 
@@ -467,17 +586,29 @@ confirmClaimButton.addEventListener(
             giftToClaim.id;
 
 
+        const reusable =
+            giftToClaim.reusable;
+
+
         confirmClaimButton.disabled =
             true;
+
 
         cancelClaimButton.disabled =
             true;
 
+
         confirmClaimButton.textContent =
-            "Claiming...";
+            reusable
+                ? "Sending Confirmation..."
+                : "Claiming...";
 
 
         let claimedGift = null;
+
+
+        let normalGiftWasClaimed =
+            false;
 
 
         try {
@@ -490,96 +621,167 @@ confirmClaimButton.addEventListener(
                 );
 
 
-            // -----------------------------
-            // CLAIM THE GIFT
-            // -----------------------------
+            // ------------------------------------------------
+            // REUSABLE GIFT
+            // ------------------------------------------------
 
-            await runTransaction(
-                db,
+            if (
+                reusable
+            ) {
 
-                async (transaction) => {
+                /*
+                 * Reusable gifts are read only.
+                 *
+                 * We DO NOT change claimed.
+                 * We DO NOT remove them from the site.
+                 */
 
-                    const giftSnapshot =
-                        await transaction.get(
-                            giftRef
-                        );
-
-
-                    if (
-                        !giftSnapshot.exists()
-                    ) {
-
-                        throw new Error(
-                            "This gift no longer exists."
-                        );
-
-                    }
+                const giftSnapshot =
+                    await getDoc(
+                        giftRef
+                    );
 
 
-                    const gift =
-                        giftSnapshot.data();
+                if (
+                    !giftSnapshot.exists()
+                ) {
 
-
-                    if (
-                        gift.claimed === true
-                    ) {
-
-                        throw new Error(
-                            "Sorry! Someone else already claimed this gift."
-                        );
-
-                    }
-
-
-                    claimedGift = gift;
-
-
-                    transaction.update(
-                        giftRef,
-                        {
-                            claimed: true
-                        }
+                    throw new Error(
+                        "This gift no longer exists."
                     );
 
                 }
-            );
 
 
-            // -----------------------------
+                claimedGift =
+                    giftSnapshot.data();
+
+            }
+
+
+            // ------------------------------------------------
+            // NORMAL GIFT
+            // ------------------------------------------------
+
+            else {
+
+                /*
+                 * Normal gifts use a Firestore
+                 * transaction to prevent two people
+                 * from claiming the same gift.
+                 */
+
+                await runTransaction(
+                    db,
+
+                    async (
+                        transaction
+                    ) => {
+
+                        const giftSnapshot =
+                            await transaction.get(
+                                giftRef
+                            );
+
+
+                        if (
+                            !giftSnapshot.exists()
+                        ) {
+
+                            throw new Error(
+                                "This gift no longer exists."
+                            );
+
+                        }
+
+
+                        const gift =
+                            giftSnapshot.data();
+
+
+                        if (
+                            gift.claimed === true
+                        ) {
+
+                            throw new Error(
+                                "Sorry! Someone else already claimed this gift."
+                            );
+
+                        }
+
+
+                        claimedGift =
+                            gift;
+
+
+                        transaction.update(
+                            giftRef,
+                            {
+                                claimed: true
+                            }
+                        );
+
+                    }
+                );
+
+
+                normalGiftWasClaimed =
+                    true;
+
+            }
+
+
+            // ------------------------------------------------
             // CREATE UNDO LINK
-            // -----------------------------
+            // ------------------------------------------------
 
-            const undoLink =
-                `${window.location.origin}` +
-                `${window.location.pathname}` +
-                `?undo=${encodeURIComponent(
-                    giftId
-                )}`;
+            let undoLink =
+                "";
 
 
-            // -----------------------------
-            // SEND EMAIL
-            // -----------------------------
+            if (
+                !reusable
+            ) {
+
+                undoLink =
+                    `${window.location.origin}` +
+                    `${window.location.pathname}` +
+                    `?undo=${encodeURIComponent(
+                        giftId
+                    )}`;
+
+            }
+
+
+            // ------------------------------------------------
+            // EMAIL PARAMETERS
+            // ------------------------------------------------
 
             const templateParams = {
 
                 to_email:
                     email,
 
+
                 gift_name:
                     claimedGift.name,
+
 
                 recipient:
                     claimedGift.recipient ||
                     "Austin & Leigha",
+
 
                 price:
                     `$${Number(
                         claimedGift.price
                     ).toFixed(2)}`,
 
+
                 gift_url:
-                    claimedGift.url || "",
+                    claimedGift.url ||
+                    "",
+
 
                 undo_link:
                     undoLink
@@ -587,10 +789,28 @@ confirmClaimButton.addEventListener(
             };
 
 
+            // ------------------------------------------------
+            // PICK EMAIL TEMPLATE
+            // ------------------------------------------------
+
+            const templateId =
+                reusable
+                    ? EMAILJS_REUSABLE_TEMPLATE_ID
+                    : EMAILJS_NORMAL_TEMPLATE_ID;
+
+
+            // ------------------------------------------------
+            // SEND EMAIL
+            // ------------------------------------------------
+
             await window.emailjs.send(
+
                 EMAILJS_SERVICE_ID,
-                EMAILJS_TEMPLATE_ID,
+
+                templateId,
+
                 templateParams
+
             );
 
 
@@ -604,14 +824,34 @@ confirmClaimButton.addEventListener(
             );
 
 
-            alert(
-                "Gift claimed! 🎁\n\n" +
-                "Check your email for your " +
-                "confirmation and undo link."
-            );
+            // ------------------------------------------------
+            // SUCCESS MESSAGE
+            // ------------------------------------------------
 
+            if (
+                reusable
+            ) {
 
-        } catch (error) {
+                alert(
+                    "Got it! 🎁\n\n" +
+                    "Check your email for your confirmation.\n\n" +
+                    "This item will stay on the list so " +
+                    "someone else can get one too."
+                );
+
+            } else {
+
+                alert(
+                    "Gift claimed! 🎁\n\n" +
+                    "Check your email for your " +
+                    "confirmation and undo link."
+                );
+
+            }
+
+        } catch (
+            error
+        ) {
 
             console.error(
                 "Error claiming gift:",
@@ -620,11 +860,17 @@ confirmClaimButton.addEventListener(
 
 
             /*
-             * If Firebase successfully claimed
-             * the gift but EmailJS failed,
-             * put the gift back automatically.
+             * If this was a NORMAL gift,
+             * Firebase claimed it,
+             * but the email failed,
+             * put the gift back.
+             *
+             * Reusable gifts never need rollback
+             * because nothing was changed.
              */
-            if (claimedGift !== null) {
+            if (
+                normalGiftWasClaimed === true
+            ) {
 
                 try {
 
@@ -687,11 +933,25 @@ confirmClaimButton.addEventListener(
             }
 
 
-            alert(
-                "We couldn't complete the claim.\n\n" +
-                "The gift has been put back on the list. " +
-                "Please try again."
-            );
+            if (
+                reusable
+            ) {
+
+                alert(
+                    "We couldn't send your confirmation email.\n\n" +
+                    "Nothing was removed from the Christmas list. " +
+                    "Please try again."
+                );
+
+            } else {
+
+                alert(
+                    "We couldn't complete the claim.\n\n" +
+                    "The gift has been put back on the list. " +
+                    "Please try again."
+                );
+
+            }
 
         } finally {
 
@@ -701,8 +961,10 @@ confirmClaimButton.addEventListener(
             confirmClaimButton.disabled =
                 false;
 
+
             cancelClaimButton.disabled =
                 false;
+
 
             confirmClaimButton.textContent =
                 "Claim Gift 🎁";
@@ -726,11 +988,17 @@ async function checkForUndoLink() {
 
 
     const giftId =
-        params.get("undo");
+        params.get(
+            "undo"
+        );
 
 
-    if (!giftId) {
+    if (
+        !giftId
+    ) {
+
         return;
+
     }
 
 
@@ -758,14 +1026,38 @@ async function checkForUndoLink() {
                 "This gift could not be found."
             );
 
+
             clearUndoUrl();
 
+
             return;
+
         }
 
 
         const gift =
             giftSnapshot.data();
+
+
+        /*
+         * Reusable gifts never need to be undone.
+         */
+        if (
+            gift.reusable === true
+        ) {
+
+            alert(
+                `"${gift.name}" is a reusable gift idea ` +
+                "and is already available to everyone."
+            );
+
+
+            clearUndoUrl();
+
+
+            return;
+
+        }
 
 
         if (
@@ -777,15 +1069,23 @@ async function checkForUndoLink() {
                 "available on the Christmas list."
             );
 
+
             clearUndoUrl();
 
+
             return;
+
         }
 
 
         giftToUndo = {
-            id: giftId,
-            name: gift.name
+
+            id:
+                giftId,
+
+            name:
+                gift.name
+
         };
 
 
@@ -799,7 +1099,9 @@ async function checkForUndoLink() {
             "hidden"
         );
 
-    } catch (error) {
+    } catch (
+        error
+    ) {
 
         console.error(
             "Error loading undo gift:",
@@ -822,9 +1124,11 @@ cancelUndoButton.addEventListener(
 
         giftToUndo = null;
 
+
         undoModal.classList.add(
             "hidden"
         );
+
 
         clearUndoUrl();
 
@@ -841,16 +1145,22 @@ confirmUndoButton.addEventListener(
 
     async () => {
 
-        if (!giftToUndo) {
+        if (
+            !giftToUndo
+        ) {
+
             return;
+
         }
 
 
         confirmUndoButton.disabled =
             true;
 
+
         cancelUndoButton.disabled =
             true;
+
 
         confirmUndoButton.textContent =
             "Putting It Back...";
@@ -869,7 +1179,9 @@ confirmUndoButton.addEventListener(
             await runTransaction(
                 db,
 
-                async (transaction) => {
+                async (
+                    transaction
+                ) => {
 
                     const giftSnapshot =
                         await transaction.get(
@@ -893,6 +1205,17 @@ confirmUndoButton.addEventListener(
 
 
                     if (
+                        gift.reusable === true
+                    ) {
+
+                        throw new Error(
+                            "This gift is reusable and is already available."
+                        );
+
+                    }
+
+
+                    if (
                         gift.claimed !== true
                     ) {
 
@@ -906,7 +1229,8 @@ confirmUndoButton.addEventListener(
                     transaction.update(
                         giftRef,
                         {
-                            claimed: false
+                            claimed:
+                                false
                         }
                     );
 
@@ -918,7 +1242,8 @@ confirmUndoButton.addEventListener(
                 giftToUndo.name;
 
 
-            giftToUndo = null;
+            giftToUndo =
+                null;
 
 
             undoModal.classList.add(
@@ -934,8 +1259,9 @@ confirmUndoButton.addEventListener(
                 "back on the Christmas list! 🎁"
             );
 
-
-        } catch (error) {
+        } catch (
+            error
+        ) {
 
             console.error(
                 "Error undoing claim:",
@@ -952,8 +1278,10 @@ confirmUndoButton.addEventListener(
             confirmUndoButton.disabled =
                 false;
 
+
             cancelUndoButton.disabled =
                 false;
+
 
             confirmUndoButton.textContent =
                 "Put It Back";
