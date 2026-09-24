@@ -3,7 +3,9 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/fireba
 import {
     getFirestore,
     collection,
-    onSnapshot
+    onSnapshot,
+    doc,
+    runTransaction
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 
@@ -54,67 +56,166 @@ onSnapshot(giftsCollection, (snapshot) => {
     }
 
 
-    snapshot.forEach((giftDoc) => {
+    onSnapshot(giftsCollection, (snapshot) => {
 
-        const gift = giftDoc.data();
-        const giftId = giftDoc.id;
+        giftList.innerHTML = "";
 
-        console.log("Gift:", giftId, gift);
+        let availableGiftCount = 0;
 
-        const giftCard = document.createElement("div");
+        snapshot.forEach((giftDoc) => {
 
-        giftCard.classList.add("gift-card");
+            const gift = giftDoc.data();
+            const giftId = giftDoc.id;
 
-        giftCard.innerHTML = `
-            <h2>${gift.name}</h2>
-
-            <p>
-                ${gift.description || ""}
-            </p>
-
-            <p class="price">
-                $${Number(gift.price).toFixed(2)}
-            </p>
-
-            <p>
-                For: ${gift.recipient || "Austin & Leigha"}
-            </p>
-
-            ${
-                gift.url
-                    ? `
-                        <p>
-                            <a
-                                href="${gift.url}"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                View Gift
-                            </a>
-                        </p>
-                    `
-                    : ""
+            // Hide claimed gifts
+            if (gift.claimed) {
+                return;
             }
 
-            ${
-                gift.claimed
-                    ? `
-                        <button disabled>
-                            Already Claimed
-                        </button>
-                    `
-                    : `
-                        <button
-                            class="claim-button"
-                            data-id="${giftId}"
-                        >
-                            Claim Gift
-                        </button>
-                    `
-            }
+            availableGiftCount++;
+
+            console.log("Gift:", giftId, gift);
+
+            const giftCard = document.createElement("div");
+
+            giftCard.classList.add("gift-card");
+
+            giftCard.innerHTML = `
+                <h2>${gift.name}</h2>
+
+                <p>
+                    ${gift.description || ""}
+                </p>
+
+                <p class="price">
+                    $${Number(gift.price).toFixed(2)}
+                </p>
+
+                <p>
+                    For: ${gift.recipient || "Austin & Leigha"}
+                </p>
+
+                ${
+                    gift.url
+                        ? `
+                            <p>
+                                <a
+                                    href="${gift.url}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    View Gift
+                                </a>
+                            </p>
+                        `
+                        : ""
+                }
+
+                <button
+                    class="claim-button"
+                    data-id="${giftId}"
+                >
+                    Claim Gift
+                </button>
+            `;
+
+            giftList.appendChild(giftCard);
+
+        });
+
+
+        // All gifts are claimed or no gifts exist
+        if (availableGiftCount === 0) {
+
+            giftList.innerHTML = `
+                <p>
+                    No Christmas ideas are currently available.
+                </p>
+            `;
+
+        }
+
+    }, (error) => {
+
+        console.error(
+            "Error loading gifts:",
+            error
+        );
+
+        giftList.innerHTML = `
+            <p>
+                Sorry, there was a problem loading the Christmas list.
+            </p>
         `;
 
-        giftList.appendChild(giftCard);
+    });
+
+    giftList.addEventListener("click", async (event) => {
+
+        // Only respond to Claim Gift buttons
+        if (!event.target.classList.contains("claim-button")) {
+            return;
+        }
+
+        const button = event.target;
+        const giftId = button.dataset.id;
+
+        // Ask the user before claiming
+        const confirmed = window.confirm(
+            "Are you sure you want to claim this gift?"
+        );
+
+        if (!confirmed) {
+            return;
+        }
+
+        // Temporarily disable the button
+        button.disabled = true;
+        button.textContent = "Claiming...";
+
+        try {
+
+            const giftRef = doc(db, "gifts", giftId);
+
+            await runTransaction(db, async (transaction) => {
+
+                const giftSnapshot = await transaction.get(giftRef);
+
+                if (!giftSnapshot.exists()) {
+                    throw new Error("This gift no longer exists.");
+                }
+
+                const gift = giftSnapshot.data();
+
+                // Someone beat us to it
+                if (gift.claimed === true) {
+                    throw new Error(
+                        "Sorry! Someone else already claimed this gift."
+                    );
+                }
+
+                // Claim the gift
+                transaction.update(giftRef, {
+                    claimed: true
+                });
+
+            });
+
+            console.log("Gift claimed successfully!");
+
+            alert("Gift claimed! Thank you! 🎁");
+
+        } catch (error) {
+
+            console.error("Error claiming gift:", error);
+
+            alert(error.message);
+
+            // Re-enable button if claim failed
+            button.disabled = false;
+            button.textContent = "Claim Gift";
+        }
+
     });
 
 }, (error) => {
