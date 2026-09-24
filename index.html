@@ -3,14 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Website</title>
-    <link rel="stylesheet" href="style.css">
+
+    <title>Austin & Leigha's Christmas List</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f5f5f5;
+            color: #222;
+        }
+
+        header {
+            background: #9b1c1c;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 40px;
+        }
+
+        header p {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .gift-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .gift-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .gift-card h2 {
+            margin-top: 0;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        button {
+            border: none;
+            padding: 12px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .claim-button {
+            background: #176b39;
+            color: white;
+        }
+
+        .claim-button:hover {
+            background: #10542c;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Hello!</h1>
-    <p>This is my GitHub Pages website.</p>
 
-    <script src="script.js"></script>
+<header>
+    <h1>🎄 Austin & Leigha's Christmas List 🎄</h1>
+    <p>Find something you'd like to get us and claim it!</p>
+</header>
+
+<main>
+
+    <h2>Christmas Ideas</h2>
+
+    <div class="gift-list">
+
+        <div class="gift-card">
+            <h2>Example Gift</h2>
+
+            <p>
+                This is just a test gift. We'll replace this with gifts
+                coming from Firebase shortly.
+            </p>
+
+            <p class="price">$49.99</p>
+
+            <button class="claim-button">
+                Claim Gift
+            </button>
+        </div>
+
+    </div>
+
+</main>
+
 </body>
 </html>
