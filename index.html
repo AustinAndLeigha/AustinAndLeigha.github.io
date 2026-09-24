@@ -698,6 +698,63 @@
                 min-height: 48px;
             }
 
+            .email-field {
+                margin-top: 24px;
+                text-align: left;
+            }
+
+            .email-field label {
+                display: block;
+                margin-bottom: 7px;
+                font-weight: 600;
+                color: #333;
+            }
+
+            .email-field input {
+                width: 100%;
+
+                padding: 13px 14px;
+
+                border: 1px solid #ccc;
+                border-radius: 9px;
+
+                font-size: 16px;
+
+                outline: none;
+
+                transition:
+                    border-color 0.2s ease,
+                    box-shadow 0.2s ease;
+            }
+
+            .email-field input:focus {
+                border-color: #176b39;
+
+                box-shadow:
+                    0 0 0 3px
+                    rgba(23, 107, 57, 0.15);
+            }
+
+            .email-field small {
+                display: block;
+
+                margin-top: 8px;
+
+                color: #777;
+
+                line-height: 1.4;
+            }
+
+            .email-error {
+                margin-top: 8px !important;
+                margin-bottom: 0 !important;
+
+                color: #9b1c1c !important;
+
+                font-size: 14px;
+                font-weight: 600;
+            }
+
         }
 
     </style>
@@ -816,10 +873,7 @@
 
 <!-- Claim Modal -->
 
-<div
-        id="claim-modal"
-        class="modal hidden"
->
+<div id="claim-modal" class="modal hidden">
 
     <div class="modal-content">
 
@@ -835,6 +889,31 @@
             Are you sure you want to claim this gift?
         </p>
 
+        <div class="email-field">
+            <label for="claim-email">
+                Your Email
+            </label>
+
+            <input
+                    type="email"
+                    id="claim-email"
+                    placeholder="you@example.com"
+                    autocomplete="email"
+                    required
+            >
+
+            <small>
+                We'll email you a confirmation and a link
+                in case you need to put the gift back.
+            </small>
+
+            <p
+                    id="email-error"
+                    class="email-error hidden"
+            >
+                Please enter a valid email address.
+            </p>
+        </div>
 
         <div class="modal-buttons">
 
@@ -845,12 +924,49 @@
                 Never Mind
             </button>
 
-
             <button
                     id="confirm-claim"
                     class="claim-button"
             >
-                Yes, Claim It!
+                Claim Gift 🎁
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="undo-modal" class="modal hidden">
+
+    <div class="modal-content">
+
+        <div class="modal-icon">
+            🎁
+        </div>
+
+        <h2>
+            Put This Gift Back?
+        </h2>
+
+        <p id="undo-modal-message">
+            Would you like to make this gift available again?
+        </p>
+
+        <div class="modal-buttons">
+
+            <button
+                    id="cancel-undo"
+                    class="cancel-button"
+            >
+                Keep It Claimed
+            </button>
+
+            <button
+                    id="confirm-undo"
+                    class="claim-button"
+            >
+                Put It Back
             </button>
 
         </div>
@@ -866,8 +982,12 @@
 
 
 <script
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+
+<script
         type="module"
-        src="app.js?v=3"
+        src="app.js?v=4"
 ></script>
 
 

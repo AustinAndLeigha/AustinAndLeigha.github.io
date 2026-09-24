@@ -1,15 +1,20 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import { initializeApp }
+    from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 
 import {
     getFirestore,
     collection,
     onSnapshot,
     doc,
+    getDoc,
     runTransaction
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 
-// Firebase configuration
+// ----------------------------------------------------
+// FIREBASE CONFIGURATION
+// ----------------------------------------------------
+
 const firebaseConfig = {
     apiKey: "AIzaSyBF50gjuKwNYo1tYmZjdSmun7p1vLeSu-s",
     authDomain: "austinandleigha.firebaseapp.com",
@@ -20,45 +25,132 @@ const firebaseConfig = {
 };
 
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// ----------------------------------------------------
+// EMAILJS CONFIGURATION
+// ----------------------------------------------------
+
+// Replace these three values with yours.
+
+const EMAILJS_SERVICE_ID =
+    "service_9dretzy";
+
+const EMAILJS_TEMPLATE_ID =
+    "template_djlq9ym";
+
+const EMAILJS_PUBLIC_KEY =
+    "M8x8Q0YtnxlnpqAtG";
 
 
-// Initialize Firestore
-const db = getFirestore(app);
+window.emailjs.init({
+    publicKey: EMAILJS_PUBLIC_KEY
+});
 
 
-console.log("Firebase connected successfully!");
+// ----------------------------------------------------
+// INITIALIZE FIREBASE
+// ----------------------------------------------------
+
+const app =
+    initializeApp(firebaseConfig);
+
+const db =
+    getFirestore(app);
 
 
-// Gift list containers
+console.log(
+    "Firebase connected successfully!"
+);
+
+
+// ----------------------------------------------------
+// PAGE ELEMENTS
+// ----------------------------------------------------
+
 const austinGiftList =
-    document.getElementById("austin-gift-list");
+    document.getElementById(
+        "austin-gift-list"
+    );
 
 const leighaGiftList =
-    document.getElementById("leigha-gift-list");
+    document.getElementById(
+        "leigha-gift-list"
+    );
 
 
-// Modal elements
+// Claim modal
+
 const claimModal =
-    document.getElementById("claim-modal");
+    document.getElementById(
+        "claim-modal"
+    );
 
 const claimModalMessage =
-    document.getElementById("claim-modal-message");
+    document.getElementById(
+        "claim-modal-message"
+    );
+
+const claimEmail =
+    document.getElementById(
+        "claim-email"
+    );
+
+const emailError =
+    document.getElementById(
+        "email-error"
+    );
 
 const confirmClaimButton =
-    document.getElementById("confirm-claim");
+    document.getElementById(
+        "confirm-claim"
+    );
 
 const cancelClaimButton =
-    document.getElementById("cancel-claim");
+    document.getElementById(
+        "cancel-claim"
+    );
 
+
+// Undo modal
+
+const undoModal =
+    document.getElementById(
+        "undo-modal"
+    );
+
+const undoModalMessage =
+    document.getElementById(
+        "undo-modal-message"
+    );
+
+const confirmUndoButton =
+    document.getElementById(
+        "confirm-undo"
+    );
+
+const cancelUndoButton =
+    document.getElementById(
+        "cancel-undo"
+    );
+
+
+// ----------------------------------------------------
+// STATE
+// ----------------------------------------------------
 
 let giftToClaim = null;
 
+let giftToUndo = null;
 
-// Firestore gifts collection
+
+// ----------------------------------------------------
+// FIRESTORE COLLECTION
+// ----------------------------------------------------
+
 const giftsCollection =
-    collection(db, "gifts");
+    collection(
+        db,
+        "gifts"
+    );
 
 
 // ----------------------------------------------------
@@ -67,9 +159,9 @@ const giftsCollection =
 
 onSnapshot(
     giftsCollection,
+
     (snapshot) => {
 
-        // Clear current lists
         austinGiftList.innerHTML = "";
         leighaGiftList.innerHTML = "";
 
@@ -78,125 +170,155 @@ onSnapshot(
         let leighaGiftCount = 0;
 
 
-        snapshot.forEach((giftDoc) => {
+        snapshot.forEach(
+            (giftDoc) => {
 
-            const gift = giftDoc.data();
-            const giftId = giftDoc.id;
+                const gift =
+                    giftDoc.data();
 
-
-            // Hide claimed gifts
-            if (gift.claimed === true) {
-                return;
-            }
+                const giftId =
+                    giftDoc.id;
 
 
-            // Create gift card
-            const giftCard =
-                document.createElement("div");
-
-            giftCard.classList.add("gift-card");
-
-
-            giftCard.innerHTML = `
-
-                ${
-                    gift.imageUrl
-                        ? `
-                            <img
-                                src="${gift.imageUrl}"
-                                alt="${gift.name}"
-                                class="gift-image"
-                            >
-                        `
-                        : ""
+                // Claimed gifts stay hidden.
+                if (gift.claimed === true) {
+                    return;
                 }
 
-                <h2>
-                    ${gift.name}
-                </h2>
 
-                <p>
-                    ${gift.description || ""}
-                </p>
+                const giftCard =
+                    document.createElement(
+                        "div"
+                    );
 
-                <p class="price">
-                    $${Number(gift.price).toFixed(2)}
-                </p>
 
-                ${
-                    gift.url
-                        ? `
-                            <p>
-                                <a
-                                    href="${gift.url}"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                giftCard.classList.add(
+                    "gift-card"
+                );
+
+
+                giftCard.innerHTML = `
+
+                    ${
+                        gift.imageUrl
+                            ? `
+                                <img
+                                    src="${gift.imageUrl}"
+                                    alt="${gift.name}"
+                                    class="gift-image"
                                 >
-                                    View Gift
-                                </a>
-                            </p>
-                        `
-                        : ""
-                }
+                            `
+                            : ""
+                    }
 
-                <button
-                    class="claim-button gift-claim-button"
-                    data-id="${giftId}"
-                    data-name="${gift.name}"
-                >
-                    Claim Gift
-                </button>
-            `;
+                    <h2>
+                        ${gift.name}
+                    </h2>
+
+                    <p>
+                        ${gift.description || ""}
+                    </p>
+
+                    <p class="price">
+                        $${Number(
+                            gift.price
+                        ).toFixed(2)}
+                    </p>
+
+                    ${
+                        gift.url
+                            ? `
+                                <p>
+                                    <a
+                                        href="${gift.url}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        View Gift
+                                    </a>
+                                </p>
+                            `
+                            : ""
+                    }
+
+                    <button
+                        class="
+                            claim-button
+                            gift-claim-button
+                        "
+                        data-id="${giftId}"
+                        data-name="${gift.name}"
+                    >
+                        Claim Gift
+                    </button>
+                `;
 
 
-            const recipient =
-                (gift.recipient || "")
+                const recipient =
+                    (
+                        gift.recipient ||
+                        ""
+                    )
                     .trim()
                     .toLowerCase();
 
 
-            // Put gift in correct section
-            if (recipient === "leigha") {
+                if (
+                    recipient ===
+                    "leigha"
+                ) {
 
-                leighaGiftList.appendChild(giftCard);
+                    leighaGiftList
+                        .appendChild(
+                            giftCard
+                        );
 
-                leighaGiftCount++;
+                    leighaGiftCount++;
 
-            } else {
+                } else {
 
-                austinGiftList.appendChild(giftCard);
+                    austinGiftList
+                        .appendChild(
+                            giftCard
+                        );
 
-                austinGiftCount++;
+                    austinGiftCount++;
+
+                }
 
             }
+        );
 
-        });
 
-
-        // No Austin gifts
-        if (austinGiftCount === 0) {
+        if (
+            austinGiftCount === 0
+        ) {
 
             austinGiftList.innerHTML = `
                 <p>
-                    No gifts currently available for Austin.
+                    No gifts currently
+                    available for Austin.
                 </p>
             `;
 
         }
 
 
-        // No Leigha gifts
-        if (leighaGiftCount === 0) {
+        if (
+            leighaGiftCount === 0
+        ) {
 
             leighaGiftList.innerHTML = `
                 <p>
-                    No gifts currently available for Leigha.
+                    No gifts currently
+                    available for Leigha.
                 </p>
             `;
 
         }
 
     },
+
     (error) => {
 
         console.error(
@@ -207,14 +329,16 @@ onSnapshot(
 
         austinGiftList.innerHTML = `
             <p>
-                Sorry, there was a problem loading Austin's list.
+                Sorry, there was a problem
+                loading Austin's list.
             </p>
         `;
 
 
         leighaGiftList.innerHTML = `
             <p>
-                Sorry, there was a problem loading Leigha's list.
+                Sorry, there was a problem
+                loading Leigha's list.
             </p>
         `;
 
@@ -228,10 +352,13 @@ onSnapshot(
 
 document.addEventListener(
     "click",
+
     (event) => {
 
         const button =
-            event.target.closest(".gift-claim-button");
+            event.target.closest(
+                ".gift-claim-button"
+            );
 
 
         if (!button) {
@@ -246,10 +373,27 @@ document.addEventListener(
 
 
         claimModalMessage.textContent =
-            `Are you sure you want to claim "${giftToClaim.name}"?`;
+            `You're claiming "${giftToClaim.name}".`;
 
 
-        claimModal.classList.remove("hidden");
+        claimEmail.value = "";
+
+        emailError.classList.add(
+            "hidden"
+        );
+
+
+        claimModal.classList.remove(
+            "hidden"
+        );
+
+
+        setTimeout(
+            () => {
+                claimEmail.focus();
+            },
+            100
+        );
 
     }
 );
@@ -261,11 +405,20 @@ document.addEventListener(
 
 cancelClaimButton.addEventListener(
     "click",
+
     () => {
 
         giftToClaim = null;
 
-        claimModal.classList.add("hidden");
+        claimEmail.value = "";
+
+        emailError.classList.add(
+            "hidden"
+        );
+
+        claimModal.classList.add(
+            "hidden"
+        );
 
     }
 );
@@ -277,6 +430,7 @@ cancelClaimButton.addEventListener(
 
 confirmClaimButton.addEventListener(
     "click",
+
     async () => {
 
         if (!giftToClaim) {
@@ -284,14 +438,46 @@ confirmClaimButton.addEventListener(
         }
 
 
+        const email =
+            claimEmail.value.trim();
+
+
+        // HTML email validation
+        if (
+            email === "" ||
+            !claimEmail.checkValidity()
+        ) {
+
+            emailError.classList.remove(
+                "hidden"
+            );
+
+            claimEmail.focus();
+
+            return;
+        }
+
+
+        emailError.classList.add(
+            "hidden"
+        );
+
+
         const giftId =
             giftToClaim.id;
 
 
-        confirmClaimButton.disabled = true;
+        confirmClaimButton.disabled =
+            true;
+
+        cancelClaimButton.disabled =
+            true;
 
         confirmClaimButton.textContent =
             "Claiming...";
+
+
+        let claimedGift = null;
 
 
         try {
@@ -304,15 +490,24 @@ confirmClaimButton.addEventListener(
                 );
 
 
+            // -----------------------------
+            // CLAIM THE GIFT
+            // -----------------------------
+
             await runTransaction(
                 db,
+
                 async (transaction) => {
 
                     const giftSnapshot =
-                        await transaction.get(giftRef);
+                        await transaction.get(
+                            giftRef
+                        );
 
 
-                    if (!giftSnapshot.exists()) {
+                    if (
+                        !giftSnapshot.exists()
+                    ) {
 
                         throw new Error(
                             "This gift no longer exists."
@@ -325,13 +520,18 @@ confirmClaimButton.addEventListener(
                         giftSnapshot.data();
 
 
-                    if (gift.claimed === true) {
+                    if (
+                        gift.claimed === true
+                    ) {
 
                         throw new Error(
                             "Sorry! Someone else already claimed this gift."
                         );
 
                     }
+
+
+                    claimedGift = gift;
 
 
                     transaction.update(
@@ -345,17 +545,400 @@ confirmClaimButton.addEventListener(
             );
 
 
-            claimModal.classList.add("hidden");
+            // -----------------------------
+            // CREATE UNDO LINK
+            // -----------------------------
+
+            const undoLink =
+                `${window.location.origin}` +
+                `${window.location.pathname}` +
+                `?undo=${encodeURIComponent(
+                    giftId
+                )}`;
+
+
+            // -----------------------------
+            // SEND EMAIL
+            // -----------------------------
+
+            const templateParams = {
+
+                to_email:
+                    email,
+
+                gift_name:
+                    claimedGift.name,
+
+                recipient:
+                    claimedGift.recipient ||
+                    "Austin & Leigha",
+
+                price:
+                    `$${Number(
+                        claimedGift.price
+                    ).toFixed(2)}`,
+
+                gift_url:
+                    claimedGift.url || "",
+
+                undo_link:
+                    undoLink
+
+            };
+
+
+            await window.emailjs.send(
+                EMAILJS_SERVICE_ID,
+                EMAILJS_TEMPLATE_ID,
+                templateParams
+            );
+
+
+            console.log(
+                "Confirmation email sent."
+            );
+
+
+            claimModal.classList.add(
+                "hidden"
+            );
 
 
             alert(
-                "Gift claimed! Thank you! 🎁"
+                "Gift claimed! 🎁\n\n" +
+                "Check your email for your " +
+                "confirmation and undo link."
             );
+
 
         } catch (error) {
 
             console.error(
                 "Error claiming gift:",
+                error
+            );
+
+
+            /*
+             * If Firebase successfully claimed
+             * the gift but EmailJS failed,
+             * put the gift back automatically.
+             */
+            if (claimedGift !== null) {
+
+                try {
+
+                    const giftRef =
+                        doc(
+                            db,
+                            "gifts",
+                            giftId
+                        );
+
+
+                    await runTransaction(
+                        db,
+
+                        async (
+                            transaction
+                        ) => {
+
+                            const snapshot =
+                                await transaction.get(
+                                    giftRef
+                                );
+
+
+                            if (
+                                snapshot.exists() &&
+                                snapshot.data()
+                                    .claimed === true
+                            ) {
+
+                                transaction.update(
+                                    giftRef,
+                                    {
+                                        claimed:
+                                            false
+                                    }
+                                );
+
+                            }
+
+                        }
+                    );
+
+
+                    console.log(
+                        "Claim rolled back because email failed."
+                    );
+
+                } catch (
+                    rollbackError
+                ) {
+
+                    console.error(
+                        "Could not roll back claim:",
+                        rollbackError
+                    );
+
+                }
+
+            }
+
+
+            alert(
+                "We couldn't complete the claim.\n\n" +
+                "The gift has been put back on the list. " +
+                "Please try again."
+            );
+
+        } finally {
+
+            giftToClaim = null;
+
+
+            confirmClaimButton.disabled =
+                false;
+
+            cancelClaimButton.disabled =
+                false;
+
+            confirmClaimButton.textContent =
+                "Claim Gift 🎁";
+
+        }
+
+    }
+);
+
+
+// ----------------------------------------------------
+// HANDLE UNDO LINK
+// ----------------------------------------------------
+
+async function checkForUndoLink() {
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const giftId =
+        params.get("undo");
+
+
+    if (!giftId) {
+        return;
+    }
+
+
+    try {
+
+        const giftRef =
+            doc(
+                db,
+                "gifts",
+                giftId
+            );
+
+
+        const giftSnapshot =
+            await getDoc(
+                giftRef
+            );
+
+
+        if (
+            !giftSnapshot.exists()
+        ) {
+
+            alert(
+                "This gift could not be found."
+            );
+
+            clearUndoUrl();
+
+            return;
+        }
+
+
+        const gift =
+            giftSnapshot.data();
+
+
+        if (
+            gift.claimed !== true
+        ) {
+
+            alert(
+                `"${gift.name}" is already ` +
+                "available on the Christmas list."
+            );
+
+            clearUndoUrl();
+
+            return;
+        }
+
+
+        giftToUndo = {
+            id: giftId,
+            name: gift.name
+        };
+
+
+        undoModalMessage.textContent =
+            `Would you like to put ` +
+            `"${gift.name}" back on the ` +
+            `Christmas list?`;
+
+
+        undoModal.classList.remove(
+            "hidden"
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Error loading undo gift:",
+            error
+        );
+
+    }
+
+}
+
+
+// ----------------------------------------------------
+// CANCEL UNDO
+// ----------------------------------------------------
+
+cancelUndoButton.addEventListener(
+    "click",
+
+    () => {
+
+        giftToUndo = null;
+
+        undoModal.classList.add(
+            "hidden"
+        );
+
+        clearUndoUrl();
+
+    }
+);
+
+
+// ----------------------------------------------------
+// CONFIRM UNDO
+// ----------------------------------------------------
+
+confirmUndoButton.addEventListener(
+    "click",
+
+    async () => {
+
+        if (!giftToUndo) {
+            return;
+        }
+
+
+        confirmUndoButton.disabled =
+            true;
+
+        cancelUndoButton.disabled =
+            true;
+
+        confirmUndoButton.textContent =
+            "Putting It Back...";
+
+
+        try {
+
+            const giftRef =
+                doc(
+                    db,
+                    "gifts",
+                    giftToUndo.id
+                );
+
+
+            await runTransaction(
+                db,
+
+                async (transaction) => {
+
+                    const giftSnapshot =
+                        await transaction.get(
+                            giftRef
+                        );
+
+
+                    if (
+                        !giftSnapshot.exists()
+                    ) {
+
+                        throw new Error(
+                            "This gift no longer exists."
+                        );
+
+                    }
+
+
+                    const gift =
+                        giftSnapshot.data();
+
+
+                    if (
+                        gift.claimed !== true
+                    ) {
+
+                        throw new Error(
+                            "This gift is already available."
+                        );
+
+                    }
+
+
+                    transaction.update(
+                        giftRef,
+                        {
+                            claimed: false
+                        }
+                    );
+
+                }
+            );
+
+
+            const giftName =
+                giftToUndo.name;
+
+
+            giftToUndo = null;
+
+
+            undoModal.classList.add(
+                "hidden"
+            );
+
+
+            clearUndoUrl();
+
+
+            alert(
+                `"${giftName}" has been put ` +
+                "back on the Christmas list! 🎁"
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Error undoing claim:",
                 error
             );
 
@@ -366,15 +949,38 @@ confirmClaimButton.addEventListener(
 
         } finally {
 
-            giftToClaim = null;
+            confirmUndoButton.disabled =
+                false;
 
+            cancelUndoButton.disabled =
+                false;
 
-            confirmClaimButton.disabled = false;
-
-            confirmClaimButton.textContent =
-                "Yes, Claim It!";
+            confirmUndoButton.textContent =
+                "Put It Back";
 
         }
 
     }
 );
+
+
+// ----------------------------------------------------
+// REMOVE ?undo= FROM URL
+// ----------------------------------------------------
+
+function clearUndoUrl() {
+
+    window.history.replaceState(
+        {},
+        "",
+        window.location.pathname
+    );
+
+}
+
+
+// ----------------------------------------------------
+// CHECK FOR UNDO WHEN PAGE LOADS
+// ----------------------------------------------------
+
+checkForUndoLink();
