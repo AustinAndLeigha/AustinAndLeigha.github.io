@@ -75,6 +75,24 @@
         .claim-button:hover {
             background: #10542c;
         }
+
+        .gift-card a {
+            display: inline-block;
+            margin-bottom: 10px;
+            color: #176b39;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .gift-card a:hover {
+            text-decoration: underline;
+        }
+
+        .gift-card button:disabled {
+            background: #aaaaaa;
+            color: white;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 
@@ -89,22 +107,11 @@
 
     <h2>Christmas Ideas</h2>
 
-    <div class="gift-list">
+    <div id="gift-list" class="gift-list">
 
-        <div class="gift-card">
-            <h2>Example Gift</h2>
-
-            <p>
-                This is just a test gift. We'll replace this with gifts
-                coming from Firebase shortly.
-            </p>
-
-            <p class="price">$49.99</p>
-
-            <button class="claim-button">
-                Claim Gift
-            </button>
-        </div>
+        <p id="loading-message">
+            Loading Christmas ideas...
+        </p>
 
     </div>
 
