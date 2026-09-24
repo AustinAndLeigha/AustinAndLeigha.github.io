@@ -54,20 +54,16 @@ onSnapshot(giftsCollection, (snapshot) => {
     }
 
 
-    snapshot.forEach((document) => {
+    snapshot.forEach((giftDoc) => {
 
-        const gift = document.data();
-        const giftId = document.id;
-
+        const gift = giftDoc.data();
+        const giftId = giftDoc.id;
 
         console.log("Gift:", giftId, gift);
 
-
-        // Create gift card
         const giftCard = document.createElement("div");
 
         giftCard.classList.add("gift-card");
-
 
         giftCard.innerHTML = `
             <h2>${gift.name}</h2>
@@ -118,9 +114,7 @@ onSnapshot(giftsCollection, (snapshot) => {
             }
         `;
 
-
         giftList.appendChild(giftCard);
-
     });
 
 }, (error) => {
