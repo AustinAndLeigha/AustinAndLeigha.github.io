@@ -31,13 +31,15 @@ const db = getFirestore(app);
 console.log("Firebase connected successfully!");
 
 
-// Get the gift list containers
+// Gift list containers
 const austinGiftList =
     document.getElementById("austin-gift-list");
 
 const leighaGiftList =
     document.getElementById("leigha-gift-list");
 
+
+// Modal elements
 const claimModal =
     document.getElementById("claim-modal");
 
@@ -54,29 +56,20 @@ const cancelClaimButton =
 let giftToClaim = null;
 
 
-// Listen to the gifts collection in real time
-const giftsCollection = collection(db, "gifts");
+// Firestore gifts collection
+const giftsCollection =
+    collection(db, "gifts");
 
 
-onSnapshot(giftsCollection, (snapshot) => {
+// ----------------------------------------------------
+// LOAD GIFTS
+// ----------------------------------------------------
 
-    // Clear the loading message / existing gifts
-    giftList.innerHTML = "";
+onSnapshot(
+    giftsCollection,
+    (snapshot) => {
 
-
-    // If there are no gifts
-    if (snapshot.empty) {
-
-        giftList.innerHTML = `
-            <p>No Christmas ideas have been added yet.</p>
-        `;
-
-        return;
-    }
-
-
-    onSnapshot(giftsCollection, (snapshot) => {
-
+        // Clear current lists
         austinGiftList.innerHTML = "";
         leighaGiftList.innerHTML = "";
 
@@ -91,12 +84,13 @@ onSnapshot(giftsCollection, (snapshot) => {
             const giftId = giftDoc.id;
 
 
-            // Do not show claimed gifts
-            if (gift.claimed) {
+            // Hide claimed gifts
+            if (gift.claimed === true) {
                 return;
             }
 
 
+            // Create gift card
             const giftCard =
                 document.createElement("div");
 
@@ -104,6 +98,7 @@ onSnapshot(giftsCollection, (snapshot) => {
 
 
             giftCard.innerHTML = `
+
                 ${
                     gift.imageUrl
                         ? `
@@ -116,7 +111,9 @@ onSnapshot(giftsCollection, (snapshot) => {
                         : ""
                 }
 
-                <h2>${gift.name}</h2>
+                <h2>
+                    ${gift.name}
+                </h2>
 
                 <p>
                     ${gift.description || ""}
@@ -153,9 +150,12 @@ onSnapshot(giftsCollection, (snapshot) => {
 
 
             const recipient =
-                (gift.recipient || "").toLowerCase();
+                (gift.recipient || "")
+                    .trim()
+                    .toLowerCase();
 
 
+            // Put gift in correct section
             if (recipient === "leigha") {
 
                 leighaGiftList.appendChild(giftCard);
@@ -173,6 +173,7 @@ onSnapshot(giftsCollection, (snapshot) => {
         });
 
 
+        // No Austin gifts
         if (austinGiftCount === 0) {
 
             austinGiftList.innerHTML = `
@@ -184,6 +185,7 @@ onSnapshot(giftsCollection, (snapshot) => {
         }
 
 
+        // No Leigha gifts
         if (leighaGiftCount === 0) {
 
             leighaGiftList.innerHTML = `
@@ -194,7 +196,8 @@ onSnapshot(giftsCollection, (snapshot) => {
 
         }
 
-    }, (error) => {
+    },
+    (error) => {
 
         console.error(
             "Error loading gifts:",
@@ -204,20 +207,28 @@ onSnapshot(giftsCollection, (snapshot) => {
 
         austinGiftList.innerHTML = `
             <p>
-                Sorry, there was a problem loading the list.
+                Sorry, there was a problem loading Austin's list.
             </p>
         `;
 
 
         leighaGiftList.innerHTML = `
             <p>
-                Sorry, there was a problem loading the list.
+                Sorry, there was a problem loading Leigha's list.
             </p>
         `;
 
-    });
+    }
+);
 
-    document.addEventListener("click", (event) => {
+
+// ----------------------------------------------------
+// OPEN CLAIM MODAL
+// ----------------------------------------------------
+
+document.addEventListener(
+    "click",
+    (event) => {
 
         const button =
             event.target.closest(".gift-claim-button");
@@ -240,124 +251,130 @@ onSnapshot(giftsCollection, (snapshot) => {
 
         claimModal.classList.remove("hidden");
 
-    });
+    }
+);
 
-    cancelClaimButton.addEventListener("click", () => {
+
+// ----------------------------------------------------
+// CANCEL CLAIM
+// ----------------------------------------------------
+
+cancelClaimButton.addEventListener(
+    "click",
+    () => {
 
         giftToClaim = null;
 
         claimModal.classList.add("hidden");
 
-    });
-
-    confirmClaimButton.addEventListener(
-        "click",
-        async () => {
-
-            if (!giftToClaim) {
-                return;
-            }
+    }
+);
 
 
-            const giftId = giftToClaim.id;
+// ----------------------------------------------------
+// CONFIRM CLAIM
+// ----------------------------------------------------
+
+confirmClaimButton.addEventListener(
+    "click",
+    async () => {
+
+        if (!giftToClaim) {
+            return;
+        }
 
 
-            confirmClaimButton.disabled = true;
-
-            confirmClaimButton.textContent =
-                "Claiming...";
+        const giftId =
+            giftToClaim.id;
 
 
-            try {
+        confirmClaimButton.disabled = true;
 
-                const giftRef =
-                    doc(db, "gifts", giftId);
+        confirmClaimButton.textContent =
+            "Claiming...";
 
 
-                await runTransaction(
+        try {
+
+            const giftRef =
+                doc(
                     db,
-                    async (transaction) => {
-
-                        const giftSnapshot =
-                            await transaction.get(giftRef);
-
-
-                        if (!giftSnapshot.exists()) {
-
-                            throw new Error(
-                                "This gift no longer exists."
-                            );
-
-                        }
+                    "gifts",
+                    giftId
+                );
 
 
-                        const gift =
-                            giftSnapshot.data();
+            await runTransaction(
+                db,
+                async (transaction) => {
+
+                    const giftSnapshot =
+                        await transaction.get(giftRef);
 
 
-                        if (gift.claimed === true) {
+                    if (!giftSnapshot.exists()) {
 
-                            throw new Error(
-                                "Sorry! Someone else already claimed this gift."
-                            );
-
-                        }
-
-
-                        transaction.update(
-                            giftRef,
-                            {
-                                claimed: true
-                            }
+                        throw new Error(
+                            "This gift no longer exists."
                         );
 
                     }
-                );
 
 
-                claimModal.classList.add("hidden");
-
-                alert(
-                    "Gift claimed! Thank you! 🎁"
-                );
+                    const gift =
+                        giftSnapshot.data();
 
 
-            } catch (error) {
+                    if (gift.claimed === true) {
 
-                console.error(
-                    "Error claiming gift:",
-                    error
-                );
+                        throw new Error(
+                            "Sorry! Someone else already claimed this gift."
+                        );
+
+                    }
 
 
-                alert(error.message);
+                    transaction.update(
+                        giftRef,
+                        {
+                            claimed: true
+                        }
+                    );
 
-            } finally {
+                }
+            );
 
-                giftToClaim = null;
 
-                confirmClaimButton.disabled = false;
+            claimModal.classList.add("hidden");
 
-                confirmClaimButton.textContent =
-                    "Yes, Claim It!";
 
-            }
+            alert(
+                "Gift claimed! Thank you! 🎁"
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Error claiming gift:",
+                error
+            );
+
+
+            alert(
+                error.message
+            );
+
+        } finally {
+
+            giftToClaim = null;
+
+
+            confirmClaimButton.disabled = false;
+
+            confirmClaimButton.textContent =
+                "Yes, Claim It!";
 
         }
-    );
 
-}, (error) => {
-
-    console.error(
-        "Error loading gifts:",
-        error
-    );
-
-
-    giftList.innerHTML = `
-        <p>
-            Sorry, there was a problem loading the Christmas list.
-        </p>
-    `;
-
-});
+    }
+);
