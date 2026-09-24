@@ -41,7 +41,7 @@ const EMAILJS_NORMAL_TEMPLATE_ID =
 // Create a second EmailJS template for reusable gifts.
 // Replace this with the new template ID.
 const EMAILJS_REUSABLE_TEMPLATE_ID =
-    "YOUR_REUSABLE_TEMPLATE_ID";
+    "template_c7nca4h";
 
 
 const EMAILJS_PUBLIC_KEY =
@@ -176,6 +176,58 @@ const giftsCollection =
     );
 
 
+function formatPrice(price) {
+
+    // No price provided
+    if (
+        price === undefined ||
+        price === null ||
+        price === ""
+    ) {
+        return "";
+    }
+
+
+    // If it's already a number
+    if (
+        typeof price === "number" &&
+        Number.isFinite(price)
+    ) {
+        return `$${price.toFixed(2)}`;
+    }
+
+
+    // If it's a string like "$25" or "25"
+    if (typeof price === "string") {
+
+        const cleaned =
+            price
+                .replace("$", "")
+                .replaceAll(",", "")
+                .trim();
+
+
+        const numericPrice =
+            Number(cleaned);
+
+
+        if (
+            cleaned !== "" &&
+            Number.isFinite(numericPrice)
+        ) {
+            return `$${numericPrice.toFixed(2)}`;
+        }
+
+
+        // Something like "Any Amount"
+        // or "$25+"
+        return price;
+    }
+
+
+    return String(price);
+}
+
 // ----------------------------------------------------
 // LOAD GIFTS
 // ----------------------------------------------------
@@ -276,11 +328,17 @@ onSnapshot(
                     </p>
 
 
-                    <p class="price">
-                        $${Number(
-                            gift.price
-                        ).toFixed(2)}
-                    </p>
+                    ${
+                        gift.price !== undefined &&
+                        gift.price !== null &&
+                        gift.price !== ""
+                            ? `
+                                <p class="price">
+                                    ${formatPrice(gift.price)}
+                                </p>
+                            `
+                            : ""
+                    }
 
 
                     ${
