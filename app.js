@@ -634,7 +634,7 @@ confirmClaimButton.addEventListener(
         ) {
 
             emailError.textContent =
-                "Please enter a valid email address.";
+                "Please enter a valid email address. Im not selling your data don't worry";
 
             emailError.classList.remove(
                 "hidden"
@@ -653,7 +653,7 @@ confirmClaimButton.addEventListener(
         ) {
 
             emailError.textContent =
-                "Please confirm your email address.";
+                "Please confirm your email address. Im not selling your data don't worry";
 
             emailError.classList.remove(
                 "hidden"
