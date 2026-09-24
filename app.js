@@ -31,8 +31,27 @@ const db = getFirestore(app);
 console.log("Firebase connected successfully!");
 
 
-// Get the gift list container
-const giftList = document.getElementById("gift-list");
+// Get the gift list containers
+const austinGiftList =
+    document.getElementById("austin-gift-list");
+
+const leighaGiftList =
+    document.getElementById("leigha-gift-list");
+
+const claimModal =
+    document.getElementById("claim-modal");
+
+const claimModalMessage =
+    document.getElementById("claim-modal-message");
+
+const confirmClaimButton =
+    document.getElementById("confirm-claim");
+
+const cancelClaimButton =
+    document.getElementById("cancel-claim");
+
+
+let giftToClaim = null;
 
 
 // Listen to the gifts collection in real time
@@ -58,29 +77,45 @@ onSnapshot(giftsCollection, (snapshot) => {
 
     onSnapshot(giftsCollection, (snapshot) => {
 
-        giftList.innerHTML = "";
+        austinGiftList.innerHTML = "";
+        leighaGiftList.innerHTML = "";
 
-        let availableGiftCount = 0;
+
+        let austinGiftCount = 0;
+        let leighaGiftCount = 0;
+
 
         snapshot.forEach((giftDoc) => {
 
             const gift = giftDoc.data();
             const giftId = giftDoc.id;
 
-            // Hide claimed gifts
+
+            // Do not show claimed gifts
             if (gift.claimed) {
                 return;
             }
 
-            availableGiftCount++;
 
-            console.log("Gift:", giftId, gift);
-
-            const giftCard = document.createElement("div");
+            const giftCard =
+                document.createElement("div");
 
             giftCard.classList.add("gift-card");
 
+
             giftCard.innerHTML = `
+                ${
+                    gift.imageUrl
+                        ? `
+                            <img
+                                src="${gift.imageUrl}"
+                                alt="${gift.name}"
+                                class="gift-image"
+                            >
+                        `
+                        : ""
+                }
+
                 <h2>${gift.name}</h2>
 
                 <p>
@@ -89,10 +124,6 @@ onSnapshot(giftsCollection, (snapshot) => {
 
                 <p class="price">
                     $${Number(gift.price).toFixed(2)}
-                </p>
-
-                <p>
-                    For: ${gift.recipient || "Austin & Leigha"}
                 </p>
 
                 ${
@@ -112,24 +143,52 @@ onSnapshot(giftsCollection, (snapshot) => {
                 }
 
                 <button
-                    class="claim-button"
+                    class="claim-button gift-claim-button"
                     data-id="${giftId}"
+                    data-name="${gift.name}"
                 >
                     Claim Gift
                 </button>
             `;
 
-            giftList.appendChild(giftCard);
+
+            const recipient =
+                (gift.recipient || "").toLowerCase();
+
+
+            if (recipient === "leigha") {
+
+                leighaGiftList.appendChild(giftCard);
+
+                leighaGiftCount++;
+
+            } else {
+
+                austinGiftList.appendChild(giftCard);
+
+                austinGiftCount++;
+
+            }
 
         });
 
 
-        // All gifts are claimed or no gifts exist
-        if (availableGiftCount === 0) {
+        if (austinGiftCount === 0) {
 
-            giftList.innerHTML = `
+            austinGiftList.innerHTML = `
                 <p>
-                    No Christmas ideas are currently available.
+                    No gifts currently available for Austin.
+                </p>
+            `;
+
+        }
+
+
+        if (leighaGiftCount === 0) {
+
+            leighaGiftList.innerHTML = `
+                <p>
+                    No gifts currently available for Leigha.
                 </p>
             `;
 
@@ -142,81 +201,150 @@ onSnapshot(giftsCollection, (snapshot) => {
             error
         );
 
-        giftList.innerHTML = `
+
+        austinGiftList.innerHTML = `
             <p>
-                Sorry, there was a problem loading the Christmas list.
+                Sorry, there was a problem loading the list.
+            </p>
+        `;
+
+
+        leighaGiftList.innerHTML = `
+            <p>
+                Sorry, there was a problem loading the list.
             </p>
         `;
 
     });
 
-    giftList.addEventListener("click", async (event) => {
+    document.addEventListener("click", (event) => {
 
-        // Only respond to Claim Gift buttons
-        if (!event.target.classList.contains("claim-button")) {
+        const button =
+            event.target.closest(".gift-claim-button");
+
+
+        if (!button) {
             return;
         }
 
-        const button = event.target;
-        const giftId = button.dataset.id;
 
-        // Ask the user before claiming
-        const confirmed = window.confirm(
-            "Are you sure you want to claim this gift?"
-        );
+        giftToClaim = {
+            id: button.dataset.id,
+            name: button.dataset.name
+        };
 
-        if (!confirmed) {
-            return;
-        }
 
-        // Temporarily disable the button
-        button.disabled = true;
-        button.textContent = "Claiming...";
+        claimModalMessage.textContent =
+            `Are you sure you want to claim "${giftToClaim.name}"?`;
 
-        try {
 
-            const giftRef = doc(db, "gifts", giftId);
-
-            await runTransaction(db, async (transaction) => {
-
-                const giftSnapshot = await transaction.get(giftRef);
-
-                if (!giftSnapshot.exists()) {
-                    throw new Error("This gift no longer exists.");
-                }
-
-                const gift = giftSnapshot.data();
-
-                // Someone beat us to it
-                if (gift.claimed === true) {
-                    throw new Error(
-                        "Sorry! Someone else already claimed this gift."
-                    );
-                }
-
-                // Claim the gift
-                transaction.update(giftRef, {
-                    claimed: true
-                });
-
-            });
-
-            console.log("Gift claimed successfully!");
-
-            alert("Gift claimed! Thank you! 🎁");
-
-        } catch (error) {
-
-            console.error("Error claiming gift:", error);
-
-            alert(error.message);
-
-            // Re-enable button if claim failed
-            button.disabled = false;
-            button.textContent = "Claim Gift";
-        }
+        claimModal.classList.remove("hidden");
 
     });
+
+    cancelClaimButton.addEventListener("click", () => {
+
+        giftToClaim = null;
+
+        claimModal.classList.add("hidden");
+
+    });
+
+    confirmClaimButton.addEventListener(
+        "click",
+        async () => {
+
+            if (!giftToClaim) {
+                return;
+            }
+
+
+            const giftId = giftToClaim.id;
+
+
+            confirmClaimButton.disabled = true;
+
+            confirmClaimButton.textContent =
+                "Claiming...";
+
+
+            try {
+
+                const giftRef =
+                    doc(db, "gifts", giftId);
+
+
+                await runTransaction(
+                    db,
+                    async (transaction) => {
+
+                        const giftSnapshot =
+                            await transaction.get(giftRef);
+
+
+                        if (!giftSnapshot.exists()) {
+
+                            throw new Error(
+                                "This gift no longer exists."
+                            );
+
+                        }
+
+
+                        const gift =
+                            giftSnapshot.data();
+
+
+                        if (gift.claimed === true) {
+
+                            throw new Error(
+                                "Sorry! Someone else already claimed this gift."
+                            );
+
+                        }
+
+
+                        transaction.update(
+                            giftRef,
+                            {
+                                claimed: true
+                            }
+                        );
+
+                    }
+                );
+
+
+                claimModal.classList.add("hidden");
+
+                alert(
+                    "Gift claimed! Thank you! 🎁"
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error claiming gift:",
+                    error
+                );
+
+
+                alert(error.message);
+
+            } finally {
+
+                giftToClaim = null;
+
+                confirmClaimButton.disabled = false;
+
+                confirmClaimButton.textContent =
+                    "Yes, Claim It!";
+
+            }
+
+        }
+    );
 
 }, (error) => {
 
