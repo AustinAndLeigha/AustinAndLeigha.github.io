@@ -105,6 +105,11 @@ const claimEmail =
         "claim-email"
     );
 
+const confirmClaimEmail =
+    document.getElementById(
+        "confirm-claim-email"
+    );
+
 
 const claimEmailHelp =
     document.getElementById(
@@ -538,6 +543,7 @@ document.addEventListener(
 
 
         claimEmail.value = "";
+        confirmClaimEmail.value = "";
 
 
         emailError.classList.add(
@@ -576,6 +582,7 @@ cancelClaimButton.addEventListener(
 
 
         claimEmail.value = "";
+        confirmClaimEmail.value = "";
 
 
         emailError.classList.add(
@@ -616,25 +623,68 @@ confirmClaimButton.addEventListener(
         const email =
             claimEmail.value.trim();
 
+        const confirmedEmail =
+            confirmClaimEmail.value.trim();
 
+
+        // First email is invalid
         if (
             email === "" ||
             !claimEmail.checkValidity()
         ) {
 
+            emailError.textContent =
+                "Please enter a valid email address.";
+
             emailError.classList.remove(
                 "hidden"
             );
 
-
             claimEmail.focus();
 
-
             return;
-
         }
 
 
+        // Confirmation email is invalid
+        if (
+            confirmedEmail === "" ||
+            !confirmClaimEmail.checkValidity()
+        ) {
+
+            emailError.textContent =
+                "Please confirm your email address.";
+
+            emailError.classList.remove(
+                "hidden"
+            );
+
+            confirmClaimEmail.focus();
+
+            return;
+        }
+
+
+        // Emails don't match
+        if (
+            email.toLowerCase() !==
+            confirmedEmail.toLowerCase()
+        ) {
+
+            emailError.textContent =
+                "The email addresses don't match. Please check them and try again.";
+
+            emailError.classList.remove(
+                "hidden"
+            );
+
+            confirmClaimEmail.focus();
+
+            return;
+        }
+
+
+        // Everything looks good
         emailError.classList.add(
             "hidden"
         );

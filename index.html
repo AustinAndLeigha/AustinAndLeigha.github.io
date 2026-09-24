@@ -804,6 +804,10 @@
                 min-height: 48px;
             }
 
+            .confirm-email-label {
+                margin-top: 16px;
+            }
+
         }
 
     </style>
@@ -978,11 +982,25 @@
             >
 
 
-            <small id="claim-email-help">
+            <label
+                    for="confirm-claim-email"
+                    class="confirm-email-label"
+            >
+                Confirm Your Email
+            </label>
 
+            <input
+                    type="email"
+                    id="confirm-claim-email"
+                    placeholder="Enter your email again"
+                    autocomplete="email"
+                    required
+            >
+
+
+            <small id="claim-email-help">
                 We'll email you a confirmation and a link
                 in case you need to put the gift back.
-
             </small>
 
 
@@ -991,8 +1009,6 @@
                     class="email-error hidden"
             >
                 Please enter a valid email address.
-                I'm not selling your data, I promise —
-                this just gives you the option to back out if needed.
             </p>
 
         </div>
