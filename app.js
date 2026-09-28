@@ -16,12 +16,25 @@ import {
 // ----------------------------------------------------
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBF50gjuKwNYo1tYmZjdSmun7p1vLeSu-s",
-    authDomain: "austinandleigha.firebaseapp.com",
-    projectId: "austinandleigha",
-    storageBucket: "austinandleigha.firebasestorage.app",
-    messagingSenderId: "848942131509",
-    appId: "1:848942131509:web:00a3e7e00472db7675847c"
+
+    apiKey:
+        "AIzaSyBF50gjuKwNYo1tYmZjdSmun7p1vLeSu-s",
+
+    authDomain:
+        "austinandleigha.firebaseapp.com",
+
+    projectId:
+        "austinandleigha",
+
+    storageBucket:
+        "austinandleigha.firebasestorage.app",
+
+    messagingSenderId:
+        "848942131509",
+
+    appId:
+        "1:848942131509:web:00a3e7e00472db7675847c"
+
 };
 
 
@@ -33,13 +46,13 @@ const EMAILJS_SERVICE_ID =
     "service_9dretzy";
 
 
-// Your EXISTING normal gift email template
+// Normal gift template
 const EMAILJS_NORMAL_TEMPLATE_ID =
     "template_djlq9ym";
 
 
-// Create a second EmailJS template for reusable gifts.
-// Replace this with the new template ID.
+// Replace this with the reusable gift template
+// you created in EmailJS.
 const EMAILJS_REUSABLE_TEMPLATE_ID =
     "template_c7nca4h";
 
@@ -49,7 +62,10 @@ const EMAILJS_PUBLIC_KEY =
 
 
 window.emailjs.init({
-    publicKey: EMAILJS_PUBLIC_KEY
+
+    publicKey:
+        EMAILJS_PUBLIC_KEY
+
 });
 
 
@@ -58,16 +74,109 @@ window.emailjs.init({
 // ----------------------------------------------------
 
 const app =
-    initializeApp(firebaseConfig);
+    initializeApp(
+        firebaseConfig
+    );
 
 
 const db =
-    getFirestore(app);
+    getFirestore(
+        app
+    );
 
 
 console.log(
     "Firebase connected successfully!"
 );
+
+
+// ----------------------------------------------------
+// FORMAT PRICE
+// ----------------------------------------------------
+
+function formatPrice(price) {
+
+    if (
+        price === undefined ||
+        price === null ||
+        price === ""
+    ) {
+
+        return "";
+
+    }
+
+
+    /*
+     * Firestore number:
+     *
+     * 25
+     * becomes
+     * $25.00
+     */
+
+    if (
+        typeof price === "number" &&
+        Number.isFinite(price)
+    ) {
+
+        return `$${price.toFixed(2)}`;
+
+    }
+
+
+    /*
+     * Strings are also allowed:
+     *
+     * "$25"
+     * "25"
+     * "Any Amount"
+     * "$25+"
+     */
+
+    if (
+        typeof price === "string"
+    ) {
+
+        const cleaned =
+            price
+                .replaceAll("$", "")
+                .replaceAll(",", "")
+                .trim();
+
+
+        const numericPrice =
+            Number(
+                cleaned
+            );
+
+
+        if (
+            cleaned !== "" &&
+            Number.isFinite(
+                numericPrice
+            )
+        ) {
+
+            return `$${numericPrice.toFixed(2)}`;
+
+        }
+
+
+        /*
+         * Non-numeric text remains unchanged.
+         */
+
+        return price;
+
+    }
+
+
+    return String(
+        price
+    );
+
+}
 
 
 // ----------------------------------------------------
@@ -104,6 +213,7 @@ const claimEmail =
     document.getElementById(
         "claim-email"
     );
+
 
 const confirmClaimEmail =
     document.getElementById(
@@ -165,9 +275,12 @@ const cancelUndoButton =
 // STATE
 // ----------------------------------------------------
 
-let giftToClaim = null;
+let giftToClaim =
+    null;
 
-let giftToUndo = null;
+
+let giftToUndo =
+    null;
 
 
 // ----------------------------------------------------
@@ -181,75 +294,30 @@ const giftsCollection =
     );
 
 
-function formatPrice(price) {
-
-    // No price provided
-    if (
-        price === undefined ||
-        price === null ||
-        price === ""
-    ) {
-        return "";
-    }
-
-
-    // If it's already a number
-    if (
-        typeof price === "number" &&
-        Number.isFinite(price)
-    ) {
-        return `$${price.toFixed(2)}`;
-    }
-
-
-    // If it's a string like "$25" or "25"
-    if (typeof price === "string") {
-
-        const cleaned =
-            price
-                .replace("$", "")
-                .replaceAll(",", "")
-                .trim();
-
-
-        const numericPrice =
-            Number(cleaned);
-
-
-        if (
-            cleaned !== "" &&
-            Number.isFinite(numericPrice)
-        ) {
-            return `$${numericPrice.toFixed(2)}`;
-        }
-
-
-        // Something like "Any Amount"
-        // or "$25+"
-        return price;
-    }
-
-
-    return String(price);
-}
-
 // ----------------------------------------------------
 // LOAD GIFTS
 // ----------------------------------------------------
 
 onSnapshot(
+
     giftsCollection,
 
     (snapshot) => {
 
-        austinGiftList.innerHTML = "";
+        austinGiftList.innerHTML =
+            "";
 
-        leighaGiftList.innerHTML = "";
+
+        leighaGiftList.innerHTML =
+            "";
 
 
-        let austinGiftCount = 0;
+        let austinGiftCount =
+            0;
 
-        let leighaGiftCount = 0;
+
+        let leighaGiftCount =
+            0;
 
 
         snapshot.forEach(
@@ -264,10 +332,11 @@ onSnapshot(
 
 
                 /*
-                 * Normal claimed gifts disappear.
+                 * Normal gifts disappear after being claimed.
                  *
                  * Reusable gifts stay visible forever.
                  */
+
                 if (
                     gift.claimed === true &&
                     gift.reusable !== true
@@ -302,66 +371,67 @@ onSnapshot(
                 const buttonText =
                     gift.reusable === true
                         ? "I'm Getting This 🎁"
-                        : "Claim Gift";
+                        : "Claim Gift 🎁";
+
+
+                const priceHtml =
+                    formatPrice(
+                        gift.price
+                    ) !== ""
+                        ? `
+                            <p class="price">
+                                ${formatPrice(
+                                    gift.price
+                                )}
+                            </p>
+                        `
+                        : "";
+
+
+                const imageHtml =
+                    gift.imageUrl
+                        ? `
+                            <img
+                                src="${gift.imageUrl}"
+                                alt="${gift.name}"
+                                class="gift-image"
+                            >
+                        `
+                        : "";
+
+
+                const viewGiftHtml =
+                    gift.url
+                        ? `
+                            <a
+                                href="${gift.url}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="view-gift-button"
+                            >
+                                View Gift ↗
+                            </a>
+                        `
+                        : "";
 
 
                 giftCard.innerHTML = `
 
-                    ${
-                        gift.imageUrl
-                            ? `
-                                <img
-                                    src="${gift.imageUrl}"
-                                    alt="${gift.name}"
-                                    class="gift-image"
-                                >
-                            `
-                            : ""
-                    }
-
+                    ${imageHtml}
 
                     ${reusableBadge}
-
 
                     <h2>
                         ${gift.name}
                     </h2>
 
-
                     <p>
                         ${gift.description || ""}
                     </p>
 
+                    ${priceHtml}
 
-                    ${
-                        gift.price !== undefined &&
-                        gift.price !== null &&
-                        gift.price !== ""
-                            ? `
-                                <p class="price">
-                                    ${formatPrice(gift.price)}
-                                </p>
-                            `
-                            : ""
-                    }
-
-
-                    ${
-                        gift.url
-                            ? `
-                                <p>
-                                    <a
-                                        href="${gift.url}"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        View Gift
-                                    </a>
-                                </p>
-                            `
-                            : ""
-                    }
-
+                    ${viewGiftHtml}
 
                     <button
                         class="
@@ -374,6 +444,7 @@ onSnapshot(
                     >
                         ${buttonText}
                     </button>
+
                 `;
 
 
@@ -382,8 +453,8 @@ onSnapshot(
                         gift.recipient ||
                         ""
                     )
-                    .trim()
-                    .toLowerCase();
+                        .trim()
+                        .toLowerCase();
 
 
                 if (
@@ -416,13 +487,13 @@ onSnapshot(
 
 
         if (
-            austinGiftCount === 0
+            austinGiftCount ===
+            0
         ) {
 
             austinGiftList.innerHTML = `
                 <p>
-                    No gifts currently
-                    available for Austin.
+                    No gifts currently available for Austin.
                 </p>
             `;
 
@@ -430,19 +501,20 @@ onSnapshot(
 
 
         if (
-            leighaGiftCount === 0
+            leighaGiftCount ===
+            0
         ) {
 
             leighaGiftList.innerHTML = `
                 <p>
-                    No gifts currently
-                    available for Leigha.
+                    No gifts currently available for Leigha.
                 </p>
             `;
 
         }
 
     },
+
 
     (error) => {
 
@@ -468,6 +540,7 @@ onSnapshot(
         `;
 
     }
+
 );
 
 
@@ -476,6 +549,7 @@ onSnapshot(
 // ----------------------------------------------------
 
 document.addEventListener(
+
     "click",
 
     (event) => {
@@ -486,8 +560,12 @@ document.addEventListener(
             );
 
 
-        if (!button) {
+        if (
+            !button
+        ) {
+
             return;
+
         }
 
 
@@ -506,6 +584,11 @@ document.addEventListener(
         };
 
 
+        /*
+         * Different messaging depending
+         * on whether the item is reusable.
+         */
+
         if (
             giftToClaim.reusable
         ) {
@@ -517,9 +600,9 @@ document.addEventListener(
 
 
             claimEmailHelp.textContent =
-                "We'll email you a confirmation. " +
-                "Because this item stays available, " +
-                "there's no need for an undo link.";
+                "Enter your email twice so we can send " +
+                "your confirmation to the correct address. " +
+                "This item stays available, so no undo link is needed.";
 
 
             confirmClaimButton.textContent =
@@ -532,8 +615,8 @@ document.addEventListener(
 
 
             claimEmailHelp.textContent =
-                "We'll email you a confirmation and a link " +
-                "in case you need to put the gift back.";
+                "Enter your email twice so we can make sure " +
+                "your confirmation and undo link go to the correct address.";
 
 
             confirmClaimButton.textContent =
@@ -542,8 +625,12 @@ document.addEventListener(
         }
 
 
-        claimEmail.value = "";
-        confirmClaimEmail.value = "";
+        claimEmail.value =
+            "";
+
+
+        confirmClaimEmail.value =
+            "";
 
 
         emailError.classList.add(
@@ -556,16 +643,24 @@ document.addEventListener(
         );
 
 
+        /*
+         * Focus email field after modal opens.
+         */
+
         setTimeout(
+
             () => {
 
                 claimEmail.focus();
 
             },
+
             100
+
         );
 
     }
+
 );
 
 
@@ -574,15 +669,21 @@ document.addEventListener(
 // ----------------------------------------------------
 
 cancelClaimButton.addEventListener(
+
     "click",
 
     () => {
 
-        giftToClaim = null;
+        giftToClaim =
+            null;
 
 
-        claimEmail.value = "";
-        confirmClaimEmail.value = "";
+        claimEmail.value =
+            "";
+
+
+        confirmClaimEmail.value =
+            "";
 
 
         emailError.classList.add(
@@ -599,6 +700,7 @@ cancelClaimButton.addEventListener(
             "Claim Gift 🎁";
 
     }
+
 );
 
 
@@ -607,6 +709,7 @@ cancelClaimButton.addEventListener(
 // ----------------------------------------------------
 
 confirmClaimButton.addEventListener(
+
     "click",
 
     async () => {
@@ -620,75 +723,93 @@ confirmClaimButton.addEventListener(
         }
 
 
+        // ------------------------------------------
+        // EMAIL VALIDATION
+        // ------------------------------------------
+
         const email =
             claimEmail.value.trim();
+
 
         const confirmedEmail =
             confirmClaimEmail.value.trim();
 
 
-        // First email is invalid
         if (
             email === "" ||
             !claimEmail.checkValidity()
         ) {
 
             emailError.textContent =
-                "Please enter a valid email address. Im not selling your data don't worry";
+                "Please enter a valid email address.";
+
 
             emailError.classList.remove(
                 "hidden"
             );
 
+
             claimEmail.focus();
 
+
             return;
+
         }
 
 
-        // Confirmation email is invalid
         if (
             confirmedEmail === "" ||
             !confirmClaimEmail.checkValidity()
         ) {
 
             emailError.textContent =
-                "Please confirm your email address. Im not selling your data don't worry";
+                "Please confirm your email address.";
+
 
             emailError.classList.remove(
                 "hidden"
             );
 
+
             confirmClaimEmail.focus();
 
+
             return;
+
         }
 
 
-        // Emails don't match
         if (
             email.toLowerCase() !==
             confirmedEmail.toLowerCase()
         ) {
 
             emailError.textContent =
-                "The email addresses don't match. Please check them and try again.";
+                "The email addresses don't match. " +
+                "Please check them and try again.";
+
 
             emailError.classList.remove(
                 "hidden"
             );
 
+
             confirmClaimEmail.focus();
 
+
             return;
+
         }
 
 
-        // Everything looks good
         emailError.classList.add(
             "hidden"
         );
 
+
+        // ------------------------------------------
+        // CAPTURE CLAIM VALUES
+        // ------------------------------------------
 
         const giftId =
             giftToClaim.id;
@@ -698,6 +819,10 @@ confirmClaimButton.addEventListener(
             giftToClaim.reusable;
 
 
+        // ------------------------------------------
+        // DISABLE BUTTONS
+        // ------------------------------------------
+
         confirmClaimButton.disabled =
             true;
 
@@ -706,13 +831,28 @@ confirmClaimButton.addEventListener(
             true;
 
 
-        confirmClaimButton.textContent =
+        /*
+         * Show real loading spinner.
+         */
+
+        confirmClaimButton.innerHTML =
             reusable
-                ? "Sending Confirmation..."
-                : "Claiming...";
+                ? `
+                    <span class="button-loading">
+                        <span class="button-spinner"></span>
+                        <span>Sending...</span>
+                    </span>
+                `
+                : `
+                    <span class="button-loading">
+                        <span class="button-spinner"></span>
+                        <span>Claiming...</span>
+                    </span>
+                `;
 
 
-        let claimedGift = null;
+        let claimedGift =
+            null;
 
 
         let normalGiftWasClaimed =
@@ -729,19 +869,17 @@ confirmClaimButton.addEventListener(
                 );
 
 
-            // ------------------------------------------------
+            // ------------------------------------------
             // REUSABLE GIFT
-            // ------------------------------------------------
+            // ------------------------------------------
 
             if (
                 reusable
             ) {
 
                 /*
-                 * Reusable gifts are read only.
-                 *
-                 * We DO NOT change claimed.
-                 * We DO NOT remove them from the site.
+                 * Reusable gifts are never marked
+                 * as claimed.
                  */
 
                 const giftSnapshot =
@@ -767,19 +905,19 @@ confirmClaimButton.addEventListener(
             }
 
 
-            // ------------------------------------------------
+            // ------------------------------------------
             // NORMAL GIFT
-            // ------------------------------------------------
+            // ------------------------------------------
 
             else {
 
                 /*
-                 * Normal gifts use a Firestore
-                 * transaction to prevent two people
-                 * from claiming the same gift.
+                 * Firestore transaction ensures two people
+                 * can't claim the same normal gift.
                  */
 
                 await runTransaction(
+
                     db,
 
                     async (
@@ -823,13 +961,18 @@ confirmClaimButton.addEventListener(
 
 
                         transaction.update(
+
                             giftRef,
+
                             {
-                                claimed: true
+                                claimed:
+                                    true
                             }
+
                         );
 
                     }
+
                 );
 
 
@@ -839,9 +982,9 @@ confirmClaimButton.addEventListener(
             }
 
 
-            // ------------------------------------------------
-            // CREATE UNDO LINK
-            // ------------------------------------------------
+            // ------------------------------------------
+            // UNDO LINK
+            // ------------------------------------------
 
             let undoLink =
                 "";
@@ -861,9 +1004,9 @@ confirmClaimButton.addEventListener(
             }
 
 
-            // ------------------------------------------------
+            // ------------------------------------------
             // EMAIL PARAMETERS
-            // ------------------------------------------------
+            // ------------------------------------------
 
             const templateParams = {
 
@@ -881,9 +1024,9 @@ confirmClaimButton.addEventListener(
 
 
                 price:
-                    `$${Number(
+                    formatPrice(
                         claimedGift.price
-                    ).toFixed(2)}`,
+                    ),
 
 
                 gift_url:
@@ -897,9 +1040,9 @@ confirmClaimButton.addEventListener(
             };
 
 
-            // ------------------------------------------------
+            // ------------------------------------------
             // PICK EMAIL TEMPLATE
-            // ------------------------------------------------
+            // ------------------------------------------
 
             const templateId =
                 reusable
@@ -907,9 +1050,9 @@ confirmClaimButton.addEventListener(
                     : EMAILJS_NORMAL_TEMPLATE_ID;
 
 
-            // ------------------------------------------------
+            // ------------------------------------------
             // SEND EMAIL
-            // ------------------------------------------------
+            // ------------------------------------------
 
             await window.emailjs.send(
 
@@ -932,9 +1075,9 @@ confirmClaimButton.addEventListener(
             );
 
 
-            // ------------------------------------------------
-            // SUCCESS MESSAGE
-            // ------------------------------------------------
+            // ------------------------------------------
+            // SUCCESS
+            // ------------------------------------------
 
             if (
                 reusable
@@ -968,16 +1111,14 @@ confirmClaimButton.addEventListener(
 
 
             /*
-             * If this was a NORMAL gift,
-             * Firebase claimed it,
-             * but the email failed,
+             * If Firebase claimed a NORMAL gift
+             * but EmailJS failed, automatically
              * put the gift back.
-             *
-             * Reusable gifts never need rollback
-             * because nothing was changed.
              */
+
             if (
-                normalGiftWasClaimed === true
+                normalGiftWasClaimed ===
+                true
             ) {
 
                 try {
@@ -991,6 +1132,7 @@ confirmClaimButton.addEventListener(
 
 
                     await runTransaction(
+
                         db,
 
                         async (
@@ -1005,21 +1147,26 @@ confirmClaimButton.addEventListener(
 
                             if (
                                 snapshot.exists() &&
-                                snapshot.data()
+                                snapshot
+                                    .data()
                                     .claimed === true
                             ) {
 
                                 transaction.update(
+
                                     giftRef,
+
                                     {
                                         claimed:
                                             false
                                     }
+
                                 );
 
                             }
 
                         }
+
                     );
 
 
@@ -1063,7 +1210,8 @@ confirmClaimButton.addEventListener(
 
         } finally {
 
-            giftToClaim = null;
+            giftToClaim =
+                null;
 
 
             confirmClaimButton.disabled =
@@ -1074,12 +1222,19 @@ confirmClaimButton.addEventListener(
                 false;
 
 
+            /*
+             * Restore normal button text after spinner.
+             */
+
             confirmClaimButton.textContent =
-                "Claim Gift 🎁";
+                reusable
+                    ? "I'm Getting This 🎁"
+                    : "Claim Gift 🎁";
 
         }
 
     }
+
 );
 
 
@@ -1148,8 +1303,9 @@ async function checkForUndoLink() {
 
 
         /*
-         * Reusable gifts never need to be undone.
+         * Reusable items should never need undo.
          */
+
         if (
             gift.reusable === true
         ) {
@@ -1226,11 +1382,13 @@ async function checkForUndoLink() {
 // ----------------------------------------------------
 
 cancelUndoButton.addEventListener(
+
     "click",
 
     () => {
 
-        giftToUndo = null;
+        giftToUndo =
+            null;
 
 
         undoModal.classList.add(
@@ -1241,6 +1399,7 @@ cancelUndoButton.addEventListener(
         clearUndoUrl();
 
     }
+
 );
 
 
@@ -1249,6 +1408,7 @@ cancelUndoButton.addEventListener(
 // ----------------------------------------------------
 
 confirmUndoButton.addEventListener(
+
     "click",
 
     async () => {
@@ -1270,8 +1430,16 @@ confirmUndoButton.addEventListener(
             true;
 
 
-        confirmUndoButton.textContent =
-            "Putting It Back...";
+        /*
+         * Spinner for undo operation too.
+         */
+
+        confirmUndoButton.innerHTML = `
+            <span class="button-loading">
+                <span class="button-spinner"></span>
+                <span>Putting It Back...</span>
+            </span>
+        `;
 
 
         try {
@@ -1285,6 +1453,7 @@ confirmUndoButton.addEventListener(
 
 
             await runTransaction(
+
                 db,
 
                 async (
@@ -1335,14 +1504,18 @@ confirmUndoButton.addEventListener(
 
 
                     transaction.update(
+
                         giftRef,
+
                         {
                             claimed:
                                 false
                         }
+
                     );
 
                 }
+
             );
 
 
@@ -1397,26 +1570,31 @@ confirmUndoButton.addEventListener(
         }
 
     }
+
 );
 
 
 // ----------------------------------------------------
-// REMOVE ?undo= FROM URL
+// REMOVE UNDO PARAMETER
 // ----------------------------------------------------
 
 function clearUndoUrl() {
 
     window.history.replaceState(
+
         {},
+
         "",
+
         window.location.pathname
+
     );
 
 }
 
 
 // ----------------------------------------------------
-// CHECK FOR UNDO WHEN PAGE LOADS
+// CHECK FOR UNDO ON PAGE LOAD
 // ----------------------------------------------------
 
 checkForUndoLink();

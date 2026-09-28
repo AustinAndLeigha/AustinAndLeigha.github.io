@@ -53,6 +53,12 @@
         }
 
 
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+
         /* -----------------------------------
            HEADER
         ----------------------------------- */
@@ -88,7 +94,8 @@
 
             border-radius: 50%;
 
-            background: rgba(255, 255, 255, 0.08);
+            background:
+                rgba(255, 255, 255, 0.08);
         }
 
 
@@ -112,6 +119,7 @@
 
         .header-content {
             position: relative;
+
             z-index: 1;
 
             max-width: 850px;
@@ -130,11 +138,12 @@
         header h1 {
             margin: 0;
 
-            font-size: clamp(
-                34px,
-                6vw,
-                54px
-            );
+            font-size:
+                clamp(
+                    34px,
+                    6vw,
+                    54px
+                );
 
             line-height: 1.1;
         }
@@ -149,6 +158,7 @@
             max-width: 700px;
 
             font-size: 18px;
+
             line-height: 1.6;
 
             opacity: 0.95;
@@ -156,7 +166,7 @@
 
 
         /* -----------------------------------
-           MAIN CONTENT
+           MAIN
         ----------------------------------- */
 
         main {
@@ -246,6 +256,8 @@
             width: 46px;
             height: 46px;
 
+            flex-shrink: 0;
+
             border-radius: 50%;
 
             background: #176b39;
@@ -253,8 +265,6 @@
             color: white;
 
             font-size: 22px;
-
-            flex-shrink: 0;
         }
 
 
@@ -290,8 +300,6 @@
             display: flex;
 
             flex-direction: column;
-
-            position: relative;
 
             background: white;
 
@@ -370,36 +378,13 @@
             margin:
                 6px
                 0
-                10px;
+                12px;
 
             font-size: 22px;
 
             font-weight: 700;
 
             color: #176b39;
-        }
-
-
-        .gift-card a {
-            display: inline-block;
-
-            color: #9b1c1c;
-
-            font-weight: 600;
-
-            text-decoration: none;
-
-            margin-bottom: 15px;
-        }
-
-
-        .gift-card a:hover {
-            text-decoration: underline;
-        }
-
-
-        .gift-card .claim-button {
-            margin-top: auto;
         }
 
 
@@ -412,11 +397,11 @@
 
             align-self: flex-start;
 
-            margin-bottom: 12px;
-
             padding:
                 6px
                 10px;
+
+            margin-bottom: 12px;
 
             border-radius: 999px;
 
@@ -427,6 +412,62 @@
             font-size: 13px;
 
             font-weight: 700;
+        }
+
+
+        /* -----------------------------------
+           VIEW GIFT BUTTON
+        ----------------------------------- */
+
+        .view-gift-button {
+            display: flex !important;
+
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+
+            min-height: 48px;
+
+            padding:
+                11px
+                16px;
+
+            margin:
+                4px
+                0
+                10px !important;
+
+            border:
+                1px
+                solid
+                #9b1c1c;
+
+            border-radius: 10px;
+
+            color: #9b1c1c !important;
+
+            text-decoration: none !important;
+
+            font-weight: 600;
+
+            transition:
+                background 0.15s ease,
+                transform 0.15s ease;
+        }
+
+
+        .view-gift-button:hover {
+            background:
+                rgba(155, 28, 28, 0.06);
+        }
+
+
+        .view-gift-button:active {
+            transform: scale(0.98);
+
+            background:
+                rgba(155, 28, 28, 0.1);
         }
 
 
@@ -449,6 +490,8 @@
 
             cursor: pointer;
 
+            touch-action: manipulation;
+
             transition:
                 transform 0.15s ease,
                 background 0.15s ease;
@@ -461,11 +504,17 @@
 
 
         .claim-button {
+            width: 100%;
+
+            min-height: 52px;
+
+            margin-top: auto;
+
             background: #176b39;
 
             color: white;
 
-            width: 100%;
+            font-size: 17px;
         }
 
 
@@ -475,21 +524,78 @@
 
 
         .claim-button:disabled {
-            background: #aaa;
+            background: #8f9b93;
 
             cursor: not-allowed;
+
+            transform: none;
         }
 
 
         .cancel-button {
+            min-height: 52px;
+
             background: #e8e8e8;
 
             color: #333;
+
+            font-size: 17px;
         }
 
 
         .cancel-button:hover {
             background: #d8d8d8;
+        }
+
+
+        .cancel-button:disabled {
+            cursor: not-allowed;
+
+            opacity: 0.6;
+        }
+
+
+        /* -----------------------------------
+           LOADING SPINNER
+        ----------------------------------- */
+
+        .button-loading {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 10px;
+        }
+
+
+        .button-spinner {
+            width: 18px;
+            height: 18px;
+
+            border:
+                2px
+                solid
+                rgba(255, 255, 255, 0.45);
+
+            border-top-color: white;
+
+            border-radius: 50%;
+
+            animation:
+                buttonSpin
+                0.7s
+                linear
+                infinite;
+        }
+
+
+        @keyframes buttonSpin {
+
+            to {
+                transform: rotate(360deg);
+            }
+
         }
 
 
@@ -547,7 +653,8 @@
 
             animation:
                 modalOpen
-                0.2s ease;
+                0.2s
+                ease;
         }
 
 
@@ -617,7 +724,7 @@
 
 
         /* -----------------------------------
-           EMAIL FIELD
+           EMAIL
         ----------------------------------- */
 
         .email-field {
@@ -635,6 +742,11 @@
             font-weight: 600;
 
             color: #333;
+        }
+
+
+        .confirm-email-label {
+            margin-top: 16px;
         }
 
 
@@ -666,7 +778,10 @@
             border-color: #176b39;
 
             box-shadow:
-                0 0 0 3px
+                0
+                0
+                0
+                3px
                 rgba(23, 107, 57, 0.15);
         }
 
@@ -674,17 +789,16 @@
         .email-field small {
             display: block;
 
-            margin-top: 8px;
+            margin-top: 10px;
 
             color: #777;
 
-            line-height: 1.4;
+            line-height: 1.45;
         }
 
 
         .email-error {
-            margin-top: 8px !important;
-            margin-bottom: 0 !important;
+            margin-top: 10px !important;
 
             color: #9b1c1c !important;
 
@@ -720,14 +834,28 @@
 
             header {
                 padding:
-                    45px
-                    18px
-                    60px;
+                    30px
+                    16px
+                    48px;
+            }
+
+
+            .christmas-icon {
+                font-size: 40px;
+
+                margin-bottom: 6px;
+            }
+
+
+            header h1 {
+                font-size: 32px;
             }
 
 
             header p {
-                font-size: 16px;
+                font-size: 15px;
+
+                line-height: 1.5;
             }
 
 
@@ -736,24 +864,51 @@
                     0
                     14px;
 
-                margin-top: -25px;
+                margin-top: -22px;
             }
 
 
             .intro-card {
                 padding:
-                    22px
-                    18px;
+                    18px
+                    16px;
+
+                margin-bottom: 28px;
+            }
+
+
+            .intro-card h2 {
+                font-size: 21px;
+            }
+
+
+            .intro-card p {
+                font-size: 14px;
+
+                line-height: 1.55;
             }
 
 
             .registry-section {
-                margin-bottom: 45px;
+                margin-bottom: 42px;
+            }
+
+
+            .registry-title {
+                margin-bottom: 16px;
+            }
+
+
+            .registry-title-icon {
+                width: 40px;
+                height: 40px;
+
+                font-size: 19px;
             }
 
 
             .registry-title h2 {
-                font-size: 23px;
+                font-size: 22px;
             }
 
 
@@ -765,47 +920,102 @@
 
 
             .gift-card {
-                padding: 16px;
+                padding: 15px;
+
+                border-radius: 14px;
             }
 
 
             .gift-image {
-                height: 250px;
+                height: 200px;
+
+                margin-bottom: 14px;
             }
 
 
             .gift-card h2 {
-                font-size: 22px;
+                margin-bottom: 6px;
+
+                font-size: 20px;
             }
 
 
-            .claim-button {
-                min-height: 50px;
+            .gift-card p {
+                margin-top: 6px;
 
-                font-size: 17px;
+                margin-bottom: 8px;
+            }
+
+
+            .gift-card .price {
+                font-size: 21px;
+            }
+
+
+            /*
+             * Bottom sheet style on phones
+             */
+
+            .modal {
+                align-items: flex-end;
+
+                padding: 0;
             }
 
 
             .modal-content {
+                width: 100%;
+
+                max-width: none;
+
+                max-height: 92dvh;
+
+                overflow-y: auto;
+
+                border-radius:
+                    22px
+                    22px
+                    0
+                    0;
+
                 padding:
-                    28px
-                    20px;
+                    24px
+                    18px
+                    calc(
+                        22px +
+                        env(safe-area-inset-bottom)
+                    );
+            }
+
+
+            .modal-icon {
+                font-size: 38px;
+            }
+
+
+            .modal-content h2 {
+                font-size: 24px;
             }
 
 
             .modal-buttons {
                 flex-direction: column-reverse;
+
+                gap: 10px;
+
+                margin-top: 22px;
             }
 
 
             .modal-buttons button {
                 width: 100%;
 
-                min-height: 48px;
+                min-height: 52px;
             }
 
-            .confirm-email-label {
-                margin-top: 16px;
+
+            .email-field {
+                margin-top: 20px;
             }
 
         }
@@ -855,19 +1065,20 @@
 
         <p>
             Browse either Austin's list or Leigha's below.
-            Once a gift is claimed, it will automatically
+            Once a normal gift is claimed, it will automatically
             disappear so everyone can avoid duplicates.
-            Gift cards and other reusable ideas will stay visible
-            so more than one person can get them.
+            Gift cards and other reusable ideas stay visible so
+            more than one person can get them.
             <br><br>
 
             <u>We will not be notified of who buys what!</u>
             It's completely <b>anonymous</b>.
+
             You will receive an email when an item is claimed
             telling you what you claimed.
 
-            If you need to back out of a gift,
-            click the "Undo Claim" link in your email.
+            If you need to back out of a normal gift,
+            use the Undo Claim link in your email.
 
             I'M NOT SELLING YOUR DATA lol.
 
@@ -881,7 +1092,7 @@
     </div>
 
 
-    <!-- Austin -->
+    <!-- AUSTIN -->
 
     <section class="registry-section">
 
@@ -902,17 +1113,15 @@
                 id="austin-gift-list"
                 class="gift-list"
         >
-
             <p>
                 Loading Austin's Christmas ideas...
             </p>
-
         </div>
 
     </section>
 
 
-    <!-- Leigha -->
+    <!-- LEIGHA -->
 
     <section class="registry-section">
 
@@ -933,11 +1142,9 @@
                 id="leigha-gift-list"
                 class="gift-list"
         >
-
             <p>
                 Loading Leigha's Christmas ideas...
             </p>
-
         </div>
 
     </section>
@@ -945,7 +1152,7 @@
 </main>
 
 
-<!-- Claim Modal -->
+<!-- CLAIM MODAL -->
 
 <div
         id="claim-modal"
@@ -958,9 +1165,11 @@
             🎄
         </div>
 
+
         <h2>
             Claim This Gift?
         </h2>
+
 
         <p id="claim-modal-message">
             Are you sure you want to claim this gift?
@@ -972,6 +1181,7 @@
             <label for="claim-email">
                 Your Email
             </label>
+
 
             <input
                     type="email"
@@ -989,6 +1199,7 @@
                 Confirm Your Email
             </label>
 
+
             <input
                     type="email"
                     id="confirm-claim-email"
@@ -999,8 +1210,9 @@
 
 
             <small id="claim-email-help">
-                We'll email you a confirmation and a link
-                in case you need to put the gift back.
+                Enter your email twice so we can make sure
+                your confirmation and undo link go to the
+                correct address.
             </small>
 
 
@@ -1038,7 +1250,7 @@
 </div>
 
 
-<!-- Undo Modal -->
+<!-- UNDO MODAL -->
 
 <div
         id="undo-modal"
@@ -1051,9 +1263,11 @@
             🎁
         </div>
 
+
         <h2>
             Put This Gift Back?
         </h2>
+
 
         <p id="undo-modal-message">
             Would you like to make this gift available again?
@@ -1096,7 +1310,7 @@
 
 <script
         type="module"
-        src="app.js?v=5">
+        src="app.js?v=6">
 </script>
 
 
