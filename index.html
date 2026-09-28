@@ -9,9 +9,47 @@
             content="width=device-width, initial-scale=1.0"
     >
 
+    <meta
+            name="theme-color"
+            content="#8f1717"
+    >
+
     <title>Austin & Leigha's Christmas List</title>
 
     <style>
+
+        /* ===================================================
+           COLORS / GLOBAL
+        =================================================== */
+
+        :root {
+            --christmas-red: #a51f28;
+            --christmas-red-dark: #74141a;
+
+            --christmas-green: #197042;
+            --christmas-green-dark: #0e4d2b;
+
+            --christmas-gold: #d3a83f;
+            --christmas-gold-light: #fff5d5;
+
+            --cream: #fbf8f2;
+            --cream-dark: #f3eee5;
+
+            --text: #262626;
+            --text-soft: #646464;
+
+            --card: rgba(255, 255, 255, 0.96);
+
+            --shadow-small:
+                0 4px 14px rgba(44, 31, 23, 0.07);
+
+            --shadow-medium:
+                0 12px 32px rgba(44, 31, 23, 0.11);
+
+            --shadow-large:
+                0 24px 70px rgba(0, 0, 0, 0.25);
+        }
+
 
         * {
             box-sizing: border-box;
@@ -26,185 +64,437 @@
         body {
             margin: 0;
 
+            min-height: 100vh;
+
             font-family:
                 -apple-system,
                 BlinkMacSystemFont,
                 "Segoe UI",
                 Roboto,
+                Helvetica,
                 Arial,
                 sans-serif;
 
+            color: var(--text);
+
             background:
                 radial-gradient(
-                    circle at top left,
-                    rgba(155, 28, 28, 0.08),
-                    transparent 35%
+                    circle at 10% 10%,
+                    rgba(165, 31, 40, 0.06),
+                    transparent 30%
                 ),
                 radial-gradient(
-                    circle at bottom right,
-                    rgba(23, 107, 57, 0.08),
-                    transparent 35%
+                    circle at 90% 30%,
+                    rgba(25, 112, 66, 0.07),
+                    transparent 32%
                 ),
-                #f7f5f2;
+                linear-gradient(
+                    180deg,
+                    #fffdfa 0%,
+                    var(--cream) 50%,
+                    #f7f3ec 100%
+                );
+        }
 
-            color: #222;
 
-            min-height: 100vh;
+        body::before {
+            content: "";
+
+            position: fixed;
+
+            inset: 0;
+
+            pointer-events: none;
+
+            z-index: -1;
+
+            opacity: 0.35;
+
+            background-image:
+                radial-gradient(
+                    circle,
+                    rgba(255, 255, 255, 0.9) 1px,
+                    transparent 1.5px
+                );
+
+            background-size: 28px 28px;
         }
 
 
         button,
-        a {
+        a,
+        summary {
             -webkit-tap-highlight-color: transparent;
         }
 
 
-        /* -----------------------------------
-           HEADER
-        ----------------------------------- */
+        button,
+        input {
+            font: inherit;
+        }
+
+
+        button {
+            touch-action: manipulation;
+        }
+
+
+        /* ===================================================
+           HERO
+        =================================================== */
 
         header {
             position: relative;
 
             overflow: hidden;
 
-            background:
-                linear-gradient(
-                    135deg,
-                    #8f1717,
-                    #b52222
-                );
-
             color: white;
 
             text-align: center;
 
             padding:
-                60px
+                56px
                 20px
-                70px;
+                86px;
+
+            background:
+                radial-gradient(
+                    circle at 15% 20%,
+                    rgba(255, 255, 255, 0.15),
+                    transparent 22%
+                ),
+                radial-gradient(
+                    circle at 85% 80%,
+                    rgba(255, 221, 146, 0.14),
+                    transparent 26%
+                ),
+                linear-gradient(
+                    135deg,
+                    var(--christmas-red-dark),
+                    var(--christmas-red) 58%,
+                    #bd3038
+                );
+
+            box-shadow:
+                inset 0 -1px rgba(255, 255, 255, 0.12);
         }
 
 
-        header::before,
+        header::before {
+            content: "";
+
+            position: absolute;
+
+            width: 450px;
+            height: 450px;
+
+            top: -320px;
+            left: -180px;
+
+            border-radius: 50%;
+
+            border:
+                70px
+                solid
+                rgba(255, 255, 255, 0.04);
+        }
+
+
         header::after {
             content: "";
 
             position: absolute;
 
+            width: 400px;
+            height: 400px;
+
+            right: -220px;
+            bottom: -300px;
+
             border-radius: 50%;
 
-            background:
-                rgba(255, 255, 255, 0.08);
+            border:
+                70px
+                solid
+                rgba(255, 255, 255, 0.05);
         }
 
 
-        header::before {
-            width: 300px;
-            height: 300px;
+        .snow {
+            position: absolute;
 
-            top: -170px;
-            left: -100px;
+            inset: 0;
+
+            overflow: hidden;
+
+            pointer-events: none;
         }
 
 
-        header::after {
-            width: 350px;
-            height: 350px;
+        .snow span {
+            position: absolute;
 
-            bottom: -230px;
-            right: -120px;
+            top: -40px;
+
+            color: rgba(255, 255, 255, 0.52);
+
+            font-size: 18px;
+
+            animation:
+                snowfall
+                linear
+                infinite;
+        }
+
+
+        .snow span:nth-child(1) {
+            left: 5%;
+            animation-duration: 16s;
+            animation-delay: -4s;
+        }
+
+        .snow span:nth-child(2) {
+            left: 15%;
+            animation-duration: 20s;
+            animation-delay: -11s;
+        }
+
+        .snow span:nth-child(3) {
+            left: 28%;
+            animation-duration: 18s;
+            animation-delay: -7s;
+        }
+
+        .snow span:nth-child(4) {
+            left: 41%;
+            animation-duration: 23s;
+            animation-delay: -15s;
+        }
+
+        .snow span:nth-child(5) {
+            left: 56%;
+            animation-duration: 17s;
+            animation-delay: -2s;
+        }
+
+        .snow span:nth-child(6) {
+            left: 69%;
+            animation-duration: 21s;
+            animation-delay: -9s;
+        }
+
+        .snow span:nth-child(7) {
+            left: 80%;
+            animation-duration: 19s;
+            animation-delay: -13s;
+        }
+
+        .snow span:nth-child(8) {
+            left: 92%;
+            animation-duration: 24s;
+            animation-delay: -6s;
+        }
+
+
+        @keyframes snowfall {
+
+            from {
+                transform:
+                    translateY(-40px)
+                    rotate(0deg);
+            }
+
+            to {
+                transform:
+                    translateY(520px)
+                    rotate(180deg);
+            }
+
         }
 
 
         .header-content {
             position: relative;
 
-            z-index: 1;
+            z-index: 2;
 
-            max-width: 850px;
+            max-width: 760px;
 
             margin: auto;
         }
 
 
-        .christmas-icon {
-            font-size: 52px;
+        .hero-badge {
+            display: inline-flex;
 
-            margin-bottom: 10px;
+            align-items: center;
+
+            gap: 7px;
+
+            padding:
+                7px
+                13px;
+
+            margin-bottom: 17px;
+
+            border:
+                1px
+                solid
+                rgba(255, 255, 255, 0.2);
+
+            border-radius: 999px;
+
+            background:
+                rgba(255, 255, 255, 0.1);
+
+            backdrop-filter: blur(8px);
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            letter-spacing: 0.03em;
+
+            text-transform: uppercase;
+        }
+
+
+        .christmas-icon {
+            margin-bottom: 6px;
+
+            font-size: 56px;
+
+            filter:
+                drop-shadow(
+                    0 4px 5px rgba(0, 0, 0, 0.16)
+                );
         }
 
 
         header h1 {
             margin: 0;
 
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
             font-size:
                 clamp(
-                    34px,
-                    6vw,
-                    54px
+                    38px,
+                    7vw,
+                    62px
                 );
 
-            line-height: 1.1;
+            line-height: 1.03;
+
+            letter-spacing: -0.025em;
+
+            text-shadow:
+                0 4px 18px
+                rgba(0, 0, 0, 0.18);
         }
 
 
         header p {
+            max-width: 660px;
+
             margin:
-                18px
+                20px
                 auto
                 0;
 
-            max-width: 700px;
+            font-size: 17px;
 
-            font-size: 18px;
+            line-height: 1.65;
 
-            line-height: 1.6;
-
-            opacity: 0.95;
+            color:
+                rgba(255, 255, 255, 0.92);
         }
 
 
-        /* -----------------------------------
+        /* ===================================================
            MAIN
-        ----------------------------------- */
+        =================================================== */
 
         main {
+            position: relative;
+
+            z-index: 3;
+
             width: 100%;
 
-            max-width: 1200px;
+            max-width: 1180px;
 
             margin:
-                -30px
+                -42px
                 auto
-                60px;
+                70px;
 
             padding:
                 0
-                24px;
-
-            position: relative;
-
-            z-index: 2;
+                22px;
         }
 
 
+        /* ===================================================
+           INTRO / HOW IT WORKS
+        =================================================== */
+
         .intro-card {
-            background: white;
+            position: relative;
 
-            border-radius: 18px;
+            overflow: hidden;
 
-            padding: 26px;
+            max-width: 880px;
 
-            margin-bottom: 35px;
+            margin:
+                0
+                auto
+                38px;
+
+            padding:
+                28px
+                28px
+                24px;
 
             text-align: center;
 
+            border:
+                1px
+                solid
+                rgba(255, 255, 255, 0.8);
+
+            border-radius: 22px;
+
+            background:
+                rgba(255, 255, 255, 0.94);
+
+            backdrop-filter: blur(12px);
+
             box-shadow:
-                0
-                8px
-                30px
-                rgba(0, 0, 0, 0.08);
+                var(--shadow-medium);
+        }
+
+
+        .intro-card::before {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: 0;
+            right: 0;
+
+            height: 4px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--christmas-red),
+                    var(--christmas-gold),
+                    var(--christmas-green)
+                );
         }
 
 
@@ -212,63 +502,329 @@
             margin:
                 0
                 0
-                12px;
+                8px;
 
-            color: #176b39;
+            color: var(--christmas-green-dark);
+
+            font-size: 24px;
         }
 
 
-        .intro-card p {
-            margin: 0;
+        .intro-tagline {
+            margin:
+                0
+                auto
+                22px;
 
-            color: #555;
+            max-width: 610px;
+
+            color: var(--text-soft);
+
+            line-height: 1.55;
+        }
+
+
+        .quick-steps {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 10px;
+
+            margin:
+                20px
+                0;
+        }
+
+
+        .quick-step {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 8px;
+
+            min-height: 48px;
+
+            padding:
+                9px
+                12px;
+
+            border:
+                1px
+                solid
+                #e8e3db;
+
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #ffffff,
+                    #faf8f4
+                );
+
+            color: #454545;
+
+            font-size: 14px;
+
+            font-weight: 700;
+        }
+
+
+        .step-number {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            width: 26px;
+            height: 26px;
+
+            flex-shrink: 0;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    var(--christmas-green),
+                    var(--christmas-green-dark)
+                );
+
+            color: white;
+
+            font-size: 13px;
+
+            box-shadow:
+                0 3px 8px
+                rgba(25, 112, 66, 0.22);
+        }
+
+
+        .how-it-works {
+            margin-top: 19px;
+
+            padding-top: 16px;
+
+            border-top:
+                1px
+                solid
+                #ece7df;
+        }
+
+
+        .how-it-works summary {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 7px;
+
+            min-height: 42px;
+
+            cursor: pointer;
+
+            list-style: none;
+
+            color: var(--christmas-green);
+
+            font-weight: 750;
+        }
+
+
+        .how-it-works summary::-webkit-details-marker {
+            display: none;
+        }
+
+
+        .how-it-works summary::after {
+            content: "⌄";
+
+            display: inline-block;
+
+            font-size: 20px;
+
+            transition:
+                transform 0.2s ease;
+        }
+
+
+        .how-it-works[open] summary::after {
+            transform:
+                rotate(180deg);
+        }
+
+
+        .how-it-works-content {
+            max-width: 680px;
+
+            margin:
+                5px
+                auto
+                0;
+
+            padding:
+                10px
+                5px
+                0;
+
+            text-align: left;
+
+            color: var(--text-soft);
+
+            font-size: 14px;
 
             line-height: 1.65;
         }
 
 
-        /* -----------------------------------
-           REGISTRY SECTIONS
-        ----------------------------------- */
+        .how-it-works-content p {
+            margin:
+                0
+                0
+                12px;
+        }
+
+
+        /* ===================================================
+           QUICK LIST NAVIGATION
+        =================================================== */
+
+        .list-switcher {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 12px;
+
+            max-width: 620px;
+
+            margin:
+                0
+                auto
+                42px;
+        }
+
+
+        .list-switcher a {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 8px;
+
+            min-height: 50px;
+
+            padding:
+                10px
+                14px;
+
+            border-radius: 15px;
+
+            text-decoration: none;
+
+            font-weight: 750;
+
+            transition:
+                transform 0.18s ease,
+                box-shadow 0.18s ease;
+        }
+
+
+        .list-switcher a:first-child {
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--christmas-red),
+                    #bd3840
+                );
+
+            box-shadow:
+                0 7px 18px
+                rgba(165, 31, 40, 0.18);
+        }
+
+
+        .list-switcher a:last-child {
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--christmas-green),
+                    #258b57
+                );
+
+            box-shadow:
+                0 7px 18px
+                rgba(25, 112, 66, 0.18);
+        }
+
+
+        .list-switcher a:hover {
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* ===================================================
+           REGISTRY
+        =================================================== */
 
         .registry-section {
-            margin-bottom: 55px;
+            scroll-margin-top: 85px;
+
+            margin-bottom: 62px;
         }
 
 
         .registry-title {
-            display: flex;
-
-            align-items: center;
-
-            gap: 12px;
-
             position: sticky;
 
             top: 0;
 
             z-index: 100;
 
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
             padding:
-                12px
-                8px;
+                11px
+                10px;
 
             margin:
                 0
-                -8px
-                20px;
-
-            background:
-                rgba(247, 245, 242, 0.96);
-
-            backdrop-filter: blur(8px);
-
-            -webkit-backdrop-filter: blur(8px);
+                -10px
+                22px;
 
             border-bottom:
                 1px
                 solid
-                rgba(0, 0, 0, 0.06);
+                rgba(45, 45, 45, 0.07);
+
+            background:
+                rgba(251, 248, 242, 0.94);
+
+            backdrop-filter:
+                blur(14px);
+
+            -webkit-backdrop-filter:
+                blur(14px);
+
+            box-shadow:
+                0 5px 18px
+                rgba(0, 0, 0, 0.035);
         }
 
 
@@ -278,31 +834,38 @@
             align-items: center;
             justify-content: center;
 
-            width: 46px;
-            height: 46px;
+            width: 45px;
+            height: 45px;
 
             flex-shrink: 0;
 
-            border-radius: 50%;
-
-            background: #176b39;
+            border-radius: 14px;
 
             color: white;
 
-            font-size: 22px;
+            font-size: 21px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    var(--christmas-green),
+                    var(--christmas-green-dark)
+                );
+
+            box-shadow:
+                0 5px 13px
+                rgba(25, 112, 66, 0.2);
         }
 
 
         .registry-title h2 {
             margin: 0;
 
-            font-size: 28px;
+            font-size: 27px;
+
+            letter-spacing: -0.025em;
         }
 
-
-        /* -----------------------------------
-           GIFT GRID
-        ----------------------------------- */
 
         .gift-list {
             display: grid;
@@ -310,73 +873,121 @@
             grid-template-columns:
                 repeat(
                     auto-fill,
-                    minmax(260px, 1fr)
+                    minmax(270px, 1fr)
                 );
 
-            gap: 24px;
+            gap: 22px;
         }
 
 
-        /* -----------------------------------
+        /* ===================================================
            GIFT CARD
-        ----------------------------------- */
+        =================================================== */
 
         .gift-card {
+            position: relative;
+
             display: flex;
 
             flex-direction: column;
 
-            background: white;
+            min-width: 0;
 
-            border-radius: 16px;
-
-            padding: 18px;
+            padding: 16px;
 
             overflow: hidden;
-
-            box-shadow:
-                0
-                5px
-                18px
-                rgba(0, 0, 0, 0.08);
 
             border:
                 1px
                 solid
-                rgba(0, 0, 0, 0.05);
+                rgba(65, 54, 43, 0.08);
+
+            border-radius: 20px;
+
+            background:
+                var(--card);
+
+            box-shadow:
+                var(--shadow-small);
 
             transition:
                 transform 0.2s ease,
-                box-shadow 0.2s ease;
+                box-shadow 0.2s ease,
+                border-color 0.2s ease;
         }
 
 
-        .gift-card:hover {
-            transform:
-                translateY(-4px);
+        .gift-card::before {
+            content: "";
 
-            box-shadow:
-                0
-                10px
-                28px
-                rgba(0, 0, 0, 0.12);
+            position: absolute;
+
+            top: 0;
+            left: 0;
+            right: 0;
+
+            height: 3px;
+
+            opacity: 0;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--christmas-red),
+                    var(--christmas-gold),
+                    var(--christmas-green)
+                );
+
+            transition:
+                opacity 0.2s ease;
+        }
+
+
+        @media (hover: hover) {
+
+            .gift-card:hover {
+                transform:
+                    translateY(-5px);
+
+                border-color:
+                    rgba(25, 112, 66, 0.16);
+
+                box-shadow:
+                    var(--shadow-medium);
+            }
+
+
+            .gift-card:hover::before {
+                opacity: 1;
+            }
+
         }
 
 
         .gift-image {
             width: 100%;
 
-            height: 230px;
+            height: 225px;
 
             object-fit: contain;
 
-            padding: 12px;
+            padding: 16px;
 
-            border-radius: 12px;
+            margin-bottom: 16px;
 
-            background: #f8f8f8;
+            border:
+                1px
+                solid
+                #eeeae4;
 
-            margin-bottom: 18px;
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #ffffff,
+                    #f8f6f1
+                );
         }
 
 
@@ -384,65 +995,89 @@
             margin:
                 0
                 0
-                10px;
+                7px;
 
-            font-size: 21px;
+            font-size: 20px;
 
             line-height: 1.3;
+
+            letter-spacing: -0.015em;
         }
 
 
         .gift-card p {
-            color: #555;
+            margin:
+                5px
+                0
+                9px;
+
+            color: var(--text-soft);
 
             line-height: 1.5;
+
+            font-size: 14px;
         }
 
 
         .gift-card .price {
             margin:
-                6px
+                5px
                 0
-                12px;
+                13px;
+
+            color: var(--christmas-green);
 
             font-size: 22px;
 
-            font-weight: 700;
+            font-weight: 800;
 
-            color: #176b39;
+            letter-spacing: -0.02em;
         }
 
 
-        /* -----------------------------------
-           REUSABLE BADGE
-        ----------------------------------- */
-
         .reusable-badge {
-            display: inline-block;
+            display: inline-flex;
 
             align-self: flex-start;
+
+            align-items: center;
+
+            gap: 4px;
+
+            margin:
+                0
+                0
+                10px;
 
             padding:
                 6px
                 10px;
 
-            margin-bottom: 12px;
+            border:
+                1px
+                solid
+                #f0d98a;
 
             border-radius: 999px;
 
-            background: #fff4cf;
+            background:
+                linear-gradient(
+                    180deg,
+                    #fff9e8,
+                    var(--christmas-gold-light)
+                );
 
-            color: #755600;
+            color: #715510;
 
-            font-size: 13px;
+            font-size: 12px;
 
-            font-weight: 700;
+            font-weight: 750;
         }
 
 
-        /* -----------------------------------
-           VIEW GIFT BUTTON
-        ----------------------------------- */
+        /* ===================================================
+           GIFT ACTIONS
+        =================================================== */
 
         .view-gift-button {
             display: flex !important;
@@ -455,76 +1090,77 @@
             min-height: 48px;
 
             padding:
-                11px
-                16px;
+                10px
+                15px;
 
             margin:
-                4px
+                auto
                 0
-                10px !important;
+                9px !important;
 
             border:
-                1px
+                1.5px
                 solid
-                #9b1c1c;
+                rgba(165, 31, 40, 0.7);
 
-            border-radius: 10px;
+            border-radius: 12px;
 
-            color: #9b1c1c !important;
+            color:
+                var(--christmas-red) !important;
 
-            text-decoration: none !important;
+            text-decoration:
+                none !important;
 
-            font-weight: 600;
+            font-size: 15px;
+
+            font-weight: 750;
+
+            background: white;
 
             transition:
                 background 0.15s ease,
-                transform 0.15s ease;
+                transform 0.15s ease,
+                box-shadow 0.15s ease;
         }
 
 
         .view-gift-button:hover {
             background:
-                rgba(155, 28, 28, 0.06);
+                rgba(165, 31, 40, 0.045);
         }
 
 
         .view-gift-button:active {
-            transform: scale(0.98);
-
-            background:
-                rgba(155, 28, 28, 0.1);
+            transform:
+                scale(0.985);
         }
 
 
-        /* -----------------------------------
-           BUTTONS
-        ----------------------------------- */
-
         button {
-            border: none;
+            border: 0;
 
-            border-radius: 10px;
+            border-radius: 12px;
 
             padding:
-                13px
-                20px;
-
-            font-size: 16px;
-
-            font-weight: 600;
+                12px
+                18px;
 
             cursor: pointer;
 
-            touch-action: manipulation;
+            font-size: 16px;
+
+            font-weight: 750;
 
             transition:
                 transform 0.15s ease,
-                background 0.15s ease;
+                filter 0.15s ease,
+                box-shadow 0.15s ease;
         }
 
 
         button:active {
-            transform: scale(0.98);
+            transform:
+                scale(0.985);
         }
 
 
@@ -535,23 +1171,33 @@
 
             margin-top: auto;
 
-            background: #176b39;
-
             color: white;
 
-            font-size: 17px;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--christmas-green),
+                    var(--christmas-green-dark)
+                );
+
+            box-shadow:
+                0 7px 18px
+                rgba(25, 112, 66, 0.2);
         }
 
 
         .claim-button:hover {
-            background: #10542c;
+            filter:
+                brightness(1.06);
         }
 
 
         .claim-button:disabled {
-            background: #8f9b93;
-
             cursor: not-allowed;
+
+            background: #89948d;
+
+            box-shadow: none;
 
             transform: none;
         }
@@ -560,16 +1206,14 @@
         .cancel-button {
             min-height: 52px;
 
-            background: #e8e8e8;
+            color: #404040;
 
-            color: #333;
-
-            font-size: 17px;
+            background: #ededed;
         }
 
 
         .cancel-button:hover {
-            background: #d8d8d8;
+            background: #dfdfdf;
         }
 
 
@@ -580,9 +1224,9 @@
         }
 
 
-        /* -----------------------------------
-           LOADING SPINNER
-        ----------------------------------- */
+        /* ===================================================
+           SPINNER
+        =================================================== */
 
         .button-loading {
             display: inline-flex;
@@ -590,7 +1234,7 @@
             align-items: center;
             justify-content: center;
 
-            gap: 10px;
+            gap: 9px;
         }
 
 
@@ -601,7 +1245,7 @@
             border:
                 2px
                 solid
-                rgba(255, 255, 255, 0.45);
+                rgba(255, 255, 255, 0.42);
 
             border-top-color: white;
 
@@ -618,20 +1262,23 @@
         @keyframes buttonSpin {
 
             to {
-                transform: rotate(360deg);
+                transform:
+                    rotate(360deg);
             }
 
         }
 
 
-        /* -----------------------------------
+        /* ===================================================
            MODALS
-        ----------------------------------- */
+        =================================================== */
 
         .modal {
             position: fixed;
 
             inset: 0;
+
+            z-index: 1000;
 
             display: flex;
 
@@ -641,45 +1288,57 @@
             padding: 20px;
 
             background:
-                rgba(0, 0, 0, 0.65);
+                rgba(16, 20, 18, 0.68);
 
             backdrop-filter:
-                blur(4px);
+                blur(8px);
 
-            z-index: 1000;
+            -webkit-backdrop-filter:
+                blur(8px);
         }
 
 
         .hidden {
-            display: none;
+            display: none !important;
         }
 
 
         .modal-content {
             width: 100%;
 
-            max-width: 460px;
+            max-width: 470px;
 
-            background: white;
+            max-height: 90dvh;
 
-            border-radius: 20px;
+            overflow-y: auto;
 
             padding:
-                32px
-                28px;
+                30px
+                27px;
 
             text-align: center;
 
+            border:
+                1px
+                solid
+                rgba(255, 255, 255, 0.8);
+
+            border-radius: 22px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #ffffff,
+                    #fdfbf7
+                );
+
             box-shadow:
-                0
-                20px
-                60px
-                rgba(0, 0, 0, 0.3);
+                var(--shadow-large);
 
             animation:
                 modalOpen
-                0.2s
-                ease;
+                0.22s
+                ease-out;
         }
 
 
@@ -689,8 +1348,8 @@
                 opacity: 0;
 
                 transform:
-                    translateY(12px)
-                    scale(0.98);
+                    translateY(14px)
+                    scale(0.985);
             }
 
             to {
@@ -705,9 +1364,33 @@
 
 
         .modal-icon {
-            font-size: 46px;
+            display: flex;
 
-            margin-bottom: 5px;
+            align-items: center;
+            justify-content: center;
+
+            width: 62px;
+            height: 62px;
+
+            margin:
+                0
+                auto
+                10px;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #f8ecec,
+                    #fff
+                );
+
+            font-size: 34px;
+
+            box-shadow:
+                inset 0 0 0 1px
+                rgba(165, 31, 40, 0.08);
         }
 
 
@@ -715,31 +1398,35 @@
             margin:
                 0
                 0
-                14px;
+                10px;
 
-            color: #9b1c1c;
+            color:
+                var(--christmas-red-dark);
 
-            font-size: 26px;
+            font-size: 25px;
+
+            letter-spacing: -0.02em;
         }
 
 
-        .modal-content p {
+        .modal-content > p {
             margin:
                 0
                 auto;
 
-            color: #555;
+            color:
+                var(--text-soft);
 
-            line-height: 1.6;
+            line-height: 1.55;
         }
 
 
         .modal-buttons {
             display: flex;
 
-            gap: 12px;
+            gap: 10px;
 
-            margin-top: 28px;
+            margin-top: 23px;
         }
 
 
@@ -748,12 +1435,12 @@
         }
 
 
-        /* -----------------------------------
-           EMAIL
-        ----------------------------------- */
+        /* ===================================================
+           EMAIL FIELDS
+        =================================================== */
 
         .email-field {
-            margin-top: 24px;
+            margin-top: 22px;
 
             text-align: left;
         }
@@ -762,52 +1449,58 @@
         .email-field label {
             display: block;
 
-            margin-bottom: 7px;
+            margin-bottom: 6px;
 
-            font-weight: 600;
+            color: #343434;
 
-            color: #333;
+            font-size: 14px;
+
+            font-weight: 750;
         }
 
 
         .confirm-email-label {
-            margin-top: 16px;
+            margin-top: 14px;
         }
 
 
         .email-field input {
             width: 100%;
 
+            min-height: 49px;
+
             padding:
-                13px
-                14px;
+                11px
+                13px;
 
             border:
-                1px
+                1.5px
                 solid
-                #ccc;
+                #d9d4cb;
 
-            border-radius: 9px;
-
-            font-size: 16px;
+            border-radius: 11px;
 
             outline: none;
 
+            color: var(--text);
+
+            background: white;
+
+            font-size: 16px;
+
             transition:
-                border-color 0.2s ease,
-                box-shadow 0.2s ease;
+                border-color 0.15s ease,
+                box-shadow 0.15s ease;
         }
 
 
         .email-field input:focus {
-            border-color: #176b39;
+            border-color:
+                var(--christmas-green);
 
             box-shadow:
-                0
-                0
-                0
-                3px
-                rgba(23, 107, 57, 0.15);
+                0 0 0 4px
+                rgba(25, 112, 66, 0.1);
         }
 
 
@@ -818,170 +1511,270 @@
 
             color: #777;
 
+            font-size: 12px;
+
             line-height: 1.45;
         }
 
 
         .email-error {
-            margin-top: 10px !important;
+            margin-top:
+                9px !important;
 
-            color: #9b1c1c !important;
+            color:
+                var(--christmas-red) !important;
 
-            font-size: 14px;
+            font-size:
+                13px !important;
 
-            font-weight: 600;
+            font-weight: 700;
         }
 
 
-        /* -----------------------------------
+        /* ===================================================
            FOOTER
-        ----------------------------------- */
+        =================================================== */
 
         footer {
-            text-align: center;
+            position: relative;
 
             padding:
-                30px
+                28px
                 20px
-                40px;
+                calc(
+                    35px +
+                    env(safe-area-inset-bottom)
+                );
+
+            text-align: center;
 
             color: #777;
 
-            font-size: 14px;
+            font-size: 13px;
         }
 
 
-        /* -----------------------------------
-           MOBILE
-        ----------------------------------- */
+        footer::before {
+            content: "❄  🎄  ❄";
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            opacity: 0.45;
+
+            letter-spacing: 5px;
+        }
+
+
+        /* ===================================================
+           PHONE-FIRST POLISH
+        =================================================== */
 
         @media (max-width: 650px) {
 
             header {
                 padding:
-                    30px
+                    27px
                     16px
-                    48px;
+                    62px;
+            }
+
+
+            .hero-badge {
+                margin-bottom: 12px;
+
+                padding:
+                    6px
+                    11px;
+
+                font-size: 11px;
             }
 
 
             .christmas-icon {
-                font-size: 40px;
+                margin-bottom: 4px;
 
-                margin-bottom: 6px;
+                font-size: 43px;
             }
 
 
             header h1 {
-                font-size: 32px;
+                font-size: 35px;
             }
 
 
             header p {
-                font-size: 15px;
+                margin-top: 15px;
 
-                line-height: 1.5;
-            }
-
-
-            main {
-                padding:
-                    0
-                    14px;
-
-                margin-top: -22px;
-            }
-
-
-            .intro-card {
-                padding:
-                    18px
-                    16px;
-
-                margin-bottom: 28px;
-            }
-
-
-            .intro-card h2 {
-                font-size: 21px;
-            }
-
-
-            .intro-card p {
                 font-size: 14px;
 
                 line-height: 1.55;
             }
 
 
+            main {
+                margin-top: -34px;
+
+                padding:
+                    0
+                    12px;
+            }
+
+
+            .intro-card {
+                margin-bottom: 24px;
+
+                padding:
+                    22px
+                    15px
+                    18px;
+
+                border-radius: 18px;
+            }
+
+
+            .intro-card h2 {
+                font-size: 20px;
+            }
+
+
+            .intro-tagline {
+                margin-bottom: 15px;
+
+                font-size: 13px;
+
+                line-height: 1.5;
+            }
+
+
+            .quick-steps {
+                grid-template-columns: 1fr;
+
+                gap: 7px;
+
+                margin:
+                    14px
+                    0;
+            }
+
+
+            .quick-step {
+                justify-content: flex-start;
+
+                min-height: 44px;
+
+                padding:
+                    8px
+                    11px;
+
+                font-size: 13px;
+            }
+
+
+            .how-it-works {
+                margin-top: 14px;
+
+                padding-top: 12px;
+            }
+
+
+            .how-it-works summary {
+                min-height: 44px;
+
+                font-size: 14px;
+            }
+
+
+            .how-it-works-content {
+                font-size: 13px;
+            }
+
+
+            .list-switcher {
+                gap: 8px;
+
+                margin-bottom: 29px;
+            }
+
+
+            .list-switcher a {
+                min-height: 46px;
+
+                border-radius: 12px;
+
+                font-size: 14px;
+            }
+
+
             .registry-section {
-                margin-bottom: 42px;
+                margin-bottom: 44px;
             }
 
 
             .registry-title {
                 margin:
                     0
-                    -6px
-                    16px;
+                    -5px
+                    14px;
 
                 padding:
-                    10px
-                    6px;
+                    8px
+                    5px;
 
-                box-shadow:
+                border-radius:
                     0
-                    4px
+                    0
                     10px
-                    rgba(0, 0, 0, 0.04);
+                    10px;
             }
 
 
             .registry-title-icon {
-                width: 40px;
-                height: 40px;
+                width: 39px;
+                height: 39px;
 
-                font-size: 19px;
+                border-radius: 12px;
+
+                font-size: 18px;
             }
 
 
             .registry-title h2 {
-                font-size: 22px;
+                font-size: 21px;
             }
 
 
             .gift-list {
                 grid-template-columns: 1fr;
 
-                gap: 16px;
+                gap: 14px;
             }
 
 
             .gift-card {
-                padding: 15px;
+                padding: 14px;
 
-                border-radius: 14px;
+                border-radius: 17px;
             }
 
 
             .gift-image {
-                height: 200px;
+                height: 205px;
 
-                margin-bottom: 14px;
+                padding: 13px;
+
+                margin-bottom: 13px;
             }
 
 
             .gift-card h2 {
-                margin-bottom: 6px;
-
                 font-size: 20px;
             }
 
 
             .gift-card p {
-                margin-top: 6px;
-
-                margin-bottom: 8px;
+                font-size: 13px;
             }
 
 
@@ -990,8 +1783,19 @@
             }
 
 
+            .view-gift-button {
+                min-height: 49px;
+            }
+
+
+            .claim-button,
+            .cancel-button {
+                min-height: 53px;
+            }
+
+
             /*
-             * Bottom sheet style on phones
+             * Native-app-like bottom sheet
              */
 
             .modal {
@@ -1008,211 +1812,117 @@
 
                 max-height: 92dvh;
 
-                overflow-y: auto;
+                padding:
+                    20px
+                    17px
+                    calc(
+                        18px +
+                        env(safe-area-inset-bottom)
+                    );
 
                 border-radius:
-                    22px
-                    22px
+                    24px
+                    24px
                     0
                     0;
 
-                padding:
-                    24px
-                    18px
-                    calc(
-                        22px +
-                        env(safe-area-inset-bottom)
-                    );
+                animation:
+                    mobileModalOpen
+                    0.24s
+                    ease-out;
+            }
+
+
+            @keyframes mobileModalOpen {
+
+                from {
+                    transform:
+                        translateY(35px);
+
+                    opacity: 0;
+                }
+
+                to {
+                    transform:
+                        translateY(0);
+
+                    opacity: 1;
+                }
+
             }
 
 
             .modal-icon {
-                font-size: 38px;
+                width: 54px;
+                height: 54px;
+
+                margin-bottom: 8px;
+
+                font-size: 30px;
             }
 
 
             .modal-content h2 {
-                font-size: 24px;
+                font-size: 22px;
+            }
+
+
+            .modal-content > p {
+                font-size: 14px;
+            }
+
+
+            .email-field {
+                margin-top: 18px;
             }
 
 
             .modal-buttons {
                 flex-direction: column-reverse;
 
-                gap: 10px;
+                gap: 8px;
 
-                margin-top: 22px;
+                margin-top: 19px;
             }
 
 
             .modal-buttons button {
                 width: 100%;
+            }
 
-                min-height: 52px;
+        }
+
+
+        /* ===================================================
+           ACCESSIBILITY
+        =================================================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+
+                animation-duration:
+                    0.01ms !important;
+
+                animation-iteration-count:
+                    1 !important;
+
+                transition-duration:
+                    0.01ms !important;
             }
 
 
-            .email-field {
-                margin-top: 20px;
-            }
-
-            .intro-short {
-                max-width: 650px;
-                margin:
-                    0
-                    auto
-                    20px !important;
-            }
-
-
-            .quick-steps {
-                display: flex;
-
-                align-items: center;
-                justify-content: center;
-
-                gap: 12px;
-
-                margin:
-                    20px
-                    0;
-            }
-
-
-            .quick-step {
-                display: flex;
-
-                align-items: center;
-
-                gap: 7px;
-
-                padding:
-                    9px
-                    13px;
-
-                border-radius: 999px;
-
-                background: #f5f5f5;
-
-                color: #444;
-
-                font-size: 14px;
-
-                font-weight: 600;
-            }
-
-
-            .step-number {
-                display: flex;
-
-                align-items: center;
-                justify-content: center;
-
-                width: 24px;
-                height: 24px;
-
-                border-radius: 50%;
-
-                background: #176b39;
-
-                color: white;
-
-                font-size: 13px;
-            }
-
-
-            .how-it-works {
-                max-width: 700px;
-
-                margin:
-                    20px
-                    auto
-                    0;
-
-                text-align: left;
-
-                border-top:
-                    1px
-                    solid
-                    #e4e4e4;
-
-                padding-top: 15px;
-            }
-
-
-            .how-it-works summary {
-                cursor: pointer;
-
-                color: #176b39;
-
-                font-weight: 700;
-
-                font-size: 16px;
-
-                text-align: center;
-
-                padding: 6px;
-
-                touch-action: manipulation;
-            }
-
-
-            .how-it-works-content {
-                padding:
-                    16px
-                    4px
-                    0;
-            }
-
-
-            .how-it-works-content p {
-                margin:
-                    0
-                    0
-                    14px;
-
-                line-height: 1.6;
-            }
-
-
-            /* Mobile */
-
-            @media (max-width: 650px) {
-
-                .quick-steps {
-                    flex-direction: column;
-
-                    align-items: stretch;
-
-                    gap: 8px;
-                }
-
-
-                .quick-step {
-                    justify-content: flex-start;
-
-                    width: 100%;
-
-                    padding:
-                        9px
-                        12px;
-                }
-
-
-                .how-it-works summary {
-                    min-height: 44px;
-
-                    display: flex;
-
-                    align-items: center;
-                    justify-content: center;
-                }
-
+            .snow {
+                display: none;
             }
 
         }
 
     </style>
+
 </head>
 
 
@@ -1221,25 +1931,44 @@
 
 <header>
 
+    <div class="snow" aria-hidden="true">
+        <span>❄</span>
+        <span>❅</span>
+        <span>❄</span>
+        <span>❅</span>
+        <span>❄</span>
+        <span>❅</span>
+        <span>❄</span>
+        <span>❅</span>
+    </div>
+
+
     <div class="header-content">
 
-        <div class="christmas-icon">
+        <div class="hero-badge">
+            🎁 Family Christmas Registry
+        </div>
+
+
+        <div
+                class="christmas-icon"
+                aria-hidden="true">
             🎄
         </div>
 
+
         <h1>
-            Austin & Leigha's
+            Austin & Leigha's<br>
             Christmas List
         </h1>
 
+
         <p>
             Here are a few things that have been on our radar.
-            Instead of telling people what we're interested in,
-            everyone can just navigate here!
+            Instead of trying to remember what we've told everybody,
+            you can just find it all here.
             If I'm going to be a software engineer,
-            might as well do something fun...
-            If you decide to get something,
-            just claim it so nobody else grabs the same gift!
+            I might as well do something fun with it.
         </p>
 
     </div>
@@ -1249,57 +1978,100 @@
 
 <main>
 
+
+    <!-- HOW IT WORKS -->
+
     <div class="intro-card">
 
         <h2>
-            🎅 HO! HO! HO-WDOESTHISWORK?
+            🎅 HO! HO! HOW DOES THIS WORK?
         </h2>
 
-        <br>
+
+        <p class="intro-tagline">
+            It's basically a tiny Christmas registry.
+            Pick something you like, claim it, and the site handles the rest.
+        </p>
+
+
         <div class="quick-steps">
 
             <div class="quick-step">
                 <span class="step-number">1</span>
-                <span>Pick a gift ➡️ </span>
+                <span>Pick a gift</span>
+            </div>
+
+
+            <div class="quick-step">
                 <span class="step-number">2</span>
-                <span>Claim it ➡️</span>
+                <span>Claim it 🎁</span>
+            </div>
+
+
+            <div class="quick-step">
                 <span class="step-number">3</span>
-                <span>Check your email!</span>
+                <span>Check your email</span>
             </div>
 
         </div>
-        <br>
+
 
         <details class="how-it-works">
 
             <summary>
-                Click for more details
+                More details
             </summary>
+
 
             <div class="how-it-works-content">
 
                 <p>
                     Browse either Austin's list or Leigha's below.
-                    Once a normal gift is claimed, it will automatically
-                    disappear so everyone can avoid duplicates. Gift cards and other reusable
-                    ideas stay visible so more than one person can get them.
-                    <strong>
-                        We will not be notified of who buys what.
-                    </strong>
-                    It's completely anonymous.
-                    When you claim something, you'll receive an email
-                    telling you what you claimed.
-                    For normal gifts, the email also contains an
-                    <strong>Undo Claim</strong> link in case you change
-                    your mind.
-                    Please check your Spam folder if you don't see the email.
-                    If you accidentally enter the wrong email address,
-                    let me know and I can reset the gift. And no, I'm not selling your data 😂
-
+                    Once a normal gift is claimed, it disappears so
+                    somebody else doesn't accidentally buy the same thing.
                 </p>
 
+
                 <p>
-                    Love you all!
+                    Gift cards and other reusable ideas stay visible,
+                    because more than one person can get those.
+                </p>
+
+
+                <p>
+                    <strong>
+                        We are not notified who buys what.
+                    </strong>
+                    It's completely anonymous.
+                </p>
+
+
+                <p>
+                    When you claim something, you'll get a confirmation
+                    email telling you what you claimed.
+                </p>
+
+
+                <p>
+                    For normal gifts, that email also has an
+                    <strong>Undo Claim</strong> link if you change your mind.
+                </p>
+
+
+                <p>
+                    Please check your Spam folder if you don't see the email.
+                    If you accidentally enter the wrong email address,
+                    just let me know and I can reset the gift.
+                </p>
+
+
+                <p>
+                    And no, I'm not selling your data 😂
+                </p>
+
+
+                <p>
+                    Love you all! ❤️
                 </p>
 
             </div>
@@ -1309,15 +2081,38 @@
     </div>
 
 
+    <!-- QUICK JUMP -->
+
+    <nav
+            class="list-switcher"
+            aria-label="Jump to Christmas list">
+
+        <a href="#austin-list">
+            🎁 Austin's List
+        </a>
+
+
+        <a href="#leigha-list">
+            🎁 Leigha's List
+        </a>
+
+    </nav>
+
+
     <!-- AUSTIN -->
 
-    <section class="registry-section">
+    <section
+            id="austin-list"
+            class="registry-section">
 
         <div class="registry-title">
 
-            <div class="registry-title-icon">
+            <div
+                    class="registry-title-icon"
+                    aria-hidden="true">
                 🎁
             </div>
+
 
             <h2>
                 Austin's Christmas List
@@ -1328,11 +2123,12 @@
 
         <div
                 id="austin-gift-list"
-                class="gift-list"
-        >
+                class="gift-list">
+
             <p>
                 Loading Austin's Christmas ideas...
             </p>
+
         </div>
 
     </section>
@@ -1340,13 +2136,18 @@
 
     <!-- LEIGHA -->
 
-    <section class="registry-section">
+    <section
+            id="leigha-list"
+            class="registry-section">
 
         <div class="registry-title">
 
-            <div class="registry-title-icon">
+            <div
+                    class="registry-title-icon"
+                    aria-hidden="true">
                 🎁
             </div>
+
 
             <h2>
                 Leigha's Christmas List
@@ -1357,28 +2158,33 @@
 
         <div
                 id="leigha-gift-list"
-                class="gift-list"
-        >
+                class="gift-list">
+
             <p>
                 Loading Leigha's Christmas ideas...
             </p>
+
         </div>
 
     </section>
 
+
 </main>
 
 
-<!-- CLAIM MODAL -->
+<!-- ===================================================
+     CLAIM MODAL
+=================================================== -->
 
 <div
         id="claim-modal"
-        class="modal hidden"
->
+        class="modal hidden">
 
     <div class="modal-content">
 
-        <div class="modal-icon">
+        <div
+                class="modal-icon"
+                aria-hidden="true">
             🎄
         </div>
 
@@ -1405,14 +2211,14 @@
                     id="claim-email"
                     placeholder="you@example.com"
                     autocomplete="email"
+                    inputmode="email"
                     required
             >
 
 
             <label
                     for="confirm-claim-email"
-                    class="confirm-email-label"
-            >
+                    class="confirm-email-label">
                 Confirm Your Email
             </label>
 
@@ -1422,6 +2228,7 @@
                     id="confirm-claim-email"
                     placeholder="Enter your email again"
                     autocomplete="email"
+                    inputmode="email"
                     required
             >
 
@@ -1435,8 +2242,7 @@
 
             <p
                     id="email-error"
-                    class="email-error hidden"
-            >
+                    class="email-error hidden">
                 Please enter a valid email address.
             </p>
 
@@ -1447,16 +2253,14 @@
 
             <button
                     id="cancel-claim"
-                    class="cancel-button"
-            >
+                    class="cancel-button">
                 Never Mind
             </button>
 
 
             <button
                     id="confirm-claim"
-                    class="claim-button"
-            >
+                    class="claim-button">
                 Claim Gift 🎁
             </button>
 
@@ -1467,16 +2271,19 @@
 </div>
 
 
-<!-- UNDO MODAL -->
+<!-- ===================================================
+     UNDO MODAL
+=================================================== -->
 
 <div
         id="undo-modal"
-        class="modal hidden"
->
+        class="modal hidden">
 
     <div class="modal-content">
 
-        <div class="modal-icon">
+        <div
+                class="modal-icon"
+                aria-hidden="true">
             🎁
         </div>
 
@@ -1495,16 +2302,14 @@
 
             <button
                     id="cancel-undo"
-                    class="cancel-button"
-            >
+                    class="cancel-button">
                 Keep It Claimed
             </button>
 
 
             <button
                     id="confirm-undo"
-                    class="claim-button"
-            >
+                    class="claim-button">
                 Put It Back
             </button>
 
@@ -1527,7 +2332,7 @@
 
 <script
         type="module"
-        src="app.js?v=6">
+        src="app.js?v=7">
 </script>
 
 
