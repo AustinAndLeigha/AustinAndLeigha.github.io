@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Christmas List Admin</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Arial,
+                sans-serif;
+
+            background: #f5f5f5;
+
+            color: #222;
+        }
+
+
+        header {
+            background:
+                linear-gradient(
+                    135deg,
+                    #8f1717,
+                    #b52222
+                );
+
+            color: white;
+
+            text-align: center;
+
+            padding:
+                30px
+                20px;
+        }
+
+
+        header h1 {
+            margin: 0;
+        }
+
+
+        header p {
+            margin:
+                8px
+                0
+                0;
+
+            opacity: 0.9;
+        }
+
+
+        main {
+            width: 100%;
+
+            max-width: 900px;
+
+            margin:
+                30px
+                auto;
+
+            padding:
+                0
+                16px;
+        }
+
+
+        .card {
+            background: white;
+
+            border-radius: 16px;
+
+            padding: 22px;
+
+            margin-bottom: 24px;
+
+            box-shadow:
+                0
+                4px
+                18px
+                rgba(0, 0, 0, 0.08);
+        }
+
+
+        .hidden {
+            display: none !important;
+        }
+
+
+        button {
+            border: 0;
+
+            border-radius: 9px;
+
+            min-height: 44px;
+
+            padding:
+                10px
+                16px;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            touch-action: manipulation;
+        }
+
+
+        .primary-button {
+            background: #176b39;
+
+            color: white;
+        }
+
+
+        .secondary-button {
+            background: #e5e5e5;
+
+            color: #222;
+        }
+
+
+        .danger-button {
+            background: #a51f1f;
+
+            color: white;
+        }
+
+
+        .google-button {
+            width: 100%;
+
+            background: #176b39;
+
+            color: white;
+
+            min-height: 52px;
+
+            font-size: 17px;
+        }
+
+
+        .admin-topbar {
+            display: flex;
+
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 12px;
+
+            margin-bottom: 24px;
+        }
+
+
+        .admin-topbar p {
+            margin: 0;
+
+            color: #555;
+        }
+
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    2,
+                    minmax(0, 1fr)
+                );
+
+            gap: 16px;
+        }
+
+
+        .full-width {
+            grid-column:
+                1 /
+                -1;
+        }
+
+
+        label {
+            display: block;
+
+            margin-bottom: 6px;
+
+            font-weight: 600;
+
+            color: #333;
+        }
+
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+
+            padding:
+                12px
+                13px;
+
+            border:
+                1px
+                solid
+                #ccc;
+
+            border-radius: 9px;
+
+            font: inherit;
+
+            font-size: 16px;
+
+            background: white;
+        }
+
+
+        textarea {
+            min-height: 100px;
+
+            resize: vertical;
+        }
+
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+
+            border-color: #176b39;
+
+            box-shadow:
+                0
+                0
+                0
+                3px
+                rgba(23, 107, 57, 0.12);
+        }
+
+
+        .checkbox-row {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .checkbox-row input {
+            width: 20px;
+            height: 20px;
+        }
+
+
+        .checkbox-row label {
+            margin: 0;
+        }
+
+
+        .form-actions {
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 20px;
+        }
+
+
+        .form-actions button {
+            flex: 1;
+        }
+
+
+        .gift-admin-list {
+            display: grid;
+
+            gap: 14px;
+        }
+
+
+        .admin-gift {
+            border:
+                1px
+                solid
+                #ddd;
+
+            border-radius: 12px;
+
+            padding: 16px;
+
+            background: #fafafa;
+        }
+
+
+        .admin-gift-top {
+            display: flex;
+
+            justify-content: space-between;
+            align-items: flex-start;
+
+            gap: 15px;
+        }
+
+
+        .admin-gift h3 {
+            margin:
+                0
+                0
+                6px;
+        }
+
+
+        .admin-gift p {
+            margin:
+                4px
+                0;
+
+            color: #555;
+        }
+
+
+        .status {
+            display: inline-block;
+
+            padding:
+                4px
+                9px;
+
+            border-radius: 999px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+
+        .status-available {
+            background: #dff4e7;
+
+            color: #176b39;
+        }
+
+
+        .status-claimed {
+            background: #f8dddd;
+
+            color: #9b1c1c;
+        }
+
+
+        .status-reusable {
+            background: #fff1c7;
+
+            color: #735900;
+        }
+
+
+        .gift-actions {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+            margin-top: 14px;
+        }
+
+
+        #auth-message {
+            color: #9b1c1c;
+
+            margin-top: 12px;
+        }
+
+
+        .back-link {
+            color: white;
+
+            display: inline-block;
+
+            margin-top: 12px;
+        }
+
+
+        @media (max-width: 650px) {
+
+            header {
+                padding:
+                    24px
+                    16px;
+            }
+
+
+            main {
+                margin-top: 18px;
+            }
+
+
+            .card {
+                padding: 17px;
+            }
+
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .full-width {
+                grid-column: auto;
+            }
+
+
+            .admin-topbar {
+                flex-direction: column;
+
+                align-items: stretch;
+            }
+
+
+            .admin-topbar button {
+                width: 100%;
+            }
+
+
+            .admin-gift-top {
+                flex-direction: column;
+            }
+
+
+            .gift-actions {
+                flex-direction: column;
+            }
+
+
+            .gift-actions button {
+                width: 100%;
+            }
+
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <h1>
+        🎄 Christmas List Admin
+    </h1>
+
+    <p>
+        Add and manage Austin & Leigha's gift ideas.
+    </p>
+
+    <a
+            class="back-link"
+            href="/">
+        ← Back to Christmas List
+    </a>
+
+</header>
+
+
+<main>
+
+
+    <!-- LOGIN -->
+
+    <section
+            id="login-card"
+            class="card">
+
+        <h2>
+            Admin Sign In
+        </h2>
+
+        <p>
+            Sign in with the Google account authorized
+            to manage the Christmas list.
+        </p>
+
+        <button
+                id="google-login"
+                class="google-button">
+
+            Sign in with Google
+
+        </button>
+
+        <p id="auth-message"></p>
+
+    </section>
+
+
+    <!-- ADMIN -->
+
+    <div
+            id="admin-app"
+            class="hidden">
+
+
+        <div class="admin-topbar">
+
+            <p>
+                Signed in as
+                <strong id="signed-in-email"></strong>
+            </p>
+
+            <button
+                    id="sign-out"
+                    class="secondary-button">
+
+                Sign Out
+
+            </button>
+
+        </div>
+
+
+        <!-- ADD / EDIT -->
+
+        <section class="card">
+
+            <h2 id="form-title">
+                Add Gift
+            </h2>
+
+
+            <form id="gift-form">
+
+                <div class="form-grid">
+
+
+                    <div class="full-width">
+
+                        <label for="gift-name">
+                            Gift Name
+                        </label>
+
+                        <input
+                                id="gift-name"
+                                type="text"
+                                required>
+
+                    </div>
+
+
+                    <div>
+
+                        <label for="gift-recipient">
+                            Recipient
+                        </label>
+
+                        <select
+                                id="gift-recipient"
+                                required>
+
+                            <option value="Austin">
+                                Austin
+                            </option>
+
+                            <option value="Leigha">
+                                Leigha
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div>
+
+                        <label for="gift-price">
+                            Price
+                        </label>
+
+                        <input
+                                id="gift-price"
+                                type="text"
+                                placeholder="49.99 or Any Amount">
+
+                    </div>
+
+
+                    <div class="full-width">
+
+                        <label for="gift-description">
+                            Description
+                        </label>
+
+                        <textarea
+                                id="gift-description">
+                        </textarea>
+
+                    </div>
+
+
+                    <div class="full-width">
+
+                        <label for="gift-url">
+                            Product URL
+                        </label>
+
+                        <input
+                                id="gift-url"
+                                type="url"
+                                placeholder="https://...">
+
+                    </div>
+
+
+                    <div class="full-width">
+
+                        <label for="gift-image-url">
+                            Image URL
+                        </label>
+
+                        <input
+                                id="gift-image-url"
+                                type="url"
+                                placeholder="https://...">
+
+                    </div>
+
+
+                    <div class="full-width">
+
+                        <div class="checkbox-row">
+
+                            <input
+                                    id="gift-reusable"
+                                    type="checkbox">
+
+                            <label for="gift-reusable">
+                                Can be gifted more than once
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button
+                            id="save-gift"
+                            type="submit"
+                            class="primary-button">
+
+                        Add Gift
+
+                    </button>
+
+
+                    <button
+                            id="cancel-edit"
+                            type="button"
+                            class="secondary-button hidden">
+
+                        Cancel Edit
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- GIFTS -->
+
+        <section class="card">
+
+            <h2>
+                Current Gifts
+            </h2>
+
+            <div
+                    id="gift-admin-list"
+                    class="gift-admin-list">
+
+                Loading gifts...
+
+            </div>
+
+        </section>
+
+
+    </div>
+
+
+</main>
+
+
+<script
+        type="module"
+        src="admin.js?v=1">
+</script>
+
+
+</body>
+
+</html>

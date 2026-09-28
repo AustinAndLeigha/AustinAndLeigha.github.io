@@ -1056,6 +1056,160 @@
                 margin-top: 20px;
             }
 
+            .intro-short {
+                max-width: 650px;
+                margin:
+                    0
+                    auto
+                    20px !important;
+            }
+
+
+            .quick-steps {
+                display: flex;
+
+                align-items: center;
+                justify-content: center;
+
+                gap: 12px;
+
+                margin:
+                    20px
+                    0;
+            }
+
+
+            .quick-step {
+                display: flex;
+
+                align-items: center;
+
+                gap: 7px;
+
+                padding:
+                    9px
+                    13px;
+
+                border-radius: 999px;
+
+                background: #f5f5f5;
+
+                color: #444;
+
+                font-size: 14px;
+
+                font-weight: 600;
+            }
+
+
+            .step-number {
+                display: flex;
+
+                align-items: center;
+                justify-content: center;
+
+                width: 24px;
+                height: 24px;
+
+                border-radius: 50%;
+
+                background: #176b39;
+
+                color: white;
+
+                font-size: 13px;
+            }
+
+
+            .how-it-works {
+                max-width: 700px;
+
+                margin:
+                    20px
+                    auto
+                    0;
+
+                text-align: left;
+
+                border-top:
+                    1px
+                    solid
+                    #e4e4e4;
+
+                padding-top: 15px;
+            }
+
+
+            .how-it-works summary {
+                cursor: pointer;
+
+                color: #176b39;
+
+                font-weight: 700;
+
+                font-size: 16px;
+
+                text-align: center;
+
+                padding: 6px;
+
+                touch-action: manipulation;
+            }
+
+
+            .how-it-works-content {
+                padding:
+                    16px
+                    4px
+                    0;
+            }
+
+
+            .how-it-works-content p {
+                margin:
+                    0
+                    0
+                    14px;
+
+                line-height: 1.6;
+            }
+
+
+            /* Mobile */
+
+            @media (max-width: 650px) {
+
+                .quick-steps {
+                    flex-direction: column;
+
+                    align-items: stretch;
+
+                    gap: 8px;
+                }
+
+
+                .quick-step {
+                    justify-content: flex-start;
+
+                    width: 100%;
+
+                    padding:
+                        9px
+                        12px;
+                }
+
+
+                .how-it-works summary {
+                    min-height: 44px;
+
+                    display: flex;
+
+                    align-items: center;
+                    justify-content: center;
+                }
+
+            }
+
         }
 
     </style>
@@ -1101,31 +1255,84 @@
             🎅 HO! HO! HO-WDY!
         </h2>
 
-        <p>
-            Browse either Austin's list or Leigha's below.
-            Once a normal gift is claimed, it will automatically
-            disappear so everyone can avoid duplicates.
-            Gift cards and other reusable ideas stay visible so
-            more than one person can get them.
-            <br><br>
-
-            <u>We will not be notified of who buys what!</u>
-            It's completely <b>anonymous</b>.
-
-            You will receive an email when an item is claimed
-            telling you what you claimed.
-
-            If you need to back out of a normal gift,
-            use the Undo Claim link in your email.
-
-            I'M NOT SELLING YOUR DATA lol.
-
-            Please check your Spam folder if you don't see the email.
-            If you enter the wrong email address,
-            let me know and I can unclaim it so you can claim it again.
-
-            Love you all!
+        <p class="intro-short">
+            Pick a gift, claim it, and we'll make sure nobody else
+            accidentally gets the same thing.
         </p>
+
+        <div class="quick-steps">
+
+            <div class="quick-step">
+                <span class="step-number">1</span>
+                <span>Pick a gift</span>
+            </div>
+
+            <div class="quick-step">
+                <span class="step-number">2</span>
+                <span>Claim it</span>
+            </div>
+
+            <div class="quick-step">
+                <span class="step-number">3</span>
+                <span>Check your email</span>
+            </div>
+
+        </div>
+
+        <details class="how-it-works">
+
+            <summary>
+                How does this work?
+            </summary>
+
+            <div class="how-it-works-content">
+
+                <p>
+                    Browse either Austin's list or Leigha's below.
+                    Once a normal gift is claimed, it will automatically
+                    disappear so everyone can avoid duplicates.
+                </p>
+
+                <p>
+                    Gift cards and other reusable ideas stay visible so
+                    more than one person can get them.
+                </p>
+
+                <p>
+                    <strong>
+                        We will not be notified of who buys what.
+                    </strong>
+                    It's completely anonymous.
+                </p>
+
+                <p>
+                    When you claim something, you'll receive an email
+                    telling you what you claimed.
+                </p>
+
+                <p>
+                    For normal gifts, the email also contains an
+                    <strong>Undo Claim</strong> link in case you change
+                    your mind.
+                </p>
+
+                <p>
+                    Please check your Spam folder if you don't see the email.
+                    If you accidentally enter the wrong email address,
+                    let me know and I can reset the gift.
+                </p>
+
+                <p>
+                    And no, I'm not selling your data 😂
+                </p>
+
+                <p>
+                    Love you all!
+                </p>
+
+            </div>
+
+        </details>
 
     </div>
 
