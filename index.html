@@ -23,108 +23,49 @@
     <style>
 
         /* ===================================================
-           GLOBAL COLORS
+           COLORS / GLOBAL
         =================================================== */
 
         :root {
+            --christmas-red: #a51f28;
+            --christmas-red-dark: #74141a;
 
-            --christmas-red:
-                #a51f28;
+            --christmas-green: #197042;
+            --christmas-green-dark: #0e4d2b;
 
-            --christmas-red-dark:
-                #74141a;
+            --christmas-gold: #d3a83f;
+            --christmas-gold-light: #fff5d5;
 
-            --christmas-green:
-                #197042;
+            --cream: #fbf8f2;
 
-            --christmas-green-dark:
-                #0e4d2b;
-
-            --christmas-gold:
-                #d3a83f;
-
-            --christmas-gold-light:
-                #fff5d5;
-
-            --cream:
-                #fbf8f2;
-
-            --cream-dark:
-                #f3eee5;
-
-            --text:
-                #262626;
-
-            --text-soft:
-                #646464;
-
-            --card:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.94
-                );
+            --text: #262626;
+            --text-soft: #646464;
 
             --shadow-small:
-                0
-                4px
-                14px
-                rgba(
-                    44,
-                    31,
-                    23,
-                    0.07
-                );
+                0 4px 14px rgba(44, 31, 23, 0.07);
 
             --shadow-medium:
-                0
-                12px
-                32px
-                rgba(
-                    44,
-                    31,
-                    23,
-                    0.11
-                );
+                0 12px 32px rgba(44, 31, 23, 0.11);
 
             --shadow-large:
-                0
-                24px
-                70px
-                rgba(
-                    0,
-                    0,
-                    0,
-                    0.25
-                );
-
+                0 24px 70px rgba(0, 0, 0, 0.25);
         }
 
 
         * {
-
-            box-sizing:
-                border-box;
-
+            box-sizing: border-box;
         }
 
 
         html {
-
-            scroll-behavior:
-                smooth;
-
+            scroll-behavior: smooth;
         }
 
 
         body {
+            margin: 0;
 
-            margin:
-                0;
-
-            min-height:
-                100vh;
+            min-height: 100vh;
 
             font-family:
                 -apple-system,
@@ -135,132 +76,82 @@
                 Arial,
                 sans-serif;
 
-            color:
-                var(--text);
+            color: var(--text);
 
             background:
-
                 radial-gradient(
                     circle at 10% 10%,
-                    rgba(
-                        165,
-                        31,
-                        40,
-                        0.06
-                    ),
+                    rgba(165, 31, 40, 0.06),
                     transparent 30%
                 ),
-
                 radial-gradient(
                     circle at 90% 30%,
-                    rgba(
-                        25,
-                        112,
-                        66,
-                        0.07
-                    ),
+                    rgba(25, 112, 66, 0.07),
                     transparent 32%
                 ),
-
                 linear-gradient(
                     180deg,
                     #fffdfa 0%,
                     var(--cream) 50%,
                     #f7f3ec 100%
                 );
-
         }
 
 
-        /*
-         * Very subtle snowy dots
-         * over the entire page.
-         */
-
         body::before {
+            content: "";
 
-            content:
-                "";
+            position: fixed;
+            inset: 0;
 
-            position:
-                fixed;
+            z-index: -1;
 
-            inset:
-                0;
+            pointer-events: none;
 
-            pointer-events:
-                none;
-
-            z-index:
-                -1;
-
-            opacity:
-                0.32;
+            opacity: 0.35;
 
             background-image:
-
                 radial-gradient(
                     circle,
-                    rgba(
-                        255,
-                        255,
-                        255,
-                        0.9
-                    ) 1px,
+                    rgba(255, 255, 255, 0.9) 1px,
                     transparent 1.5px
                 );
 
             background-size:
-                28px
-                28px;
-
+                28px 28px;
         }
 
 
         button,
         a,
         summary {
-
-            -webkit-tap-highlight-color:
-                transparent;
-
+            -webkit-tap-highlight-color: transparent;
         }
 
 
         button,
         input {
-
-            font:
-                inherit;
-
+            font: inherit;
         }
 
 
         button {
-
-            touch-action:
-                manipulation;
-
+            touch-action: manipulation;
         }
 
 
         /* ===================================================
-           CHRISTMAS HEADER
+           HEADER
         =================================================== */
 
         header {
+            position: relative;
 
-            position:
-                relative;
+            overflow: hidden;
 
-            overflow:
-                hidden;
+            color: white;
 
-            color:
-                white;
-
-            text-align:
-                center;
+            text-align: center;
 
             padding:
                 56px
@@ -268,415 +159,226 @@
                 86px;
 
             background:
-
                 radial-gradient(
                     circle at 15% 20%,
-                    rgba(
-                        255,
-                        255,
-                        255,
-                        0.15
-                    ),
+                    rgba(255, 255, 255, 0.15),
                     transparent 22%
                 ),
-
                 radial-gradient(
                     circle at 85% 80%,
-                    rgba(
-                        255,
-                        221,
-                        146,
-                        0.14
-                    ),
+                    rgba(255, 221, 146, 0.14),
                     transparent 26%
                 ),
-
                 linear-gradient(
                     135deg,
                     var(--christmas-red-dark),
                     var(--christmas-red) 58%,
                     #bd3038
                 );
-
-            box-shadow:
-
-                inset
-                0
-                -1px
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.12
-                );
-
         }
 
 
         header::before {
+            content: "";
 
-            content:
-                "";
+            position: absolute;
 
-            position:
-                absolute;
+            width: 450px;
+            height: 450px;
 
-            width:
-                450px;
+            top: -320px;
+            left: -180px;
 
-            height:
-                450px;
-
-            top:
-                -320px;
-
-            left:
-                -180px;
-
-            border-radius:
-                50%;
+            border-radius: 50%;
 
             border:
-
                 70px
                 solid
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.04
-                );
-
+                rgba(255, 255, 255, 0.04);
         }
 
 
         header::after {
+            content: "";
 
-            content:
-                "";
+            position: absolute;
 
-            position:
-                absolute;
+            width: 400px;
+            height: 400px;
 
-            width:
-                400px;
+            right: -220px;
+            bottom: -300px;
 
-            height:
-                400px;
-
-            right:
-                -220px;
-
-            bottom:
-                -300px;
-
-            border-radius:
-                50%;
+            border-radius: 50%;
 
             border:
-
                 70px
                 solid
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.05
-                );
-
+                rgba(255, 255, 255, 0.05);
         }
 
 
         /* ===================================================
-           SNOW IN HEADER
+           SNOW
         =================================================== */
 
         .snow {
+            position: absolute;
 
-            position:
-                absolute;
+            inset: 0;
 
-            inset:
-                0;
+            overflow: hidden;
 
-            overflow:
-                hidden;
-
-            pointer-events:
-                none;
-
+            pointer-events: none;
         }
 
 
         .snow span {
+            position: absolute;
 
-            position:
-                absolute;
-
-            top:
-                -40px;
+            top: -40px;
 
             color:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.52
-                );
+                rgba(255, 255, 255, 0.52);
 
-            font-size:
-                18px;
+            font-size: 18px;
 
             animation:
                 snowfall
                 linear
                 infinite;
-
         }
 
 
         .snow span:nth-child(1) {
-
-            left:
-                5%;
-
-            animation-duration:
-                16s;
-
-            animation-delay:
-                -4s;
-
+            left: 5%;
+            animation-duration: 16s;
+            animation-delay: -4s;
         }
 
 
         .snow span:nth-child(2) {
-
-            left:
-                15%;
-
-            animation-duration:
-                20s;
-
-            animation-delay:
-                -11s;
-
+            left: 15%;
+            animation-duration: 20s;
+            animation-delay: -11s;
         }
 
 
         .snow span:nth-child(3) {
-
-            left:
-                28%;
-
-            animation-duration:
-                18s;
-
-            animation-delay:
-                -7s;
-
+            left: 28%;
+            animation-duration: 18s;
+            animation-delay: -7s;
         }
 
 
         .snow span:nth-child(4) {
-
-            left:
-                41%;
-
-            animation-duration:
-                23s;
-
-            animation-delay:
-                -15s;
-
+            left: 41%;
+            animation-duration: 23s;
+            animation-delay: -15s;
         }
 
 
         .snow span:nth-child(5) {
-
-            left:
-                56%;
-
-            animation-duration:
-                17s;
-
-            animation-delay:
-                -2s;
-
+            left: 56%;
+            animation-duration: 17s;
+            animation-delay: -2s;
         }
 
 
         .snow span:nth-child(6) {
-
-            left:
-                69%;
-
-            animation-duration:
-                21s;
-
-            animation-delay:
-                -9s;
-
+            left: 69%;
+            animation-duration: 21s;
+            animation-delay: -9s;
         }
 
 
         .snow span:nth-child(7) {
-
-            left:
-                80%;
-
-            animation-duration:
-                19s;
-
-            animation-delay:
-                -13s;
-
+            left: 80%;
+            animation-duration: 19s;
+            animation-delay: -13s;
         }
 
 
         .snow span:nth-child(8) {
-
-            left:
-                92%;
-
-            animation-duration:
-                24s;
-
-            animation-delay:
-                -6s;
-
+            left: 92%;
+            animation-duration: 24s;
+            animation-delay: -6s;
         }
 
 
         @keyframes snowfall {
 
             from {
-
                 transform:
                     translateY(-40px)
                     rotate(0deg);
-
             }
 
-
             to {
-
                 transform:
                     translateY(520px)
                     rotate(180deg);
-
             }
 
         }
 
 
         .header-content {
+            position: relative;
 
-            position:
-                relative;
+            z-index: 2;
 
-            z-index:
-                2;
+            max-width: 760px;
 
-            max-width:
-                760px;
-
-            margin:
-                auto;
-
+            margin: auto;
         }
 
 
         .hero-badge {
+            display: inline-flex;
 
-            display:
-                inline-flex;
+            align-items: center;
 
-            align-items:
-                center;
-
-            gap:
-                7px;
+            gap: 7px;
 
             padding:
                 7px
                 13px;
 
-            margin-bottom:
-                17px;
+            margin-bottom: 17px;
 
             border:
-
                 1px
                 solid
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.20
-                );
+                rgba(255, 255, 255, 0.2);
 
-            border-radius:
-                999px;
+            border-radius: 999px;
 
             background:
-
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.10
-                );
+                rgba(255, 255, 255, 0.1);
 
             backdrop-filter:
                 blur(8px);
 
-            -webkit-backdrop-filter:
-                blur(8px);
+            font-size: 13px;
 
-            font-size:
-                13px;
+            font-weight: 700;
 
-            font-weight:
-                700;
+            letter-spacing: 0.03em;
 
-            letter-spacing:
-                0.03em;
-
-            text-transform:
-                uppercase;
-
+            text-transform: uppercase;
         }
 
 
         .christmas-icon {
+            margin-bottom: 6px;
 
-            margin-bottom:
-                6px;
-
-            font-size:
-                56px;
-
-            filter:
-
-                drop-shadow(
-                    0
-                    4px
-                    5px
-                    rgba(
-                        0,
-                        0,
-                        0,
-                        0.16
-                    )
-                );
-
+            font-size: 56px;
         }
 
 
         header h1 {
-
-            margin:
-                0;
+            margin: 0;
 
             font-family:
                 Georgia,
@@ -684,59 +386,36 @@
                 serif;
 
             font-size:
-
                 clamp(
                     38px,
                     7vw,
                     62px
                 );
 
-            line-height:
-                1.03;
+            line-height: 1.03;
 
-            letter-spacing:
-                -0.025em;
+            letter-spacing: -0.025em;
 
             text-shadow:
-
-                0
-                4px
-                18px
-                rgba(
-                    0,
-                    0,
-                    0,
-                    0.18
-                );
-
+                0 4px 18px
+                rgba(0, 0, 0, 0.18);
         }
 
 
         header p {
-
-            max-width:
-                660px;
+            max-width: 660px;
 
             margin:
                 20px
                 auto
                 0;
 
-            font-size:
-                17px;
+            font-size: 17px;
 
-            line-height:
-                1.65;
+            line-height: 1.65;
 
             color:
-
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.92
-                );
-
+                rgba(255, 255, 255, 0.92);
         }
 
 
@@ -745,18 +424,13 @@
         =================================================== */
 
         main {
+            position: relative;
 
-            position:
-                relative;
+            z-index: 3;
 
-            z-index:
-                3;
+            width: 100%;
 
-            width:
-                100%;
-
-            max-width:
-                1180px;
+            max-width: 1180px;
 
             margin:
                 -42px
@@ -766,24 +440,19 @@
             padding:
                 0
                 22px;
-
         }
 
 
         /* ===================================================
-           HOW IT WORKS
+           INTRO
         =================================================== */
 
         .intro-card {
+            position: relative;
 
-            position:
-                relative;
+            overflow: hidden;
 
-            overflow:
-                hidden;
-
-            max-width:
-                880px;
+            max-width: 880px;
 
             margin:
                 0
@@ -795,78 +464,48 @@
                 28px
                 24px;
 
-            text-align:
-                center;
+            text-align: center;
 
             border:
-
                 1px
                 solid
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.8
-                );
+                rgba(255, 255, 255, 0.8);
 
-            border-radius:
-                22px;
+            border-radius: 22px;
 
             background:
-
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.94
-                );
+                rgba(255, 255, 255, 0.94);
 
             backdrop-filter:
                 blur(12px);
 
-            -webkit-backdrop-filter:
-                blur(12px);
-
             box-shadow:
                 var(--shadow-medium);
-
         }
 
 
         .intro-card::before {
+            content: "";
 
-            content:
-                "";
+            position: absolute;
 
-            position:
-                absolute;
+            top: 0;
+            left: 0;
+            right: 0;
 
-            top:
-                0;
-
-            left:
-                0;
-
-            right:
-                0;
-
-            height:
-                4px;
+            height: 4px;
 
             background:
-
                 linear-gradient(
                     90deg,
                     var(--christmas-red),
                     var(--christmas-gold),
                     var(--christmas-green)
                 );
-
         }
 
 
         .intro-card h2 {
-
             margin:
                 0
                 0
@@ -875,768 +514,475 @@
             color:
                 var(--christmas-green-dark);
 
-            font-size:
-                24px;
-
+            font-size: 24px;
         }
 
 
         .intro-tagline {
-
-            max-width:
-                610px;
+            max-width: 610px;
 
             margin:
                 0
                 auto
                 22px;
 
-            color:
-                var(--text-soft);
+            color: var(--text-soft);
 
-            line-height:
-                1.55;
-
+            line-height: 1.55;
         }
 
 
-        .quick-steps {
+        /* ===================================================
+           QUICK STEPS
+        =================================================== */
 
-            display:
-                grid;
+        .quick-steps {
+            display: grid;
 
             grid-template-columns:
-                repeat(
-                    3,
-                    1fr
-                );
+                repeat(3, 1fr);
 
-            gap:
-                10px;
+            gap: 10px;
 
             margin:
                 20px
                 0;
-
         }
 
 
         .quick-step {
+            display: flex;
 
-            display:
-                flex;
+            align-items: center;
+            justify-content: center;
 
-            align-items:
-                center;
+            gap: 8px;
 
-            justify-content:
-                center;
-
-            gap:
-                8px;
-
-            min-height:
-                48px;
+            min-height: 48px;
 
             padding:
                 9px
                 12px;
 
             border:
-
                 1px
                 solid
                 #e8e3db;
 
-            border-radius:
-                14px;
+            border-radius: 14px;
 
             background:
-
                 linear-gradient(
                     180deg,
                     #ffffff,
                     #faf8f4
                 );
 
-            color:
-                #454545;
+            color: #454545;
 
-            font-size:
-                14px;
+            font-size: 14px;
 
-            font-weight:
-                700;
-
+            font-weight: 700;
         }
 
 
         .step-number {
+            display: inline-flex;
 
-            display:
-                inline-flex;
+            align-items: center;
+            justify-content: center;
 
-            align-items:
-                center;
+            width: 26px;
+            height: 26px;
 
-            justify-content:
-                center;
+            flex-shrink: 0;
 
-            width:
-                26px;
-
-            height:
-                26px;
-
-            flex-shrink:
-                0;
-
-            border-radius:
-                50%;
+            border-radius: 50%;
 
             background:
-
                 linear-gradient(
                     145deg,
                     var(--christmas-green),
                     var(--christmas-green-dark)
                 );
 
-            color:
-                white;
+            color: white;
 
-            font-size:
-                13px;
-
-            box-shadow:
-
-                0
-                3px
-                8px
-                rgba(
-                    25,
-                    112,
-                    66,
-                    0.22
-                );
-
-        }
-
-
-        .how-it-works {
-
-            margin-top:
-                19px;
-
-            padding-top:
-                16px;
-
-            border-top:
-
-                1px
-                solid
-                #ece7df;
-
-        }
-
-
-        .how-it-works summary {
-
-            display:
-                flex;
-
-            align-items:
-                center;
-
-            justify-content:
-                center;
-
-            gap:
-                7px;
-
-            min-height:
-                42px;
-
-            cursor:
-                pointer;
-
-            list-style:
-                none;
-
-            color:
-                var(--christmas-green);
-
-            font-weight:
-                750;
-
-        }
-
-
-        .how-it-works summary::-webkit-details-marker {
-
-            display:
-                none;
-
-        }
-
-
-        .how-it-works summary::after {
-
-            content:
-                "⌄";
-
-            display:
-                inline-block;
-
-            font-size:
-                20px;
-
-            transition:
-
-                transform
-                0.2s
-                ease;
-
-        }
-
-
-        .how-it-works[open] summary::after {
-
-            transform:
-                rotate(180deg);
-
-        }
-
-
-        .how-it-works-content {
-
-            max-width:
-                680px;
-
-            margin:
-                5px
-                auto
-                0;
-
-            padding:
-                10px
-                5px
-                0;
-
-            text-align:
-                left;
-
-            color:
-                var(--text-soft);
-
-            font-size:
-                14px;
-
-            line-height:
-                1.65;
-
-        }
-
-
-        .how-it-works-content p {
-
-            margin:
-                0
-                0
-                12px;
-
+            font-size: 13px;
         }
 
 
         /* ===================================================
-           QUICK LIST BUTTONS
+           HOW IT WORKS
+        =================================================== */
+
+        .how-it-works {
+            margin-top: 19px;
+
+            padding-top: 16px;
+
+            border-top:
+                1px
+                solid
+                #ece7df;
+        }
+
+
+        .how-it-works summary {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 7px;
+
+            min-height: 42px;
+
+            cursor: pointer;
+
+            list-style: none;
+
+            color:
+                var(--christmas-green);
+
+            font-weight: 750;
+        }
+
+
+        .how-it-works summary::-webkit-details-marker {
+            display: none;
+        }
+
+
+        .how-it-works summary::after {
+            content: "⌄";
+
+            display: inline-block;
+
+            font-size: 20px;
+
+            transition:
+                transform 0.2s ease;
+        }
+
+
+        .how-it-works[open] summary::after {
+            transform:
+                rotate(180deg);
+        }
+
+
+        .how-it-works-content {
+            max-width: 680px;
+
+            margin:
+                5px
+                auto
+                0;
+
+            padding:
+                10px
+                5px
+                0;
+
+            text-align: left;
+
+            color:
+                var(--text-soft);
+
+            font-size: 14px;
+
+            line-height: 1.65;
+        }
+
+
+        .how-it-works-content p {
+            margin:
+                0
+                0
+                12px;
+        }
+
+
+        /* ===================================================
+           QUICK SWITCHER
         =================================================== */
 
         .list-switcher {
-
-            display:
-                grid;
+            display: grid;
 
             grid-template-columns:
-
                 repeat(
                     2,
-                    minmax(
-                        0,
-                        1fr
-                    )
+                    minmax(0, 1fr)
                 );
 
-            gap:
-                12px;
+            gap: 12px;
 
-            max-width:
-                620px;
+            max-width: 620px;
 
             margin:
                 0
                 auto
                 42px;
-
         }
 
 
         .list-switcher a {
+            display: flex;
 
-            display:
-                flex;
+            align-items: center;
+            justify-content: center;
 
-            align-items:
-                center;
+            gap: 8px;
 
-            justify-content:
-                center;
-
-            gap:
-                8px;
-
-            min-height:
-                50px;
+            min-height: 50px;
 
             padding:
                 10px
                 14px;
 
-            border-radius:
-                15px;
+            border-radius: 15px;
 
-            text-decoration:
-                none;
+            text-decoration: none;
 
-            font-weight:
-                750;
+            font-weight: 750;
 
             transition:
-
-                transform
-                0.18s
-                ease,
-
-                box-shadow
-                0.18s
-                ease;
-
+                transform 0.18s ease,
+                box-shadow 0.18s ease;
         }
 
 
         .list-switcher a:first-child {
-
-            color:
-                white;
+            color: white;
 
             background:
-
                 linear-gradient(
                     135deg,
                     var(--christmas-red),
                     #bd3840
                 );
-
-            box-shadow:
-
-                0
-                7px
-                18px
-                rgba(
-                    165,
-                    31,
-                    40,
-                    0.18
-                );
-
         }
 
 
         .list-switcher a:last-child {
-
-            color:
-                white;
+            color: white;
 
             background:
-
                 linear-gradient(
                     135deg,
                     var(--christmas-green),
                     #258b57
                 );
-
-            box-shadow:
-
-                0
-                7px
-                18px
-                rgba(
-                    25,
-                    112,
-                    66,
-                    0.18
-                );
-
         }
 
 
         .list-switcher a:hover {
-
             transform:
                 translateY(-2px);
-
         }
 
 
         /* ===================================================
-           REGISTRY SECTIONS
+           REGISTRY PANEL
+           STRONG CHRISTMAS BOKEH
         =================================================== */
 
         .registry-section {
+            position: relative;
 
-            position:
-                relative;
+            isolation: isolate;
 
-            isolation:
-                isolate;
+            scroll-margin-top: 85px;
 
-            scroll-margin-top:
-                85px;
-
-            margin-bottom:
-                62px;
+            margin-bottom: 62px;
 
             padding:
-                14px
-                14px
-                26px;
+                24px
+                22px
+                28px;
 
-            border-radius:
-                30px;
+            border-radius: 32px;
 
-        }
-
-
-        /*
-         * Frosted translucent panel behind
-         * all the gifts.
-         */
-
-        .registry-section::before {
-
-            content:
-                "";
-
-            position:
-                absolute;
-
-            inset:
-                54px
-                0
-                0
-                0;
-
-            z-index:
-                -2;
+            overflow: hidden;
 
             border:
-
                 1px
                 solid
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.72
-                );
-
-            border-radius:
-                30px;
+                rgba(255, 255, 255, 0.85);
 
             background:
+
+                radial-gradient(
+                    circle at 6% 12%,
+                    rgba(220, 45, 55, 0.42) 0,
+                    rgba(220, 45, 55, 0.25) 38px,
+                    transparent 100px
+                ),
+
+                radial-gradient(
+                    circle at 35% 6%,
+                    rgba(244, 194, 70, 0.40) 0,
+                    rgba(244, 194, 70, 0.22) 42px,
+                    transparent 105px
+                ),
+
+                radial-gradient(
+                    circle at 67% 14%,
+                    rgba(30, 150, 85, 0.38) 0,
+                    rgba(30, 150, 85, 0.20) 45px,
+                    transparent 110px
+                ),
+
+                radial-gradient(
+                    circle at 94% 24%,
+                    rgba(210, 35, 48, 0.36) 0,
+                    rgba(210, 35, 48, 0.20) 38px,
+                    transparent 100px
+                ),
+
+                radial-gradient(
+                    circle at 12% 55%,
+                    rgba(27, 135, 74, 0.32) 0,
+                    rgba(27, 135, 74, 0.18) 45px,
+                    transparent 110px
+                ),
+
+                radial-gradient(
+                    circle at 45% 62%,
+                    rgba(241, 186, 58, 0.34) 0,
+                    rgba(241, 186, 58, 0.18) 42px,
+                    transparent 105px
+                ),
+
+                radial-gradient(
+                    circle at 76% 69%,
+                    rgba(212, 37, 49, 0.31) 0,
+                    rgba(212, 37, 49, 0.17) 40px,
+                    transparent 105px
+                ),
+
+                radial-gradient(
+                    circle at 95% 88%,
+                    rgba(29, 144, 81, 0.30) 0,
+                    rgba(29, 144, 81, 0.16) 45px,
+                    transparent 110px
+                ),
 
                 linear-gradient(
-                    180deg,
-                    rgba(
-                        255,
-                        255,
-                        255,
-                        0.75
-                    ),
-                    rgba(
-                        255,
-                        255,
-                        255,
-                        0.52
-                    )
+                    145deg,
+                    rgba(255, 255, 255, 0.82),
+                    rgba(247, 243, 235, 0.72)
                 );
-
-            backdrop-filter:
-                blur(12px);
-
-            -webkit-backdrop-filter:
-                blur(12px);
 
             box-shadow:
-
                 0
-                16px
-                42px
-                rgba(
-                    44,
-                    31,
-                    23,
-                    0.06
-                );
-
-        }
-
-
-        /*
-         * BOKEH CHRISTMAS LIGHTS
-         *
-         * These sit behind the gift cards.
-         */
-
-        .registry-section::after {
-
-            content:
-                "";
-
-            position:
-                absolute;
-
-            inset:
-                70px
-                8px
-                8px
-                8px;
-
-            z-index:
-                -1;
-
-            pointer-events:
-                none;
-
-            border-radius:
-                26px;
-
-            opacity:
-                0.72;
-
-            filter:
-                blur(16px);
-
-            background:
-
-                radial-gradient(
-                    circle at 8% 18%,
-                    rgba(
-                        198,
-                        39,
-                        48,
-                        0.28
-                    ) 0,
-                    rgba(
-                        198,
-                        39,
-                        48,
-                        0.17
-                    ) 35px,
-                    transparent 90px
-                ),
-
-                radial-gradient(
-                    circle at 30% 8%,
-                    rgba(
-                        236,
-                        189,
-                        74,
-                        0.25
-                    ) 0,
-                    rgba(
-                        236,
-                        189,
-                        74,
-                        0.15
-                    ) 35px,
-                    transparent 95px
-                ),
-
-                radial-gradient(
-                    circle at 53% 24%,
-                    rgba(
-                        29,
-                        128,
-                        76,
-                        0.26
-                    ) 0,
-                    rgba(
-                        29,
-                        128,
-                        76,
-                        0.15
-                    ) 40px,
-                    transparent 100px
-                ),
-
-                radial-gradient(
-                    circle at 78% 10%,
-                    rgba(
-                        198,
-                        39,
-                        48,
-                        0.24
-                    ) 0,
-                    rgba(
-                        198,
-                        39,
-                        48,
-                        0.14
-                    ) 35px,
-                    transparent 90px
-                ),
-
-                radial-gradient(
-                    circle at 94% 32%,
-                    rgba(
-                        236,
-                        189,
-                        74,
-                        0.24
-                    ) 0,
-                    rgba(
-                        236,
-                        189,
-                        74,
-                        0.14
-                    ) 34px,
-                    transparent 90px
-                ),
-
-                radial-gradient(
-                    circle at 16% 58%,
-                    rgba(
-                        29,
-                        128,
-                        76,
-                        0.22
-                    ) 0,
-                    rgba(
-                        29,
-                        128,
-                        76,
-                        0.13
-                    ) 40px,
-                    transparent 100px
-                ),
-
-                radial-gradient(
-                    circle at 45% 68%,
-                    rgba(
-                        198,
-                        39,
-                        48,
-                        0.22
-                    ) 0,
-                    rgba(
-                        198,
-                        39,
-                        48,
-                        0.13
-                    ) 35px,
-                    transparent 95px
-                ),
-
-                radial-gradient(
-                    circle at 72% 70%,
-                    rgba(
-                        236,
-                        189,
-                        74,
-                        0.22
-                    ) 0,
-                    rgba(
-                        236,
-                        189,
-                        74,
-                        0.13
-                    ) 35px,
-                    transparent 95px
-                ),
-
-                radial-gradient(
-                    circle at 92% 84%,
-                    rgba(
-                        29,
-                        128,
-                        76,
-                        0.21
-                    ) 0,
-                    rgba(
-                        29,
-                        128,
-                        76,
-                        0.12
-                    ) 40px,
-                    transparent 100px
-                );
-
+                18px
+                50px
+                rgba(58, 42, 28, 0.08);
         }
 
 
         /* ===================================================
-           STICKY REGISTRY TITLE
+           REGISTRY LIGHT GLOW LAYER
+        =================================================== */
+
+        .registry-section::before {
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            z-index: 0;
+
+            pointer-events: none;
+
+            backdrop-filter:
+                blur(2px);
+
+            -webkit-backdrop-filter:
+                blur(2px);
+        }
+
+
+        /* ===================================================
+           REGISTRY SPARKLES
+        =================================================== */
+
+        .registry-section::after {
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            z-index: 0;
+
+            pointer-events: none;
+
+            opacity: 0.42;
+
+            background-image:
+
+                radial-gradient(
+                    circle at 20% 20%,
+                    rgba(255, 255, 255, 0.9) 1px,
+                    transparent 2px
+                ),
+
+                radial-gradient(
+                    circle at 80% 70%,
+                    rgba(255, 255, 255, 0.8) 1px,
+                    transparent 2px
+                );
+
+            background-size:
+                38px 38px,
+                52px 52px;
+        }
+
+
+        /* ===================================================
+           STICKY TITLES
         =================================================== */
 
         .registry-title {
+            position: sticky;
 
-            position:
-                sticky;
+            top: 0;
 
-            top:
-                0;
+            z-index: 100;
 
-            z-index:
-                100;
+            display: flex;
 
-            display:
-                flex;
+            align-items: center;
 
-            align-items:
-                center;
-
-            gap:
-                12px;
+            gap: 12px;
 
             padding:
                 11px
                 10px;
 
             margin:
-                0
                 -10px
+                -8px
                 22px;
 
             border-bottom:
-
                 1px
                 solid
-                rgba(
-                    45,
-                    45,
-                    45,
-                    0.07
-                );
+                rgba(45, 45, 45, 0.07);
+
+            border-radius:
+                0
+                0
+                14px
+                14px;
 
             background:
-
-                rgba(
-                    251,
-                    248,
-                    242,
-                    0.95
-                );
+                rgba(251, 248, 242, 0.95);
 
             backdrop-filter:
                 blur(14px);
@@ -1645,83 +991,45 @@
                 blur(14px);
 
             box-shadow:
-
                 0
                 5px
                 18px
-                rgba(
-                    0,
-                    0,
-                    0,
-                    0.035
-                );
-
+                rgba(0, 0, 0, 0.035);
         }
 
 
         .registry-title-icon {
+            display: flex;
 
-            display:
-                flex;
+            align-items: center;
+            justify-content: center;
 
-            align-items:
-                center;
+            width: 45px;
+            height: 45px;
 
-            justify-content:
-                center;
+            flex-shrink: 0;
 
-            width:
-                45px;
+            border-radius: 14px;
 
-            height:
-                45px;
+            color: white;
 
-            flex-shrink:
-                0;
-
-            border-radius:
-                14px;
-
-            color:
-                white;
-
-            font-size:
-                21px;
+            font-size: 21px;
 
             background:
-
                 linear-gradient(
                     145deg,
                     var(--christmas-green),
                     var(--christmas-green-dark)
                 );
-
-            box-shadow:
-
-                0
-                5px
-                13px
-                rgba(
-                    25,
-                    112,
-                    66,
-                    0.20
-                );
-
         }
 
 
         .registry-title h2 {
+            margin: 0;
 
-            margin:
-                0;
+            font-size: 27px;
 
-            font-size:
-                27px;
-
-            letter-spacing:
-                -0.025em;
-
+            letter-spacing: -0.025em;
         }
 
 
@@ -1730,29 +1038,19 @@
         =================================================== */
 
         .gift-list {
+            position: relative;
 
-            position:
-                relative;
+            z-index: 2;
 
-            z-index:
-                2;
-
-            display:
-                grid;
+            display: grid;
 
             grid-template-columns:
-
                 repeat(
                     auto-fill,
-                    minmax(
-                        270px,
-                        1fr
-                    )
+                    minmax(270px, 1fr)
                 );
 
-            gap:
-                22px;
-
+            gap: 22px;
         }
 
 
@@ -1761,113 +1059,61 @@
         =================================================== */
 
         .gift-card {
+            position: relative;
 
-            position:
-                relative;
+            display: flex;
 
-            display:
-                flex;
+            flex-direction: column;
 
-            flex-direction:
-                column;
+            min-width: 0;
 
-            min-width:
-                0;
+            padding: 16px;
 
-            padding:
-                16px;
-
-            overflow:
-                hidden;
+            overflow: hidden;
 
             border:
-
                 1px
                 solid
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.88
-                );
+                rgba(255, 255, 255, 0.95);
 
-            border-radius:
-                20px;
+            border-radius: 20px;
 
             background:
-
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.94
-                );
+                rgba(255, 255, 255, 0.91);
 
             backdrop-filter:
-                blur(10px);
+                blur(14px);
 
             -webkit-backdrop-filter:
-                blur(10px);
+                blur(14px);
 
             box-shadow:
-
                 0
                 10px
                 28px
-                rgba(
-                    44,
-                    31,
-                    23,
-                    0.09
-                );
+                rgba(44, 31, 23, 0.11);
 
             transition:
-
-                transform
-                0.2s
-                ease,
-
-                box-shadow
-                0.2s
-                ease,
-
-                border-color
-                0.2s
-                ease;
-
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                border-color 0.2s ease;
         }
 
 
-        /*
-         * Christmas stripe across top
-         * appears on hover.
-         */
-
         .gift-card::before {
+            content: "";
 
-            content:
-                "";
+            position: absolute;
 
-            position:
-                absolute;
+            top: 0;
+            left: 0;
+            right: 0;
 
-            top:
-                0;
+            height: 3px;
 
-            left:
-                0;
-
-            right:
-                0;
-
-            height:
-                3px;
-
-            opacity:
-                0;
+            opacity: 0;
 
             background:
-
                 linear-gradient(
                     90deg,
                     var(--christmas-red),
@@ -1876,125 +1122,89 @@
                 );
 
             transition:
-                opacity
-                0.2s
-                ease;
-
+                opacity 0.2s ease;
         }
 
 
         @media (hover: hover) {
 
             .gift-card:hover {
-
                 transform:
                     translateY(-6px);
 
-                border-color:
-                    white;
+                border-color: white;
 
                 box-shadow:
-
                     0
                     18px
                     40px
-                    rgba(
-                        44,
-                        31,
-                        23,
-                        0.14
-                    );
-
+                    rgba(44, 31, 23, 0.14);
             }
 
 
             .gift-card:hover::before {
-
-                opacity:
-                    1;
-
+                opacity: 1;
             }
 
         }
 
 
         .gift-image {
+            width: 100%;
 
-            width:
-                100%;
+            height: 225px;
 
-            height:
-                225px;
+            object-fit: contain;
 
-            object-fit:
-                contain;
+            padding: 16px;
 
-            padding:
-                16px;
-
-            margin-bottom:
-                16px;
+            margin-bottom: 16px;
 
             border:
-
                 1px
                 solid
                 #eeeae4;
 
-            border-radius:
-                15px;
+            border-radius: 15px;
 
             background:
-
                 linear-gradient(
                     145deg,
                     #ffffff,
                     #f8f6f1
                 );
-
         }
 
 
         .gift-card h2 {
-
             margin:
                 0
                 0
                 7px;
 
-            font-size:
-                20px;
+            font-size: 20px;
 
-            line-height:
-                1.3;
+            line-height: 1.3;
 
-            letter-spacing:
-                -0.015em;
-
+            letter-spacing: -0.015em;
         }
 
 
         .gift-card p {
-
             margin:
                 5px
                 0
                 9px;
 
-            color:
-                var(--text-soft);
+            color: var(--text-soft);
 
-            line-height:
-                1.5;
+            line-height: 1.5;
 
-            font-size:
-                14px;
-
+            font-size: 14px;
         }
 
 
         .gift-card .price {
-
             margin:
                 5px
                 0
@@ -2003,15 +1213,9 @@
             color:
                 var(--christmas-green);
 
-            font-size:
-                22px;
+            font-size: 22px;
 
-            font-weight:
-                800;
-
-            letter-spacing:
-                -0.02em;
-
+            font-weight: 800;
         }
 
 
@@ -2020,18 +1224,13 @@
         =================================================== */
 
         .reusable-badge {
+            display: inline-flex;
 
-            display:
-                inline-flex;
+            align-self: flex-start;
 
-            align-self:
-                flex-start;
+            align-items: center;
 
-            align-items:
-                center;
-
-            gap:
-                4px;
+            gap: 4px;
 
             margin:
                 0
@@ -2043,54 +1242,40 @@
                 10px;
 
             border:
-
                 1px
                 solid
                 #f0d98a;
 
-            border-radius:
-                999px;
+            border-radius: 999px;
 
             background:
-
                 linear-gradient(
                     180deg,
                     #fff9e8,
                     var(--christmas-gold-light)
                 );
 
-            color:
-                #715510;
+            color: #715510;
 
-            font-size:
-                12px;
+            font-size: 12px;
 
-            font-weight:
-                750;
-
+            font-weight: 750;
         }
 
 
         /* ===================================================
-           VIEW GIFT
+           VIEW BUTTON
         =================================================== */
 
         .view-gift-button {
+            display: flex !important;
 
-            display:
-                flex !important;
+            align-items: center;
+            justify-content: center;
 
-            align-items:
-                center;
+            width: 100%;
 
-            justify-content:
-                center;
-
-            width:
-                100%;
-
-            min-height:
-                48px;
+            min-height: 48px;
 
             padding:
                 10px
@@ -2102,73 +1287,39 @@
                 9px !important;
 
             border:
-
                 1.5px
                 solid
-                rgba(
-                    165,
-                    31,
-                    40,
-                    0.70
-                );
+                rgba(165, 31, 40, 0.7);
 
-            border-radius:
-                12px;
+            border-radius: 12px;
 
             color:
-
-                var(
-                    --christmas-red
-                ) !important;
+                var(--christmas-red) !important;
 
             text-decoration:
                 none !important;
 
-            font-size:
-                15px;
+            font-size: 15px;
 
-            font-weight:
-                750;
+            font-weight: 750;
 
-            background:
-                white;
+            background: white;
 
             transition:
-
-                background
-                0.15s
-                ease,
-
-                transform
-                0.15s
-                ease,
-
-                box-shadow
-                0.15s
-                ease;
-
+                background 0.15s ease,
+                transform 0.15s ease;
         }
 
 
         .view-gift-button:hover {
-
             background:
-
-                rgba(
-                    165,
-                    31,
-                    40,
-                    0.045
-                );
-
+                rgba(165, 31, 40, 0.045);
         }
 
 
         .view-gift-button:active {
-
             transform:
                 scale(0.985);
-
         }
 
 
@@ -2177,67 +1328,42 @@
         =================================================== */
 
         button {
+            border: 0;
 
-            border:
-                0;
-
-            border-radius:
-                12px;
+            border-radius: 12px;
 
             padding:
                 12px
                 18px;
 
-            cursor:
-                pointer;
+            cursor: pointer;
 
-            font-size:
-                16px;
+            font-size: 16px;
 
-            font-weight:
-                750;
+            font-weight: 750;
 
             transition:
-
-                transform
-                0.15s
-                ease,
-
-                filter
-                0.15s
-                ease,
-
-                box-shadow
-                0.15s
-                ease;
-
+                transform 0.15s ease,
+                filter 0.15s ease;
         }
 
 
         button:active {
-
             transform:
                 scale(0.985);
-
         }
 
 
         .claim-button {
+            width: 100%;
 
-            width:
-                100%;
+            min-height: 52px;
 
-            min-height:
-                52px;
+            margin-top: auto;
 
-            margin-top:
-                auto;
-
-            color:
-                white;
+            color: white;
 
             background:
-
                 linear-gradient(
                     135deg,
                     var(--christmas-green),
@@ -2245,75 +1371,39 @@
                 );
 
             box-shadow:
-
                 0
                 7px
                 18px
-                rgba(
-                    25,
-                    112,
-                    66,
-                    0.20
-                );
-
+                rgba(25, 112, 66, 0.2);
         }
 
 
         .claim-button:hover {
-
             filter:
                 brightness(1.06);
-
         }
 
 
         .claim-button:disabled {
+            cursor: not-allowed;
 
-            cursor:
-                not-allowed;
+            background: #89948d;
 
-            background:
-                #89948d;
-
-            box-shadow:
-                none;
-
-            transform:
-                none;
-
+            box-shadow: none;
         }
 
 
         .cancel-button {
+            min-height: 52px;
 
-            min-height:
-                52px;
+            color: #404040;
 
-            color:
-                #404040;
-
-            background:
-                #ededed;
-
+            background: #ededed;
         }
 
 
         .cancel-button:hover {
-
-            background:
-                #dfdfdf;
-
-        }
-
-
-        .cancel-button:disabled {
-
-            cursor:
-                not-allowed;
-
-            opacity:
-                0.6;
-
+            background: #dfdfdf;
         }
 
 
@@ -2322,64 +1412,41 @@
         =================================================== */
 
         .button-loading {
+            display: inline-flex;
 
-            display:
-                inline-flex;
+            align-items: center;
+            justify-content: center;
 
-            align-items:
-                center;
-
-            justify-content:
-                center;
-
-            gap:
-                9px;
-
+            gap: 9px;
         }
 
 
         .button-spinner {
-
-            width:
-                18px;
-
-            height:
-                18px;
+            width: 18px;
+            height: 18px;
 
             border:
-
                 2px
                 solid
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.42
-                );
+                rgba(255, 255, 255, 0.42);
 
-            border-top-color:
-                white;
+            border-top-color: white;
 
-            border-radius:
-                50%;
+            border-radius: 50%;
 
             animation:
-
                 buttonSpin
                 0.7s
                 linear
                 infinite;
-
         }
 
 
         @keyframes buttonSpin {
 
             to {
-
                 transform:
                     rotate(360deg);
-
             }
 
         }
@@ -2390,91 +1457,50 @@
         =================================================== */
 
         .modal {
+            position: fixed;
 
-            position:
-                fixed;
+            inset: 0;
 
-            inset:
-                0;
+            z-index: 1000;
 
-            z-index:
-                1000;
+            display: flex;
 
-            display:
-                flex;
+            align-items: center;
+            justify-content: center;
 
-            align-items:
-                center;
-
-            justify-content:
-                center;
-
-            padding:
-                20px;
+            padding: 20px;
 
             background:
-
-                rgba(
-                    16,
-                    20,
-                    18,
-                    0.68
-                );
+                rgba(16, 20, 18, 0.68);
 
             backdrop-filter:
                 blur(8px);
-
-            -webkit-backdrop-filter:
-                blur(8px);
-
         }
 
 
         .hidden {
-
-            display:
-                none !important;
-
+            display: none !important;
         }
 
 
         .modal-content {
+            width: 100%;
 
-            width:
-                100%;
+            max-width: 470px;
 
-            max-width:
-                470px;
+            max-height: 90dvh;
 
-            max-height:
-                90dvh;
-
-            overflow-y:
-                auto;
+            overflow-y: auto;
 
             padding:
                 30px
                 27px;
 
-            text-align:
-                center;
+            text-align: center;
 
-            border:
-
-                1px
-                solid
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.80
-                );
-
-            border-radius:
-                22px;
+            border-radius: 22px;
 
             background:
-
                 linear-gradient(
                     180deg,
                     #ffffff,
@@ -2485,109 +1511,61 @@
                 var(--shadow-large);
 
             animation:
-
                 modalOpen
                 0.22s
                 ease-out;
-
         }
 
 
         @keyframes modalOpen {
 
             from {
-
-                opacity:
-                    0;
+                opacity: 0;
 
                 transform:
-
-                    translateY(
-                        14px
-                    )
-
-                    scale(
-                        0.985
-                    );
-
+                    translateY(14px)
+                    scale(0.985);
             }
 
-
             to {
-
-                opacity:
-                    1;
+                opacity: 1;
 
                 transform:
-
-                    translateY(
-                        0
-                    )
-
-                    scale(
-                        1
-                    );
-
+                    translateY(0)
+                    scale(1);
             }
 
         }
 
 
         .modal-icon {
+            display: flex;
 
-            display:
-                flex;
+            align-items: center;
+            justify-content: center;
 
-            align-items:
-                center;
-
-            justify-content:
-                center;
-
-            width:
-                62px;
-
-            height:
-                62px;
+            width: 62px;
+            height: 62px;
 
             margin:
                 0
                 auto
                 10px;
 
-            border-radius:
-                18px;
+            border-radius: 18px;
 
             background:
-
                 linear-gradient(
                     145deg,
                     #f8ecec,
                     #fff
                 );
 
-            font-size:
-                34px;
-
-            box-shadow:
-
-                inset
-                0
-                0
-                0
-                1px
-                rgba(
-                    165,
-                    31,
-                    40,
-                    0.08
-                );
-
+            font-size: 34px;
         }
 
 
         .modal-content h2 {
-
             margin:
                 0
                 0
@@ -2596,17 +1574,11 @@
             color:
                 var(--christmas-red-dark);
 
-            font-size:
-                25px;
-
-            letter-spacing:
-                -0.02em;
-
+            font-size: 25px;
         }
 
 
         .modal-content > p {
-
             margin:
                 0
                 auto;
@@ -2614,31 +1586,21 @@
             color:
                 var(--text-soft);
 
-            line-height:
-                1.55;
-
+            line-height: 1.55;
         }
 
 
         .modal-buttons {
+            display: flex;
 
-            display:
-                flex;
+            gap: 10px;
 
-            gap:
-                10px;
-
-            margin-top:
-                23px;
-
+            margin-top: 23px;
         }
 
 
         .modal-buttons button {
-
-            flex:
-                1;
-
+            flex: 1;
         }
 
 
@@ -2647,148 +1609,94 @@
         =================================================== */
 
         .email-field {
+            margin-top: 22px;
 
-            margin-top:
-                22px;
-
-            text-align:
-                left;
-
+            text-align: left;
         }
 
 
         .email-field label {
+            display: block;
 
-            display:
-                block;
+            margin-bottom: 6px;
 
-            margin-bottom:
-                6px;
+            color: #343434;
 
-            color:
-                #343434;
+            font-size: 14px;
 
-            font-size:
-                14px;
-
-            font-weight:
-                750;
-
+            font-weight: 750;
         }
 
 
         .confirm-email-label {
-
-            margin-top:
-                14px;
-
+            margin-top: 14px;
         }
 
 
         .email-field input {
+            width: 100%;
 
-            width:
-                100%;
-
-            min-height:
-                49px;
+            min-height: 49px;
 
             padding:
                 11px
                 13px;
 
             border:
-
                 1.5px
                 solid
                 #d9d4cb;
 
-            border-radius:
-                11px;
+            border-radius: 11px;
 
-            outline:
-                none;
+            outline: none;
 
             color:
                 var(--text);
 
-            background:
-                white;
+            background: white;
 
-            font-size:
-                16px;
-
-            transition:
-
-                border-color
-                0.15s
-                ease,
-
-                box-shadow
-                0.15s
-                ease;
-
+            font-size: 16px;
         }
 
 
         .email-field input:focus {
-
             border-color:
                 var(--christmas-green);
 
             box-shadow:
-
                 0
                 0
                 0
                 4px
-                rgba(
-                    25,
-                    112,
-                    66,
-                    0.10
-                );
-
+                rgba(25, 112, 66, 0.1);
         }
 
 
         .email-field small {
+            display: block;
 
-            display:
-                block;
+            margin-top: 10px;
 
-            margin-top:
-                10px;
+            color: #777;
 
-            color:
-                #777;
+            font-size: 12px;
 
-            font-size:
-                12px;
-
-            line-height:
-                1.45;
-
+            line-height: 1.45;
         }
 
 
         .email-error {
-
             margin-top:
                 9px !important;
 
             color:
-
-                var(
-                    --christmas-red
-                ) !important;
+                var(--christmas-red) !important;
 
             font-size:
                 13px !important;
 
-            font-weight:
-                700;
-
+            font-weight: 700;
         }
 
 
@@ -2797,49 +1705,35 @@
         =================================================== */
 
         footer {
-
-            position:
-                relative;
+            position: relative;
 
             padding:
                 28px
                 20px
                 calc(
                     35px +
-                    env(
-                        safe-area-inset-bottom
-                    )
+                    env(safe-area-inset-bottom)
                 );
 
-            text-align:
-                center;
+            text-align: center;
 
-            color:
-                #777;
+            color: #777;
 
-            font-size:
-                13px;
-
+            font-size: 13px;
         }
 
 
         footer::before {
-
             content:
                 "❄  🎄  ❄";
 
-            display:
-                block;
+            display: block;
 
-            margin-bottom:
-                8px;
+            margin-bottom: 8px;
 
-            opacity:
-                0.45;
+            opacity: 0.45;
 
-            letter-spacing:
-                5px;
-
+            letter-spacing: 5px;
         }
 
 
@@ -2847,273 +1741,143 @@
            MOBILE
         =================================================== */
 
-        @media (
-            max-width:
-            650px
-        ) {
+        @media (max-width: 650px) {
 
             header {
-
                 padding:
                     27px
                     16px
                     62px;
-
             }
 
 
             .hero-badge {
+                margin-bottom: 12px;
 
-                margin-bottom:
-                    12px;
-
-                padding:
-                    6px
-                    11px;
-
-                font-size:
-                    11px;
-
+                font-size: 11px;
             }
 
 
             .christmas-icon {
-
-                margin-bottom:
-                    4px;
-
-                font-size:
-                    43px;
-
+                font-size: 43px;
             }
 
 
             header h1 {
-
-                font-size:
-                    35px;
-
+                font-size: 35px;
             }
 
 
             header p {
+                margin-top: 15px;
 
-                margin-top:
-                    15px;
+                font-size: 14px;
 
-                font-size:
-                    14px;
-
-                line-height:
-                    1.55;
-
+                line-height: 1.55;
             }
 
 
             main {
-
-                margin-top:
-                    -34px;
+                margin-top: -34px;
 
                 padding:
                     0
                     12px;
-
             }
 
 
             .intro-card {
-
-                margin-bottom:
-                    24px;
+                margin-bottom: 24px;
 
                 padding:
                     22px
                     15px
                     18px;
 
-                border-radius:
-                    18px;
-
+                border-radius: 18px;
             }
 
 
             .intro-card h2 {
-
-                font-size:
-                    20px;
-
+                font-size: 20px;
             }
 
 
             .intro-tagline {
-
-                margin-bottom:
-                    15px;
-
-                font-size:
-                    13px;
-
-                line-height:
-                    1.5;
-
+                font-size: 13px;
             }
 
 
             .quick-steps {
+                grid-template-columns: 1fr;
 
-                grid-template-columns:
-                    1fr;
-
-                gap:
-                    7px;
+                gap: 7px;
 
                 margin:
                     14px
                     0;
-
             }
 
 
             .quick-step {
+                justify-content: flex-start;
 
-                justify-content:
-                    flex-start;
+                min-height: 44px;
 
-                min-height:
-                    44px;
-
-                padding:
-                    8px
-                    11px;
-
-                font-size:
-                    13px;
-
-            }
-
-
-            .how-it-works {
-
-                margin-top:
-                    14px;
-
-                padding-top:
-                    12px;
-
+                font-size: 13px;
             }
 
 
             .how-it-works summary {
+                min-height: 44px;
 
-                min-height:
-                    44px;
-
-                font-size:
-                    14px;
-
+                font-size: 14px;
             }
 
 
             .how-it-works-content {
-
-                font-size:
-                    13px;
-
+                font-size: 13px;
             }
 
 
             .list-switcher {
+                gap: 8px;
 
-                gap:
-                    8px;
-
-                margin-bottom:
-                    29px;
-
+                margin-bottom: 29px;
             }
 
 
             .list-switcher a {
+                min-height: 46px;
 
-                min-height:
-                    46px;
+                border-radius: 12px;
 
-                border-radius:
-                    12px;
-
-                font-size:
-                    14px;
-
+                font-size: 14px;
             }
 
 
             /*
-             * More compact background panel
-             * on phones.
+             * More exposed background on phones
+             * so the lights are actually visible.
              */
 
             .registry-section {
-
-                margin-bottom:
-                    44px;
+                margin-bottom: 42px;
 
                 padding:
-                    8px
-                    7px
-                    18px;
-
-                border-radius:
+                    18px
+                    14px
                     22px;
 
-            }
-
-
-            .registry-section::before {
-
-                inset:
-                    48px
-                    0
-                    0
-                    0;
-
-                border-radius:
-                    22px;
-
-            }
-
-
-            /*
-             * Slightly softer lights on
-             * phones so they don't distract.
-             */
-
-            .registry-section::after {
-
-                inset:
-                    58px
-                    4px
-                    4px
-                    4px;
-
-                border-radius:
-                    18px;
-
-                filter:
-                    blur(13px);
-
-                opacity:
-                    0.62;
-
+                border-radius: 24px;
             }
 
 
             .registry-title {
-
                 margin:
-                    0
+                    -8px
                     -5px
-                    14px;
+                    16px;
 
                 padding:
                     8px
@@ -3122,148 +1886,100 @@
                 border-radius:
                     0
                     0
-                    10px
-                    10px;
-
+                    12px
+                    12px;
             }
 
 
             .registry-title-icon {
+                width: 39px;
+                height: 39px;
 
-                width:
-                    39px;
-
-                height:
-                    39px;
-
-                border-radius:
-                    12px;
-
-                font-size:
-                    18px;
-
+                font-size: 18px;
             }
 
 
             .registry-title h2 {
-
-                font-size:
-                    21px;
-
+                font-size: 21px;
             }
 
 
             .gift-list {
+                grid-template-columns: 1fr;
 
-                grid-template-columns:
-                    1fr;
-
-                gap:
-                    14px;
-
+                gap: 18px;
             }
 
 
             .gift-card {
+                padding: 14px;
 
-                padding:
-                    14px;
+                border-radius: 18px;
 
-                border-radius:
-                    17px;
-
+                background:
+                    rgba(255, 255, 255, 0.90);
             }
 
 
             .gift-image {
+                height: 205px;
 
-                height:
-                    205px;
+                padding: 13px;
 
-                padding:
-                    13px;
-
-                margin-bottom:
-                    13px;
-
+                margin-bottom: 13px;
             }
 
 
             .gift-card h2 {
-
-                font-size:
-                    20px;
-
+                font-size: 20px;
             }
 
 
             .gift-card p {
-
-                font-size:
-                    13px;
-
+                font-size: 13px;
             }
 
 
             .gift-card .price {
-
-                font-size:
-                    21px;
-
+                font-size: 21px;
             }
 
 
             .view-gift-button {
-
-                min-height:
-                    49px;
-
+                min-height: 49px;
             }
 
 
             .claim-button,
             .cancel-button {
-
-                min-height:
-                    53px;
-
+                min-height: 53px;
             }
 
 
             /*
-             * Mobile bottom-sheet modal.
+             * Bottom sheet modal
              */
 
             .modal {
+                align-items: flex-end;
 
-                align-items:
-                    flex-end;
-
-                padding:
-                    0;
-
+                padding: 0;
             }
 
 
             .modal-content {
+                width: 100%;
 
-                width:
-                    100%;
+                max-width: none;
 
-                max-width:
-                    none;
-
-                max-height:
-                    92dvh;
+                max-height: 92dvh;
 
                 padding:
                     20px
                     17px
                     calc(
                         18px +
-                        env(
-                            safe-area-inset-bottom
-                        )
+                        env(safe-area-inset-bottom)
                     );
 
                 border-radius:
@@ -3271,127 +1987,51 @@
                     24px
                     0
                     0;
-
-                animation:
-
-                    mobileModalOpen
-                    0.24s
-                    ease-out;
-
-            }
-
-
-            @keyframes mobileModalOpen {
-
-                from {
-
-                    transform:
-                        translateY(
-                            35px
-                        );
-
-                    opacity:
-                        0;
-
-                }
-
-
-                to {
-
-                    transform:
-                        translateY(
-                            0
-                        );
-
-                    opacity:
-                        1;
-
-                }
-
             }
 
 
             .modal-icon {
+                width: 54px;
+                height: 54px;
 
-                width:
-                    54px;
-
-                height:
-                    54px;
-
-                margin-bottom:
-                    8px;
-
-                font-size:
-                    30px;
-
+                font-size: 30px;
             }
 
 
             .modal-content h2 {
-
-                font-size:
-                    22px;
-
+                font-size: 22px;
             }
 
 
             .modal-content > p {
-
-                font-size:
-                    14px;
-
-            }
-
-
-            .email-field {
-
-                margin-top:
-                    18px;
-
+                font-size: 14px;
             }
 
 
             .modal-buttons {
-
                 flex-direction:
                     column-reverse;
 
-                gap:
-                    8px;
-
-                margin-top:
-                    19px;
-
+                gap: 8px;
             }
 
 
             .modal-buttons button {
-
-                width:
-                    100%;
-
+                width: 100%;
             }
 
         }
 
 
         /* ===================================================
-           ACCESSIBILITY
+           REDUCED MOTION
         =================================================== */
 
-        @media (
-            prefers-reduced-motion:
-            reduce
-        ) {
+        @media (prefers-reduced-motion: reduce) {
 
             *,
             *::before,
             *::after {
-
-                scroll-behavior:
-                    auto !important;
-
                 animation-duration:
                     0.01ms !important;
 
@@ -3400,15 +2040,11 @@
 
                 transition-duration:
                     0.01ms !important;
-
             }
 
 
             .snow {
-
-                display:
-                    none;
-
+                display: none;
             }
 
         }
@@ -3447,9 +2083,7 @@
     <div class="header-content">
 
         <div class="hero-badge">
-
             🎁 Family Christmas Registry
-
         </div>
 
 
@@ -3457,32 +2091,24 @@
                 class="christmas-icon"
                 aria-hidden="true"
         >
-
             🎄
-
         </div>
 
 
         <h1>
-
             Austin & Leigha's
-
             <br>
-
             Christmas List
-
         </h1>
 
 
         <p>
-
             Here are a few things that have been on our radar.
             Instead of trying to remember what we've told everybody,
             you can just find it all here.
 
             If I'm going to be a software engineer,
             I might as well do something fun with it.
-
         </p>
 
     </div>
@@ -3502,75 +2128,51 @@
     <div class="intro-card">
 
         <h2>
-
             🎅 HO! HO! HOW DOES THIS WORK?
-
         </h2>
 
 
         <p class="intro-tagline">
-
             It's basically a tiny Christmas registry.
             Pick something you like,
             claim it,
             and the site handles the rest.
-
         </p>
 
 
         <div class="quick-steps">
 
-
             <div class="quick-step">
-
                 <span class="step-number">
-
                     1
-
                 </span>
 
                 <span>
-
                     Pick a gift
-
                 </span>
-
             </div>
 
 
             <div class="quick-step">
-
                 <span class="step-number">
-
                     2
-
                 </span>
 
                 <span>
-
                     Claim it 🎁
-
                 </span>
-
             </div>
 
 
             <div class="quick-step">
-
                 <span class="step-number">
-
                     3
-
                 </span>
 
                 <span>
-
                     Check your email
-
                 </span>
-
             </div>
-
 
         </div>
 
@@ -3578,102 +2180,69 @@
         <details class="how-it-works">
 
             <summary>
-
                 More details
-
             </summary>
 
 
             <div class="how-it-works-content">
 
-
                 <p>
-
-                    Browse either Austin's list
-                    or Leigha's below.
-
+                    Browse either Austin's list or Leigha's below.
                     Once a normal gift is claimed,
-                    it disappears so somebody else
-                    doesn't accidentally buy the
-                    same thing.
-
+                    it disappears so somebody else doesn't
+                    accidentally buy the same thing.
                 </p>
 
 
                 <p>
-
-                    Gift cards and other reusable
-                    ideas stay visible because
-                    more than one person can get them.
-
+                    Gift cards and other reusable ideas stay visible,
+                    because more than one person can get them.
                 </p>
 
 
                 <p>
-
                     <strong>
-
                         We are not notified who buys what.
-
                     </strong>
 
                     It's completely anonymous.
-
                 </p>
 
 
                 <p>
-
                     When you claim something,
                     you'll get a confirmation email
                     telling you what you claimed.
-
                 </p>
 
 
                 <p>
-
                     For normal gifts,
                     that email also has an
-
-                    <strong>
-
-                        Undo Claim
-
-                    </strong>
-
+                    <strong>Undo Claim</strong>
                     link if you change your mind.
-
                 </p>
 
 
                 <p>
-
                     Please check your Spam folder
                     if you don't see the email.
 
                     If you accidentally enter
                     the wrong email address,
-                    just let me know and
-                    I can reset the gift.
-
+                    just let me know and I can reset the gift.
                 </p>
 
 
                 <p>
-
                     And no,
                     I'm not selling your data 😂
-
                 </p>
 
 
                 <p>
-
                     Love you all! ❤️
-
                 </p>
-
 
             </div>
 
@@ -3682,9 +2251,7 @@
     </div>
 
 
-    <!-- ===================================================
-         QUICK JUMP
-    =================================================== -->
+    <!-- QUICK LIST BUTTONS -->
 
     <nav
             class="list-switcher"
@@ -3692,16 +2259,12 @@
     >
 
         <a href="#austin-list">
-
             🎁 Austin's List
-
         </a>
 
 
         <a href="#leigha-list">
-
             🎁 Leigha's List
-
         </a>
 
     </nav>
@@ -3722,16 +2285,12 @@
                     class="registry-title-icon"
                     aria-hidden="true"
             >
-
                 🎁
-
             </div>
 
 
             <h2>
-
                 Austin's Christmas List
-
             </h2>
 
         </div>
@@ -3743,9 +2302,7 @@
         >
 
             <p>
-
                 Loading Austin's Christmas ideas...
-
             </p>
 
         </div>
@@ -3768,16 +2325,12 @@
                     class="registry-title-icon"
                     aria-hidden="true"
             >
-
                 🎁
-
             </div>
 
 
             <h2>
-
                 Leigha's Christmas List
-
             </h2>
 
         </div>
@@ -3789,15 +2342,12 @@
         >
 
             <p>
-
                 Loading Leigha's Christmas ideas...
-
             </p>
 
         </div>
 
     </section>
-
 
 </main>
 
@@ -3813,38 +2363,28 @@
 
     <div class="modal-content">
 
-
         <div
                 class="modal-icon"
                 aria-hidden="true"
         >
-
             🎄
-
         </div>
 
 
         <h2>
-
             Claim This Gift?
-
         </h2>
 
 
         <p id="claim-modal-message">
-
             Are you sure you want to claim this gift?
-
         </p>
 
 
         <div class="email-field">
 
-
             <label for="claim-email">
-
                 Your Email
-
             </label>
 
 
@@ -3862,9 +2402,7 @@
                     for="confirm-claim-email"
                     class="confirm-email-label"
             >
-
                 Confirm Your Email
-
             </label>
 
 
@@ -3879,11 +2417,9 @@
 
 
             <small id="claim-email-help">
-
                 Enter your email twice so we can
                 make sure your confirmation and
                 undo link go to the correct address.
-
             </small>
 
 
@@ -3891,25 +2427,19 @@
                     id="email-error"
                     class="email-error hidden"
             >
-
                 Please enter a valid email address.
-
             </p>
-
 
         </div>
 
 
         <div class="modal-buttons">
 
-
             <button
                     id="cancel-claim"
                     class="cancel-button"
             >
-
                 Never Mind
-
             </button>
 
 
@@ -3917,11 +2447,8 @@
                     id="confirm-claim"
                     class="claim-button"
             >
-
                 Claim Gift 🎁
-
             </button>
-
 
         </div>
 
@@ -3941,42 +2468,32 @@
 
     <div class="modal-content">
 
-
         <div
                 class="modal-icon"
                 aria-hidden="true"
         >
-
             🎁
-
         </div>
 
 
         <h2>
-
             Put This Gift Back?
-
         </h2>
 
 
         <p id="undo-modal-message">
-
             Would you like to make
             this gift available again?
-
         </p>
 
 
         <div class="modal-buttons">
 
-
             <button
                     id="cancel-undo"
                     class="cancel-button"
             >
-
                 Keep It Claimed
-
             </button>
 
 
@@ -3984,11 +2501,8 @@
                     id="confirm-undo"
                     class="claim-button"
             >
-
                 Put It Back
-
             </button>
-
 
         </div>
 
@@ -4002,9 +2516,7 @@
 =================================================== -->
 
 <footer>
-
     Made with ❤️ for Christmas
-
 </footer>
 
 
@@ -4018,13 +2530,14 @@
 
 
 <!-- ===================================================
-     YOUR EXISTING JAVASCRIPT
+     EXISTING APP
 =================================================== -->
 
 <script
         type="module"
-        src="app.js?v=8">
+        src="app.js?v=9">
 </script>
+
 
 </body>
 
