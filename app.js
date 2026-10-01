@@ -1017,6 +1017,9 @@ confirmClaimButton.addEventListener(
                 gift_name:
                     claimedGift.name,
 
+                description:
+                    claimedGift.description,
+
 
                 recipient:
                     claimedGift.recipient ||
